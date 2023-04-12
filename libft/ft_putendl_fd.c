@@ -3,36 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 11:00:20 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/16 15:37:37 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/16 16:50:54 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:25:02 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <unistd.h>
-#include <fcntl.h>
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL || fd == 0)
+	if (!s)
 		return ;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	write(fd, "\n", 1);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
-/*
-int	main(void)
-{
-	int fd = open("test_putendl.txt", O_CREAT | O_RDWR);
-	ft_putendl_fd("salut cava ?", fd);
-	return (0);
-}
-*/

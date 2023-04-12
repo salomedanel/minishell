@@ -3,50 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 10:07:16 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/16 10:55:58 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/08 11:41:46 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:25:53 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
-unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
+size_t	ft_strlcat(char *dest, char *src, size_t size)
 {
-	unsigned int	i;
-	unsigned int	dest_len;
-	unsigned int	src_len;
+	size_t	i;
+	size_t	j;
+	size_t	k;
 
 	i = 0;
-	dest_len = 0;
-	src_len = 0;
-	if (dest == 0)
-		return (0);
-	while (src[src_len] != '\0')
-		src_len++;
-	while (dest[dest_len] != '\0')
-		dest_len++;
-	if (!size)
-		return (src_len);
-	while (src[i] != '\0' && dest_len + i < size - 1)
-	{
-		dest[dest_len + i] = src[i];
+	while (*(dest + i))
 		i++;
+	j = 0;
+	while (*(src + j))
+		j++;
+	if (!size)
+		return (j);
+	k = 0;
+	while (*(src + k) && i + k < size - 1)
+	{
+		*(dest + i + k) = *(src + k);
+		k++;
 	}
-	dest[dest_len + i] = '\0';
-	if (dest_len > size)
-		return (src_len + size);
-	return (dest_len + src_len);
+	*(dest + i + k) = '\0';
+	if (i > size)
+		return (j + size);
+	return (i + j);
 }
-/*
-int	main(void)
-{
-	char	src[] = "nyan !";
-	char	dest[] = "Hel";
-	printf("%d\n", ft_strlcat(((void*)0), src, 0));
-	return (0);
-}
-*/

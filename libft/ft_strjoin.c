@@ -3,52 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 10:25:24 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/16 15:16:05 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/14 22:27:24 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:25:43 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, const char *s2)
 {
-	char	*new_str;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
+	char	*new;
 
-	if (s1 == NULL || s2 == NULL)
-		return (0);
-	new_str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	i = 0;
+	j = ft_strlen(s1);
+	if (!s1)
+		return (NULL);
+	new = malloc(sizeof(char) * (j + ft_strlen(s2) + 1));
 	j = 0;
-	if (new_str == NULL)
-		return (0);
-	while (s1[i])
+	if (!new)
+		return (NULL);
+	while (*(char *)(s1 + i))
 	{
-		new_str[i] = s1[i];
+		*(new + i) = *(s1 + i);
 		i++;
 	}
-	while (s2[j])
+	while (*(char *)(s2 + j))
 	{
-		new_str[i] = s2[j];
+		*(new + i + j) = *(s2 + j);
 		j++;
-		i++;
 	}
-	new_str[i] = '\0';
-	return (new_str);
+	*(new + i + j) = '\0';
+	return (new);
 }
-/*
-int	main(void)
-{
-	char *s1;
-	char *s2;
-	
-	s1 = "hello";
-	s2 = "world";
-	printf("%s\n", ft_strjoin(s1, s2));
-}
-*/

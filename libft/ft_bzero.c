@@ -3,45 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 15:09:39 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/18 10:45:25 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/09 12:42:26 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 15:38:38 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <strings.h>
 
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
-	char	*char_s;
+	char	*t;
 
 	i = 0;
-	char_s = (char *) s;
+	t = (char *) s;
 	while (i < n)
 	{
-		char_s[i] = '\0';
+		t[i] = '\0';
 		i++;
 	}
 }
 /*
-int	main(void)
+int	main()
 {
-	char str[10];
-	int n;
-	int i;
+	char s[15];
+	size_t n = 10;
+	size_t i;
 
-	n = 10;
 	i = 0;
-	ft_bzero(str, n);
+	ft_bzero(s, n);
 	while (i < n)
 	{
-		printf("%c\n", str[i]);
+		printf("%c\n", s[i]);
 		i++;
 	}
 	return (0);
-}
-*/
+}*/

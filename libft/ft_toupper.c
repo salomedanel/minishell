@@ -3,32 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 11:48:22 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/14 12:19:48 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/08 14:23:49 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:27:19 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <ctype.h>
 
 int	ft_toupper(int c)
 {
-	if (c >= 97 && c <= 122)
-		return (c - 32);
-	else
-		return (c);
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }
-/*
-int	main(void)
-{
-	int	a;
-
-	a = '3';
-	printf("%d\n", ft_toupper(a));
-	printf("%d\n", toupper(a));
-	return (0);
-}
-*/

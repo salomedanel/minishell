@@ -3,46 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 14:10:56 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/17 11:03:45 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/14 09:57:11 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 15:40:39 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
+#include "libft.h"
+
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	unsigned char	*char_s1;
-	unsigned char	*char_s2;
-	size_t			i;
+	size_t	i;
 
-	char_s1 = (unsigned char *) s1;
-	char_s2 = (unsigned char *) s2;
 	i = 0;
 	while (i < n)
 	{
-		if (char_s1[i] == char_s2[i])
+		if (*(unsigned char *)(s1 + i) == *(unsigned char *)(s2 + i))
 			i++;
 		else
-			return (char_s1[i] - char_s2[i]);
+			return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
 	}
 	return (0);
 }
 /*
-int	main(void)
+int	main()
 {
-	char	*s1;
-	char	*s2;
-	int	n;
+	const void	*s1 = "Salut Thomas";
+	const void	*s2 = "Salut Mich";
+	size_t	n = 7;
 
-	s1 = "sylome";
-	s2 = "sy";
-	n = 10;
-	printf("%d\n", memcmp(s1, s2, n));
 	printf("%d\n", ft_memcmp(s1, s2, n));
+	printf("%d\n", memcmp(s1, s2, n));
 	return (0);
-}
-*/
+}*/

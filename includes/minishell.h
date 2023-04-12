@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 14:30:18 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/12 16:41:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,25 @@ typedef struct s_mini
 	int		outfile;
 }			t_mini;
 
+typedef struct s_data
+{
+	char	*new_prompt;
+	char	**arg;
+}			t_data;
+
 // parsing00
 int			is_metachar(char c);
 int			count_metachar(char *prompt);
-char		*add_spaces(char *prompt);
+int			add_space(char *prompt, char *new_prompt);
+char		*clean_prompt(char *prompt);
 void		split_input(char *prompt);
 
 // parsing01
+int			odd_dquotes(t_data *data);
+int			odd_squotes(t_data *data);
+void		space_dquotes(t_data *data);
 
-//builtins
+// builtins
 void		mini_echo_loop(t_mini *test, int i);
 int			mini_echo(t_mini *test);
 int			mini_pwd(void);

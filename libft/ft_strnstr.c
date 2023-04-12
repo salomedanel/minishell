@@ -3,52 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 14:26:38 by sdanel            #+#    #+#             */
-/*   Updated: 2023/03/30 10:45:12 by danelsalome      ###   ########.fr       */
+/*   Created: 2022/11/08 16:42:43 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:26:34 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-//#include <bsd/string.h>
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
 	size_t	j;
+	size_t	k;
 
-	i = 0;
+	if (!big)
+		return (NULL);
+	if (*(little) == 0)
+		return ((char *)big);
+	i = ft_strlen((char *)little);
+	if (i > len)
+		return (NULL);
 	j = 0;
-	if (big == 0)
-		return (0);
-	if (little[0] == '\0')
-		return ((char *) big);
-	while (big[i] != '\0' && i < len)
+	k = 0;
+	while (*(big + j) && j < len)
 	{
-		while ((i + j) < len && big[i + j] == little[j])
+		while ((j + k) < len && *(big + j + k) == *(little + k))
 		{
-			j++;
-			if (!little[j])
-				return ((char *) &big[i]);
+			k++;
+			if (!*(little + k))
+				return (&*(char *)(big + j));
 		}
-		i++;
+		j++;
 	}
-	return (0);
+	return (NULL);
 }
-/*
-int	main(void)
-{
-	char	*big;
-	char	*little;
-	size_t	len;
 
-	big = "hello salome";
-	little = "fake";
-	len = 0;
-	printf("%s\n", ft_strnstr(((void*)0), little, len));
-	printf("%s\n", strnstr(((void*)0), little, len));
-	return (0);
-}
-*/

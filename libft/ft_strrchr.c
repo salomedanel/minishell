@@ -3,38 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 14:19:40 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/21 13:18:39 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/08 15:38:07 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:26:42 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
 char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
 
-	if (s == 0)
-		return (0);
-	i = ft_strlen(s);
+	i = ft_strlen(s) - 1;
+	if (!c)
+		return ((char *)(s + i + 1));
 	while (i >= 0)
 	{
-		if (s[i] == (unsigned char) c)
-			return ((char *) s + i);
+		if (*(char *)(s + i) == (char)c)
+			return ((char *)s + i);
 		i--;
 	}
-	return (0);
+	return (NULL);
 }
-/*
-int	main(void)
-{
-	char s[] = "tripouille";
-	printf("%s\n", strrchr(s, 't' + 256));
-	printf("%s\n", ft_strrchr(s, 't' + 256));
-	return (0);
-}
-*/
+

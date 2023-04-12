@@ -1,33 +1,68 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 15:00:02 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/12 16:26:21 by tmichel-         ###   ########.fr       */
+/*   Created: 2022/12/01 14:01:21 by tmichel-          #+#    #+#             */
+/*   Updated: 2022/12/14 15:49:34 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+int	ft_printchar(int c)
 {
-	size_t	i;
-	char	*res;
+	write(1, &c, 1);
+	return (1);
+}
+
+void	ft_putstr(char *s)
+{
+	int	i;
 
 	i = 0;
 	if (!s)
-		return (NULL);
-	res = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (!res)
-		return (NULL);
+		return ;
 	while (*(s + i))
 	{
-		*(res + i) = (*f)(i, *(s + i));
+		write(1, &*(s + i), 1);
 		i++;
 	}
-	*(res + i) = '\0';
-	return (res);
+}
+
+int	ft_printstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+	{
+		ft_putstr("(null)");
+		return (6);
+	}
+	while (*(s + i))
+	{
+		write(1, &*(s + i), 1);
+		i++;
+	}
+	return (i);
+}
+
+int	ft_printnbr(int n)
+{
+	char	*numb;
+	int		i;
+
+	numb = ft_itoa(n);
+	i = ft_printstr(numb);
+	free (numb);
+	return (i);
+}
+
+int	ft_percent(void)
+{
+	write(1, "%", 1);
+	return (1);
 }

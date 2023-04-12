@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 14:18:59 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/12 16:41:00 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,13 @@ int	count_metachar(char *prompt)
 	return (count);
 }
 
-char	*add_spaces(char *prompt)
+int	add_space(char *prompt, char *new_prompt)
 {
-	char	*new_prompt;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	new_prompt = malloc(sizeof(char) * (ft_strlen(prompt)
-				+ count_metachar(prompt)) + 1);
 	while (prompt[i])
 	{
 		if (is_metachar(prompt[i + 1]) == 1 && is_metachar(prompt[i]) != 2
@@ -79,12 +76,32 @@ char	*add_spaces(char *prompt)
 		i++;
 		j++;
 	}
-	new_prompt[j] = '\0';
+	return (j);
+}
+
+char	*clean_prompt(char *prompt)
+{
+	char	*new_prompt;
+	int		i;
+
+	new_prompt = malloc(sizeof(char) * (ft_strlen(prompt)
+				+ count_metachar(prompt)) + 1);
+	i = add_space(prompt, new_prompt);
+	new_prompt[i] = '\0';
 	free(prompt);
 	return (new_prompt);
 }
 
 void	split_input(char *prompt)
 {
-	printf("%s\n", add_spaces(prompt));
+	t_data	data;
+
+	data.new_prompt = clean_prompt(prompt);
+	// if (odd_dquotes(&data) == 1 || odd_squotes(&data) == 1)
+	// {
+	// 	printf("minishell: syntax error near unexpected token `newline'\n");
+	// 	return ;
+	// }
+	space_dquotes(&data);
+	printf("%s\n", data.new_prompt);
 }

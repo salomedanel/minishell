@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 14:03:16 by sdanel            #+#    #+#             */
-/*   Updated: 2023/01/06 12:21:57 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/22 13:51:30 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:27:48 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-int	ft_strlen(char *str)
+int	ft_strlen_gnl(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (!str)
 		return (0);
-	while (str[i] != '\0')
+	while (str[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strcpy(char *s1, char *s2)
+char	*ft_strcpy_gnl(char *s1, char *s2)
 {
 	size_t	i;
 
@@ -42,28 +42,44 @@ char	*ft_strcpy(char *s1, char *s2)
 
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {
-	char	*new_str;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
+	char	*new;
 
-	if (s1 == NULL)
+	if (!s1)
 	{
-		s1 = malloc(sizeof(char) * 1);
-		s1[0] = '\0';
+		s1 = malloc(1);
+		if (!s1)
+			return (NULL);
+		*(s1 + 0) = '\0';
 	}
-	new_str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (new_str == NULL)
-	{
-		free(s2);
-		return (0);
-	}
-	i = -1;
+	i = ft_strlen_gnl(s1);
+	new = malloc(sizeof(char) * (i + ft_strlen_gnl(s2) + 1));
+	if (!new)
+		return (NULL);
 	j = 0;
-	while (s1[++i])
-		new_str[i] = s1[i];
-	while (s2[j])
-		new_str[i++] = s2[j++];
-	new_str[i] = '\0';
-	free(s1);
-	return (new_str);
+	new = ft_strcpy_gnl(new, s1);
+	while (*(s2 + j))
+		*(new + i++) = *(s2 + j++);
+	*(new + i) = '\0';
+	free (s1);
+	return (new);
+}
+
+char	*ft_strchr_gnl(char *s, int c)
+{
+	int	i;
+
+	if (!s)
+		return (NULL);
+	i = ft_strlen_gnl(s);
+	if (!c)
+		return ((s + i));
+	while (*s != (char)c)
+	{
+		if (*s == '\0')
+			return (NULL);
+		s++;
+	}
+	return (s);
 }

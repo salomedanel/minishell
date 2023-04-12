@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,43 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+static double	ft_divide(double x, int j)
 {
-	int	res;
-	int	sign;
+	while (j > 0)
+	{
+		x /= 10;
+		j--;
+	}
+	return (x);
+}
 
-	res = 0;
+static int	ft_define_decimal(const char *nptr)
+{
+	int	i;
+	int	j;
+
+	i = ft_strlen(nptr);
+	j = 0;
+	while (i > 0)
+	{
+		if (nptr[i] >= '0' && nptr[i] <= '9')
+			j++;
+		if (nptr[i] == '.')
+			break ;
+		i--;
+	}
+	return (j);
+}
+
+double	ft_atof(const char *nptr)
+{
+	double	res;
+	int		sign;
+	int		i;
+
+	res = 0.0;
 	sign = 1;
+	i = ft_define_decimal(nptr);
 	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
 		nptr++;
 	if (*nptr == '-' || *nptr == '+')
@@ -27,19 +57,25 @@ int	ft_atoi(const char *nptr)
 			sign *= -1;
 		nptr++;
 	}
-	while (*nptr >= '0' && *nptr <= '9')
+	while ((*nptr >= '0' && *nptr <= '9') || *nptr == '.')
 	{
-		res = res * 10 + (*nptr - '0');
-		nptr++;
+		if (*nptr == '.')
+			nptr++;
+		else
+			res = res * 10.0 + (*nptr++ - '0');
 	}
-	return (res * sign);
+	return (res = ft_divide(res * sign, i), res);
 }
-/*
-int	main()
-{
-	const char	*nptr;
 
-	nptr = "     gj+1234b56b47";
-	printf("%d\n", ft_atoi(nptr));
-	printf("%d\n", atoi(nptr));
-}*/
+// int main (int ac, char **av)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (av[i])
+// 	{
+// 		printf("%f\n", ft_atof(av[i]));
+// 		i++;
+// 	}
+// 	return (1);
+// }

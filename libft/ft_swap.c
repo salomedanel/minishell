@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 17:19:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/12 16:26:11 by tmichel-         ###   ########.fr       */
+/*   Created: 2022/12/01 20:08:07 by tmichel-          #+#    #+#             */
+/*   Updated: 2022/12/26 19:59:36 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlen(const char *str)
+void	ft_swap(void *a, void *b, int size)
 {
-	int	i;
+	int		i;
+	char	atemp;
+	char	btemp;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	i = -1;
+	while (++i < size)
+	{
+		atemp = ((char *)a)[i];
+		btemp = ((char *)b)[i];
+		((char *)a)[i] = btemp;
+		((char *)b)[i] = atemp;
+	}
 }

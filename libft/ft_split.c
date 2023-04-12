@@ -3,139 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 13:11:39 by sdanel            #+#    #+#             */
-/*   Updated: 2023/03/30 17:30:30 by danelsalome      ###   ########.fr       */
+/*   Created: 2022/11/15 14:13:22 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:25:13 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
 
-static int	is_charset(char const *str, char c, int i)
+static size_t	ft_count_words(char const *s, char c)
 {
-	if (c == '\0')
-		return (0);
-	if (str[i] == c)
-		return (1);
-	else
-		return (0);
-}
-
-static int	ft_word_count(char const *str, char c)
-{
-	int	i;
-	int	count;
+	size_t	i;
+	char	t;
+	size_t	count;
+	char	*trimmed;
 
 	i = 0;
+	t = c;
 	count = 0;
-	while (str[i] != '\0')
+	trimmed = ft_strtrim(s, &t);
+	if (!trimmed)
+		return (0);
+	while (*(trimmed + i))
 	{
-		if (str[i] == c)
+		count++;
+		while (*(trimmed + i) && *(trimmed + i) != c)
 			i++;
-		if (str[i] == '\0')
-			return (count);
-		if (str[0] != c && i == 0)
-		{
-			count++;
+		while (*(trimmed + i) && *(trimmed + i) == c)
 			i++;
-		}
-		if (str[i] != c && str[i - 1] != c)
-			i++;
-		if (str[i] != c && str[i - 1] == c)
-		{
-			i++;
-			count++;
-		}
+		if (!*(trimmed + i))
+			break ;
 	}
+	free (trimmed);
 	return (count);
 }
 
-static char	*ft_strndup(char const *str, int start, int end)
+char	**ft_split(char const *s, char c)
 {
-	int		i;
-	char	*tab;
-
-	i = 0;
-	tab = malloc(sizeof(char) * ((end - start) + 1));
-	if (tab == NULL)
-		return (0);
-	while (start < end)
-	{
-		tab[i] = str[start];
-		start++;
-		i++;
-	}
-	tab[i] = '\0';
-	return (tab);
-}
-
-static int	ft_create_word(char const *str, char c, char **tab)
-{
-	int	i;
-	int	j;
-	int	start;
+	size_t	i;
+	size_t	j;
+	size_t	k;
+	char	**tab;
 
 	i = 0;
 	j = 0;
-	start = 0;
-	while (i < ft_strlen(str))
+	if (!s)
+		return (NULL);
+	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	if (!tab)
+		return (NULL);
+	while (j < ft_count_words(s, c))
 	{
-		while (is_charset(str, c, i) == 0 && str[i])
+		while (*(s + i) && *(s + i) == c)
 			i++;
-		if (i > start)
-		{
-			tab[j] = ft_strndup(str, start, i);
-			if (!tab[j])
-				return (0);
-			j++;
-		}
-		i++;
-		start = i;
-	}
-	return (1);
-}
-
-char	**ft_split(char const *str, char c)
-{
-	char	**tab;
-	int		i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	tab = malloc(sizeof(char *) * (ft_word_count(str, c) + 1));
-	if (tab == NULL)
-		return (0);
-	if (!ft_create_word(str, c, tab))
-	{
-		while (tab[i] != 0)
-		{
-			free(tab[i]);
+		k = i;
+		while (*(s + i) && *(s + i) != c)
 			i++;
-		}
+		*(tab + j++) = ft_substr(s, k, i - k);
 	}
-	tab[ft_word_count(str, c)] = 0;
+	*(tab + j) = NULL;
 	return (tab);
 }
-/*
-int	main(void)
-{
-	char **tab;
-	char *str = " olol";
-	char c = '-';
-	int i = 0;
-	printf("%d\n", ft_word_count(str, c));
-	tab = ft_split(str, c);
-	while (tab[i])
-	{
-		printf("tab[%d] = %s\n", i, tab[i]);
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (0);
-}
-*/

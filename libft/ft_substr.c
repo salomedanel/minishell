@@ -3,65 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 17:37:55 by sdanel            #+#    #+#             */
-/*   Updated: 2022/11/18 16:43:11 by sdanel           ###   ########.fr       */
+/*   Created: 2022/11/14 15:48:44 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/12 16:26:57 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-static int	ft_count_size(size_t size, size_t len, int start, char const *s)
-{
-	if (start > ft_strlen(s))
-	{
-		size = 0;
-		return (size);
-	}
-	if (len >= (unsigned int) ft_strlen(s))
-		size = ft_strlen(s) - start;
-	else
-		size = len;
-	return (size);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned int	size;
-	char			*new_str;
-	unsigned int	i;
+	size_t	i;
+	char	*new;
 
-	if (s == NULL)
-		return (0);
-	size = 0;
-	size = ft_count_size(size, len, start, s);
 	i = 0;
-	new_str = malloc(sizeof(char) * (size + 1));
-	if (new_str == NULL)
-		return (0);
-	while (i < size)
+	if (!s)
+		return (NULL);
+	if (start >= (unsigned int)ft_strlen(s))
 	{
-		new_str[i] = s[i + start];
+		new = malloc(sizeof(char));
+		*(new + 0) = '\0';
+		return (new);
+	}
+	if (len >= (unsigned int)ft_strlen(s))
+		len = ft_strlen(s) - start;
+	new = malloc(sizeof(char) * (len + 1));
+	if (!new)
+		return (NULL);
+	while (*(s + i) && i < len)
+	{
+		*(new + i) = *(char *)(s + start + i);
 		i++;
 	}
-	new_str[i] = '\0';
-	return (new_str);
+	*(new + i) = '\0';
+	return (new);
 }
-/*
-int	main(void)
-{
-	char *s;
-	unsigned int start;
-	size_t len;
-
-	s = "0123456789";
-	start = 9;
-	len = 10;
-	s = ft_substr(s, start, len);
-	printf("%s\n", s);
-	free(s);
-}
-*/
