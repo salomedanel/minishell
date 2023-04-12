@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 16:41:00 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/12 18:47:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,36 @@ char	*clean_prompt(char *prompt)
 void	split_input(char *prompt)
 {
 	t_data	data;
+	int		i;
+	int		qtype;
 
 	data.new_prompt = clean_prompt(prompt);
-	// if (odd_dquotes(&data) == 1 || odd_squotes(&data) == 1)
-	// {
-	// 	printf("minishell: syntax error near unexpected token `newline'\n");
-	// 	return ;
-	// }
-	space_dquotes(&data);
+	i = 0;
+	qtype = 0;
+	while (data.new_prompt[i])
+	{
+		if (data.new_prompt[i] == '"' && (qtype == 0 || qtype == 2))
+		{
+			qtype = 2;
+			if (space_dquotes(&data) == 1)
+			{
+				printf("%d\n", space_dquotes(&data));
+				printf("minishell: syntax error near unexpected token `newline'\n");
+				return ;
+			}
+		}
+		else if (data.new_prompt[i] == '\'' && (qtype == 0 || qtype == 1))
+		{
+			qtype = 1;
+			if (space_squotes(&data) == 1)
+			{
+				printf("%d\n", space_dquotes(&data));
+				printf("minishell: syntax error near unexpected token `newline'\n");
+				return ;
+			}
+		}
+		i++;
+	}
+	//space_dquotes(&data);
 	printf("%s\n", data.new_prompt);
 }

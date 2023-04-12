@@ -6,51 +6,24 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 16:40:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/12 17:44:37 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	odd_dquotes(t_data *data)
+int	check_otherquote(char *prompt, int i, int quote)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (data->new_prompt[i])
+	while (prompt[i])
 	{
-		if (data->new_prompt[i] == '"')
-			count++;
+		if (prompt[i] == quote)
+			return (1);
 		i++;
 	}
-	if (count % 2 == 0 && odd_squotes(data) )
-		return (0);
-	else
-		return (1);
+	return (0);
 }
 
-int	odd_squotes(t_data *data)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (data->new_prompt[i])
-	{
-		if (data->new_prompt[i] == '\'')
-			count++;
-		i++;
-	}
-	if (count % 2 == 0)
-		return (0);
-	else
-		return (1);
-}
-
-void	space_dquotes(t_data *data)
+int	space_dquotes(t_data *data)
 {
 	int	i;
 	
@@ -59,15 +32,41 @@ void	space_dquotes(t_data *data)
 	{
 		if (data->new_prompt[i] == '"')
 		{
+			i++;
+			if (check_otherquote(data->new_prompt, i, '"') == 0)
+				return (1);
 			while (data->new_prompt[i] != '"')
 			{
 				if (data->new_prompt[i] == 32)
 					data->new_prompt[i] = 90;
+				i++;
 			}
 		}
 		i++;
 	}
-
-
+	return (0);
 }
 
+int	space_squotes(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (data->new_prompt[i])
+	{
+		if (data->new_prompt[i] == '\'')
+		{
+			i++;
+			if (check_otherquote(data->new_prompt, i, '\'') == 0)
+				return (1);
+			while (data->new_prompt[i] != '\'')
+			{
+				if (data->new_prompt[i] == 32)
+					data->new_prompt[i] = 90;
+				i++;
+			}
+		}
+		i++;
+	}
+	return (0);
+}

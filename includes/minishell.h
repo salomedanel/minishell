@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 16:41:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/12 17:45:05 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ char		*clean_prompt(char *prompt);
 void		split_input(char *prompt);
 
 // parsing01
-int			odd_dquotes(t_data *data);
-int			odd_squotes(t_data *data);
-void		space_dquotes(t_data *data);
+int			check_otherquote(char *prompt, int i, int quote);
+int			space_dquotes(t_data *data);
+int			space_squotes(t_data *data);
 
 // builtins
 void		mini_echo_loop(t_mini *test, int i);
