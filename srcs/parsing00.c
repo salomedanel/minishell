@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 18:47:31 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/13 14:15:02 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ int	count_metachar(char *prompt)
 			count++;
 		i++;
 	}
+	if (is_metachar(prompt[0]) == 1)
+		count--;
+	if (is_metachar(prompt[ft_strlen(prompt) - 1]) == 1)
+		count--;
 	return (count);
 }
 
@@ -60,7 +64,7 @@ int	add_space(char *prompt, char *new_prompt)
 	while (prompt[i])
 	{
 		if (is_metachar(prompt[i + 1]) == 1 && is_metachar(prompt[i]) != 2
-			&& is_metachar(new_prompt[j - 1]) != 2 && i != 0)
+			&& (prompt[i] != prompt[i + 1]))
 		{
 			new_prompt[j] = prompt[i];
 			new_prompt[++j] = 32;
@@ -86,6 +90,7 @@ char	*clean_prompt(char *prompt)
 
 	new_prompt = malloc(sizeof(char) * (ft_strlen(prompt)
 				+ count_metachar(prompt)) + 1);
+	printf("%d\n", count_metachar(prompt));
 	i = add_space(prompt, new_prompt);
 	new_prompt[i] = '\0';
 	free(prompt);
@@ -95,36 +100,13 @@ char	*clean_prompt(char *prompt)
 void	split_input(char *prompt)
 {
 	t_data	data;
-	int		i;
-	int		qtype;
 
-	data.new_prompt = clean_prompt(prompt);
-	i = 0;
-	qtype = 0;
-	while (data.new_prompt[i])
-	{
-		if (data.new_prompt[i] == '"' && (qtype == 0 || qtype == 2))
-		{
-			qtype = 2;
-			if (space_dquotes(&data) == 1)
-			{
-				printf("%d\n", space_dquotes(&data));
-				printf("minishell: syntax error near unexpected token `newline'\n");
-				return ;
-			}
-		}
-		else if (data.new_prompt[i] == '\'' && (qtype == 0 || qtype == 1))
-		{
-			qtype = 1;
-			if (space_squotes(&data) == 1)
-			{
-				printf("%d\n", space_dquotes(&data));
-				printf("minishell: syntax error near unexpected token `newline'\n");
-				return ;
-			}
-		}
-		i++;
-	}
-	//space_dquotes(&data);
-	printf("%s\n", data.new_prompt);
+	data.clean_prompt = clean_prompt(prompt);
+	data.final_prompt = malloc(sizeof(char) * ft_strlen(data.clean_prompt));
+	data.final_prompt = handle_quotes(&data);
+	if (data.final_prompt == NULL)
+		return ;
+	split_space(data.final_prompt);
+	printf("%s\n", data.final_prompt);
+	free(data.clean_prompt);
 }

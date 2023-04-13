@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/12 14:24:15 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/13 14:31:22 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	mini_echo(t_mini *test)
 	int	i;
 	int	option;
 
+	ft_printf("couco\n");
 	if (ft_strncmp(test->ast[1], "T_OPTION", 8))
 	{
 		option = 1;

@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pars_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/13 11:01:10 by sdanel           ###   ########.fr       */
+/*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
+/*   Updated: 2023/04/13 13:40:45 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
-{
-	char	*prompt;
-
-	(void)argc;
-	(void)argv;
-	(void)env;
-	while (1)
-	{
-		prompt = readline("minishell> ");
-		add_history(prompt);
-		split_input(prompt);
-		if (prompt == NULL)
-			break ;
-	}
-	return (0);
-}
+// void    quote_err(t_data *data, char *err, char quote)
+// {
+//     ft_printf("%s '%c'\n", err, quote);
+//     free(data->clean_prompt);
+//     return ;
+// }

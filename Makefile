@@ -7,6 +7,8 @@ DIRLIB = ./libft/
 SRC =	main \
 		parsing00 \
 		parsing01 \
+		pars_error \
+		builtins \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 
