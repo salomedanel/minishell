@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/13 14:15:54 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/17 14:06:12 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <unistd.h>
 
 # define QUOTE_ERR "minishell: syntax error near unexpected token"
+
+int exit_code = 0;
 
 typedef enum e_token_type
 {
@@ -63,14 +65,15 @@ int			check_otherquote(char *prompt, int i, int quote);
 int			space_dquotes(t_data *data);
 int			space_squotes(t_data *data);
 char		*handle_quotes(t_data *data);
-void		split_space(char *final_prompt);
+void		split_space(t_data *data);
+
+// parsing_utils
+int			is_metachar(char c);
+int			cpy_prompt(char *prompt, char *new_prompt, int j, int i);
 
 // builtins
 void		mini_echo_loop(t_mini *test, int i);
 int			mini_echo(t_mini *test);
 int			mini_pwd(void);
-
-// pars_err
-void		quote_err(t_data *data, char *err, char quote);
 
 #endif

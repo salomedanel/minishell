@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/13 14:32:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/17 12:45:41 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,21 +103,27 @@ char	*handle_quotes(t_data *data)
 	return (data->clean_prompt);
 }
 
-void split_space(char *final_prompt)
+void	split_space(t_data *data)
 {
-	t_mini mini;
+	int		i;
+	int		j;
 
-	ft_printf("%s\n", final_prompt);
-	mini.full_cmd = ft_split(final_prompt, ' ');
-	mini.ast = malloc (sizeof(char *) * 5);
-	int i = 0;
-	while (mini.ast[i])
+	i = 0;
+	j = 0;
+	ft_printf("final_prompt = %s\n", data->final_prompt);
+	data->arg = ft_split(data->final_prompt, 32);
+	while (data->arg[i])
 	{
-		mini.ast[i] = "test";
-		if (ft_strncmp(mini.full_cmd[i], "-n", 2) && ft_countchar(mini.full_cmd[1], 'n') == ft_strlen(mini.full_cmd[1] - 1))
-			mini.ast[i] = "T_OPTION";
+		if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
+		{
+			while (data->arg[i][j])
+			{
+				if (data->arg[i][j] == '_')
+					data->arg[i][j] = 32;
+				j++;
+			}
+		}
+		ft_printf("arg[%d] = %s\n", i, data->arg[i]);
 		i++;
-		ft_printf("%s\n", mini.ast[i]);
 	}
-	mini_echo(&mini);
 }

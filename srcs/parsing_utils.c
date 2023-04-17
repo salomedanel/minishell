@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/17 14:07:28 by sdanel           ###   ########.fr       */
+/*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
+/*   Updated: 2023/04/13 15:16:51 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+int	is_metachar(char c)
 {
-	char	*prompt;
-
-	(void)argc;
-	(void)argv;
-	(void)env;
-	while (1)
-	{
-		prompt = readline("minishell> ");
-		add_history(prompt);
-		split_input(prompt);
-		if (prompt == NULL)
-			break ;
-	}
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	if (c == 32)
+		return (2);
 	return (0);
+}
+
+int	cpy_prompt(char *prompt, char *new_prompt, int j, int i)
+{
+	new_prompt[j] = prompt[i];
+	new_prompt[++j] = 32;
+	return (j);
 }

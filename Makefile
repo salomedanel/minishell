@@ -7,6 +7,7 @@ DIRLIB = ./libft/
 SRC =	main \
 		parsing00 \
 		parsing01 \
+		parsing_utils \
 		pars_error \
 		builtins \
 
