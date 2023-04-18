@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/17 12:46:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/18 13:51:21 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	add_space(char *prompt, char *new_prompt)
 	return (j);
 }
 
-char	*clean_prompt(char *prompt) // add space between metachar
+char	*clean_prompt(char *prompt)
 {
 	char	*new_prompt;
 	int		i;
@@ -82,13 +82,14 @@ char	*clean_prompt(char *prompt) // add space between metachar
 void	split_input(char *prompt)
 {
 	t_data	data;
+	int		i;
 
+	i = -1;
 	data.clean_prompt = clean_prompt(prompt);
-	data.final_prompt = malloc(sizeof(char) * ft_strlen(data.clean_prompt));
-	data.final_prompt = handle_quotes(&data);
-	if (data.final_prompt == NULL)
+	data.clean_prompt = handle_quotes(&data, i);
+	if (data.clean_prompt == NULL)
 		return ;
-	//printf("%s\n", data.final_prompt);
-	split_space(&data);
-	free(data.clean_prompt);
+	split_space(&data, i);
+	//trim_quotes(&data, i);
+	print_arg(data.arg);
 }

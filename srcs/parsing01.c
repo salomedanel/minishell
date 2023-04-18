@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/17 12:45:41 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/18 12:08:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,17 @@ int	space_dquotes(t_data *data)
 			i++;
 			if (check_otherquote(data->clean_prompt, i, '"') == 0)
 				return (1);
+			if (data->clean_prompt[i] == '"')
+				i++;
 			while (data->clean_prompt[i] != '"')
 			{
 				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = '_';
+					data->clean_prompt[i] = 95;
 				i++;
 			}
+			if (data->clean_prompt[i] == '"' && data->clean_prompt[i + 1] == '"'
+				&& count_dquotes(data->clean_prompt) % 2 == 0)
+				return (0);
 		}
 		i++;
 	}
@@ -59,33 +64,36 @@ int	space_squotes(t_data *data)
 			i++;
 			if (check_otherquote(data->clean_prompt, i, '\'') == 0)
 				return (1);
+			if (data->clean_prompt[i] == '\'')
+				i++;
 			while (data->clean_prompt[i] != '\'')
 			{
 				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = '_';
+					data->clean_prompt[i] = 95;
 				i++;
 			}
+			if (data->clean_prompt[i] == '\'' && data->clean_prompt[i
+					+ 1] == '\'' && count_squotes(data->clean_prompt) % 2 == 0)
+				return (0);
 		}
 		i++;
 	}
 	return (0);
 }
 
-char	*handle_quotes(t_data *data)
+char	*handle_quotes(t_data *data, int i)
 {
-	int		i;
-	int		qtype;
+	int	qtype;
 
-	i = 0;
 	qtype = 0;
-	while (data->clean_prompt[i])
+	while (data->clean_prompt[++i])
 	{
 		if (data->clean_prompt[i] == '"' && (qtype == 0 || qtype == 2))
 		{
 			qtype = 2;
 			if (space_dquotes(data) == 1)
-			{	
-				ft_printf("%s '\"'\n", QUOTE_ERR);
+			{
+				quote_err(data, QUOTE_ERR, '"');
 				return (NULL);
 			}
 		}
@@ -94,36 +102,38 @@ char	*handle_quotes(t_data *data)
 			qtype = 1;
 			if (space_squotes(data) == 1)
 			{
-				ft_printf("%s '\''\n", QUOTE_ERR);
+				quote_err(data, QUOTE_ERR, '\'');
 				return (NULL);
 			}
 		}
-		i++;
 	}
 	return (data->clean_prompt);
 }
 
-void	split_space(t_data *data)
+void	split_space(t_data *data, int i)
 {
-	int		i;
-	int		j;
+	int	j;
 
-	i = 0;
 	j = 0;
-	ft_printf("final_prompt = %s\n", data->final_prompt);
-	data->arg = ft_split(data->final_prompt, 32);
-	while (data->arg[i])
+	data->arg = ft_split(data->clean_prompt, 32);
+	if (quote_finalcheck(data) == 1)
+		return ;
+	while (data->arg[++i])
 	{
-		if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
+		while (data->arg[i][j])
 		{
-			while (data->arg[i][j])
+			if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
 			{
-				if (data->arg[i][j] == '_')
-					data->arg[i][j] = 32;
-				j++;
+				while (data->arg[i][j])
+				{
+					if (data->arg[i][j] == 95)
+						data->arg[i][j] = 32;
+					j++;
+				}
 			}
+			if (j < ft_strlen(data->arg[i]))
+				j++;
 		}
-		ft_printf("arg[%d] = %s\n", i, data->arg[i]);
-		i++;
+		j = 0;
 	}
 }
