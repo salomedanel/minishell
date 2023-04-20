@@ -8,8 +8,10 @@ SRC =	main \
 		parsing00 \
 		parsing01 \
 		parsing02 \
-		parsing_utils \
+		parsing_utils00 \
+		parsing_utils01 \
 		pars_error \
+		var_env \
 		builtins \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))

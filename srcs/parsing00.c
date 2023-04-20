@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing00.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/18 13:51:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/20 17:40:59 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,20 @@ char	*clean_prompt(char *prompt)
 	return (new_prompt);
 }
 
-void	split_input(char *prompt)
+void	split_input(char *prompt, char **env)
 {
 	t_data	data;
 	int		i;
 
 	i = -1;
+	dup_env(&data, env);
 	data.clean_prompt = clean_prompt(prompt);
 	data.clean_prompt = handle_quotes(&data, i);
 	if (data.clean_prompt == NULL)
 		return ;
 	split_space(&data, i);
-	//trim_quotes(&data, i);
 	print_arg(data.arg);
+	final_arg(&data);
+	printf("--- FINAL ARG --- \n");
+	print_arg(data.f_arg);
 }

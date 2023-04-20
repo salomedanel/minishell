@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parsing_utils00.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/18 11:44:56 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/20 17:40:10 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	print_arg(char **arg)
 	i = 0;
 	while (arg[i])
 	{
-		ft_printf("arg[%d] = %s\n", i, arg[i]);
+		printf("arg[%d] = %s\n", i, arg[i]);
 		i++;
 	}
 }
