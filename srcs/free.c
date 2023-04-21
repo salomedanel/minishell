@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 10:35:02 by sdanel           ###   ########.fr       */
+/*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
+/*   Updated: 2023/04/21 15:29:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_code = 0;
-
-int	main(int argc, char **argv, char **env)
+void	free_arg(t_data *data)
 {
-	char	*prompt;
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	while (1)
+	i = 0;
+	while (data->arg[i])
 	{
-		prompt = readline("minishell> ");
-		add_history(prompt);
-		split_input(prompt, env);
-		if (prompt == NULL)
-			break ;
+		free(data->arg[i]);
+		i++;
 	}
-	return (0);
+	free(data->arg);
 }

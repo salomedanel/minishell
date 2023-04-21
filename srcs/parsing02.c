@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing02.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/20 17:41:52 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/04/21 12:40:04 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	new_len(char *arg, t_data *data)
 
 	i = 0;
 	if (arg[0] == '\'')
-		return (ft_strlen(arg) - count_squotes(arg));	
+		return (ft_strlen(arg) - count_squotes(arg));
 	while (arg[i])
 	{
 		if (arg[i] == '$')
@@ -82,35 +82,23 @@ void	new_words(char *arg, t_data *data, int index)
 	return ;
 }
 
-char **final_arg(t_data *data)
+void	final_arg(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (data->arg[i])
 		i++;
-	data->f_arg = malloc(sizeof(char *) * i);
+	data->f_arg = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (data->arg[i])
 	{
-		data->f_arg[i] = malloc(sizeof(char) * new_len(data->arg[i], data));
+		data->f_arg[i] = malloc(sizeof(char) * (new_len(data->arg[i], data)
+					+ 1));
 		new_words(data->arg[i], data, i);
 		i++;
 	}
 	data->f_arg[i] = NULL;
-	return (NULL);
-} 
-
-	//QUOTES
-	// Comptabiliser le nb de quotes du meme type pour les soustraire a strlen
-	// Faire un trim des quotes du meme type 
-	//VARENV
-	// Checker síl y a un $ dans le mot et quíl nést pas dans des ''. Si oui, verifier que la variable dénvironnement existe.
-	// Si oui > remplacer le $mot par la valeur derriere le =
-	// Si non > remplacer le $mot par un \n
-	// REALLOC
-	// Compter le nb de mots dans arg et faire malloc f_arg du nb de mot
-	// Parcourir tous les mots pour malloc le strlen de chacun
-		// Si quotes -> soustraire nb de quotes au malloc
-		// Si $ -> malloc de la taille de la variable
-		// free arg 
+	free_arg(data);
+	return ;
+}

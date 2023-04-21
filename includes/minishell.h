@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/20 11:53:28 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/04/21 15:18:33 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@
 
 typedef enum e_token_type
 {
-	T_REDIN,
-	T_REDOUT,
-	T_DREDIN,
-	T_LIMITER,
-	T_DREDOUT,
-	T_WORD,
-	T_CMD,
-	T_PIPE,
-	T_FD
+	T_PIPE,           // 0
+	T_REDOUT,         // 1
+	T_REDIN,          // 2
+	T_HERE_DOC,       // 3
+	T_RED_OUT_APPEND, // 4
+	T_OUTFILE_TRUNC,  // 5
+	T_INFILE,         // 6
+	T_LIMITER,        // 7
+	T_OUTFILE_APPEND, // 8
+	T_CMD,            // 9
+	T_OPTION          // 10
 }			t_token_type;
 
 typedef struct s_data
@@ -41,7 +43,7 @@ typedef struct s_data
 	char	**arg;
 	char	**f_arg;
 	char	**new_env;
-	char	**ast;
+	int		*ast;
 }			t_data;
 
 // parsing00
@@ -61,7 +63,7 @@ void		split_space(t_data *data, int i);
 int			quote_finalcheck(t_data *data);
 int			new_len(char *arg, t_data *data);
 void		new_words(char *arg, t_data *data, int index);
-char 		**final_arg(t_data *data);
+void		final_arg(t_data *data);
 
 // parsing_utils00
 int			is_metachar(char c);
@@ -73,18 +75,29 @@ void		print_arg(char **arg);
 // parsing_utils01
 void		trim_squotes(char *arg, t_data *data, int index);
 void		trim_dquotes(char *arg, t_data *data, int index);
-void    	ft_strcpy(char *dest, char *src, int start);
+void		ft_strcpy(char *dest, char *src, int start);
 
 // pars_err
 void		quote_err(t_data *data, char *err, char quote);
 void		quote_err2(t_data *data, char *err, char quote);
+void		metachar_err(t_data *data, char *err, char *metachar);
 
 // var_env
 void		dup_env(t_data *data, char **env);
 int			len_varenv(char *varenv);
-int			strncmp_dollar(const char *s1, const char *s2, size_t n);
+int			strncmp_dollar(char *env, char *arg);
 int			check_varenv(t_data *data, char *arg);
 void		replace_dollar(char *arg, t_data *data, int index);
+
+// token
+void		token(t_data *data);
+void		print_arg_ast(t_data *data);
+void		init_ast(t_data *data);
+int			token_metachar(t_data *data);
+int			token_word_metachar(t_data *data);
+
+// free
+void		free_arg(t_data *data);
 
 // builtins
 // void		mini_echo_loop(t_mini *test, int i);

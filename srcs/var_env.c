@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/04/20 17:24:35 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/04/21 10:37:43 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	dup_env(t_data *data, char **env)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 		i++;
 	data->new_env = malloc(sizeof(char *) * i);
 	i = 0;
@@ -32,7 +32,7 @@ int	len_varenv(char *varenv)
 {
 	int	i;
 	int	count;
-	
+
 	i = 0;
 	count = 0;
 	while (varenv[i] != '=')
@@ -45,33 +45,7 @@ int	len_varenv(char *varenv)
 	return (count);
 }
 
-int	strncmp_dollar(const char *s1, const char *s2, size_t n)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s2[i])
-	{
-		if (s2[i] == '"')
-			count++;
-		i++;
-	}
-	i = 0;
-	while ((n > 0) && (s1[i] == s2[count + 1]) && (*s1 != '\0'))
-	{
-		s1++;
-		s2++;
-		n--;
-		count++;
-	}
-	if (n == 0)
-		return (0);
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-int	strncmp_dollbis(char *env, char *arg)
+int	strncmp_dollar(char *env, char *arg)
 {
 	int	i;
 	int	j;
@@ -111,7 +85,7 @@ int	check_varenv(t_data *data, char *arg)
 		{
 			if (data->new_env[i][j] == '=')
 			{
-				if (strncmp_dollbis(data->new_env[i], arg) == 0)
+				if (strncmp_dollar(data->new_env[i], arg) == 0)
 					return (len_varenv(data->new_env[i]) - 1);
 			}
 			j++;
@@ -135,7 +109,7 @@ void	replace_dollar(char *arg, t_data *data, int index)
 		{
 			if (data->new_env[i][j] == '=')
 			{
-				if (strncmp_dollbis(data->new_env[i], arg) == 0)
+				if (strncmp_dollar(data->new_env[i], arg) == 0)
 				{
 					ft_strcpy(data->f_arg[index], data->new_env[i], j + 1);
 					return ;
@@ -148,4 +122,3 @@ void	replace_dollar(char *arg, t_data *data, int index)
 	}
 	return ;
 }
-	

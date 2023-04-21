@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/18 11:11:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/21 15:29:38 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,22 @@ void	quote_err2(t_data *data, char *err, char quote)
 		i++;
 	}
 	free(data->arg);
+	return ;
+}
+
+void	metachar_err(t_data *data, char *err, char *metachar)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("%s '%s'\n", err, metachar);
+	g_exit_code = 2;
+	while (data->f_arg[i])
+	{
+		free(data->f_arg[i]);
+		i++;
+	}
+	free(data->f_arg);
+	free(data->ast);
 	return ;
 }

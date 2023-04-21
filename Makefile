@@ -12,6 +12,8 @@ SRC =	main \
 		parsing_utils01 \
 		pars_error \
 		var_env \
+		token \
+		free \
 		builtins \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
