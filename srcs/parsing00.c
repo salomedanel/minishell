@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 15:29:47 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 12:49:19 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	count_metachar(char *prompt)
 
 	i = 1;
 	count = 0;
+	if (prompt == NULL)
+		return (0);
 	while (prompt[i])
 	{
 		if (is_metachar(prompt[i]) == 1 && is_metachar(prompt[i - 1]) == 0
@@ -48,6 +50,8 @@ int	add_space(char *prompt, char *new_prompt)
 
 	i = 0;
 	j = 0;
+	if (prompt == NULL)
+		return (0);
 	while (prompt[i])
 	{
 		if (is_metachar(prompt[i + 1]) == 1 && is_metachar(prompt[i]) != 2

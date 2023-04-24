@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 15:46:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:36:30 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 void	token(t_data *data)
 {
-	init_ast(data);
+	int	nb_arg;
+
+	nb_arg = init_ast(data);
 	if (token_metachar(data) == -1)
 		return ;
-	if (token_word_metachar(data) == -1)
+	if (token_word_metachar(data, nb_arg) == -1)
+		return ;
+	if (token_command_option(data) == -1)
 		return ;
 	print_arg_ast(data);
 }
@@ -35,7 +39,7 @@ void	print_arg_ast(t_data *data)
 	}
 }
 
-void	init_ast(t_data *data)
+int	init_ast(t_data *data)
 {
 	int	i;
 
@@ -49,6 +53,7 @@ void	init_ast(t_data *data)
 		data->ast[i] = -1;
 		i++;
 	}
+	return (i);
 }
 
 int	token_metachar(t_data *data)
@@ -73,26 +78,27 @@ int	token_metachar(t_data *data)
 	return (0);
 }
 
-// modifier les conditions pour verifier i + 1 et i - 1
-
-int	token_word_metachar(t_data *data)
+int	token_word_metachar(t_data *data, int nb_arg)
 {
 	int	i;
 
 	i = 0;
 	while (data->f_arg[i])
 	{
-		if (data->f_arg[i][0] == '>' && data->ast[i] != 1)
+		if (i < nb_arg && data->f_arg[i][0] == '>' && data->ast[i] != 1
+			&& data->ast[i] != 4)
 			data->ast[i + 1] = T_OUTFILE_TRUNC;
-		if (data->f_arg[i][0] == '<' && data->ast[i] != 2)
+		if (i != 0 && data->f_arg[i - 1] && data->f_arg[i][0] == '<'
+			&& data->ast[i] != 2)
 			data->ast[i - 1] = T_INFILE;
-		if (data->f_arg[i][0] == '<' && data->f_arg[i][1] == '<'
+		if (i < nb_arg && data->f_arg[i][0] == '<' && data->f_arg[i][1] == '<'
 			&& data->ast[i] != 3)
 			data->ast[i + 1] = T_LIMITER;
-		if (data->f_arg[i][0] == '<' && data->f_arg[i][1] == '<'
-			&& data->ast[i] != 3)
+		if (i != 0 && data->f_arg[i][0] == '<' && data->f_arg[i][1] == '<' && is_builtin(data->f_arg[i - 1]) == 0)
 			data->ast[i - 1] = T_CMD;
-		if (data->f_arg[i][0] == '>' && data->f_arg[i][1] == '>'
+		if (i != 0 && data->f_arg[i][0] == '<' && data->f_arg[i][1] == '<' && is_builtin(data->f_arg[i - 1]) == 1)
+			data->ast[i - 1] = T_BUILTIN;
+		if (i < nb_arg && data->f_arg[i][0] == '>' && data->f_arg[i][1] == '>'
 			&& data->ast[i] != 4)
 			data->ast[i + 1] = T_OUTFILE_APPEND;
 		i++;
@@ -100,5 +106,26 @@ int	token_word_metachar(t_data *data)
 	return (0);
 }
 
-// Ensuite regarder si ast = -1. Si oui et que mot au debut ou apres un pipe => CMD.
-// Pour les restes des -1 = OPTION
+int	token_command_option(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->f_arg[i])
+	{
+		if (data->ast[i] == -1 && i == 0 && is_builtin(data->f_arg[i]) == 0)
+			data->ast[i] = T_CMD;
+		if (data->ast[i] == -1 && data->ast[i - 1] == 0 && is_builtin(data->f_arg[i]) == 0)
+			data->ast[i] = T_CMD;
+		if (data->ast[i] == -1 && i == 0 && is_builtin(data->f_arg[i]) == 1)
+			data->ast[i] = T_BUILTIN;
+		if (data->ast[i] == -1 && data->ast[i - 1] == 0 && is_builtin(data->f_arg[i]) == 1)
+			data->ast[i] = T_BUILTIN;
+		if (data->ast[i] == -1 && data->f_arg[i][0] == '-')
+			data->ast[i] = T_OPTION;
+		else if (data->ast[i] == -1)
+			data->ast[i] = T_WORD;
+		i++;
+	}
+	return (0);
+}

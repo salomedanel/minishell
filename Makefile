@@ -13,8 +13,11 @@ SRC =	main \
 		pars_error \
 		var_env \
 		token \
+		signal \
 		free \
 		builtins \
+		builtins_revenge \
+		env \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

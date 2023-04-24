@@ -1,48 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 12:41:38 by sdanel           ###   ########.fr       */
+/*   Created: 2023/04/24 11:41:14 by sdanel            #+#    #+#             */
+/*   Updated: 2023/04/24 14:08:09 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_arg(t_data *data)
+void    handle_sigint(int sig)
 {
-	int	i;
-
-	i = 0;
-	while (data->arg[i])
-	{
-		free(data->arg[i]);
-		i++;
-	}
-	free(data->arg);
-	free(data->clean_prompt);
+    (void) sig;
+    printf("CTRL+C detected\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+  //  free_parsing_token(data);
 }
 
-void	free_parsing_token(t_data *data)
+void    handle_sigquit(int sig)
 {
-	int	i;
-
-	i = 0;
-	while (data->f_arg[i])
-	{
-		free(data->f_arg[i]);
-		i++;
-	}
-	i = 0;
-	while (data->new_env[i])
-	{
-		free(data->new_env[i]);
-		i++;
-	}
-	free(data->new_env);
-	free(data->f_arg);
-	free(data->ast);
+    (void) sig;
+    printf("CTRL+D detected\n");
+  //  free_parsing_token(data);
+    exit (0);
 }

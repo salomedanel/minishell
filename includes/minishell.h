@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 15:18:33 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:32:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -24,17 +25,19 @@
 
 typedef enum e_token_type
 {
-	T_PIPE,           // 0
-	T_REDOUT,         // 1
-	T_REDIN,          // 2
-	T_HERE_DOC,       // 3
-	T_RED_OUT_APPEND, // 4
-	T_OUTFILE_TRUNC,  // 5
+	T_PIPE,           // 0 |
+	T_REDOUT,         // 1 >
+	T_REDIN,          // 2 <
+	T_HERE_DOC,       // 3 <<
+	T_RED_OUT_APPEND, // 4 >>
+	T_OUTFILE_TRUNC,  // 5 > word + 1
 	T_INFILE,         // 6
-	T_LIMITER,        // 7
+	T_LIMITER,        // 7 << word + 1
 	T_OUTFILE_APPEND, // 8
 	T_CMD,            // 9
-	T_OPTION          // 10
+	T_OPTION,         // 10
+	T_WORD,           // 11
+	T_BUILTIN		 // 12
 }			t_token_type;
 
 typedef struct s_data
@@ -92,16 +95,31 @@ void		replace_dollar(char *arg, t_data *data, int index);
 // token
 void		token(t_data *data);
 void		print_arg_ast(t_data *data);
-void		init_ast(t_data *data);
+int			init_ast(t_data *data);
 int			token_metachar(t_data *data);
-int			token_word_metachar(t_data *data);
+int			token_word_metachar(t_data *data, int nb_arg);
+int			token_command_option(t_data *data);
+
+// signal
+void		handle_sigint(int sig);
 
 // free
 void		free_arg(t_data *data);
+void		free_parsing_token(t_data *data);
 
 // builtins
-// void		mini_echo_loop(t_mini *test, int i);
-// int			mini_echo(t_mini *test);
-// int			mini_pwd(void);
+int			is_builtin(char *str);
+int			exec_builtin(char **envp, t_data *data);
+void		mini_echo_loop(t_data *data, int i);
+int			mini_echo(t_data *data);
+int			mini_pwd(void);
+
+// builtins_revenge
+int			mini_cd(t_data *data);
+
+// env
+int			mini_env(t_data *data);
+int			mini_export(char **envp, t_data *data);
+int			mini_unset(char **envp, t_data *data);
 
 #endif
