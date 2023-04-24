@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 10:36:31 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 17:30:25 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	space_dquotes(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->clean_prompt[i])
+	while (i < ft_strlen(data->clean_prompt) && data->clean_prompt[i])
 	{
 		if (data->clean_prompt[i] == '"')
 		{
@@ -37,10 +37,10 @@ int	space_dquotes(t_data *data)
 				return (1);
 			if (data->clean_prompt[i] == '"')
 				i++;
-			while (data->clean_prompt[i] != '"')
+			while (data->clean_prompt[i] && data->clean_prompt[i] != '"')
 			{
 				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = 95;
+					data->clean_prompt[i] = 31;
 				i++;
 			}
 			if (data->clean_prompt[i] == '"' && data->clean_prompt[i + 1] == '"'
@@ -57,7 +57,7 @@ int	space_squotes(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->clean_prompt[i])
+	while (i < ft_strlen(data->clean_prompt) && data->clean_prompt[i])
 	{
 		if (data->clean_prompt[i] == '\'')
 		{
@@ -66,10 +66,10 @@ int	space_squotes(t_data *data)
 				return (1);
 			if (data->clean_prompt[i] == '\'')
 				i++;
-			while (data->clean_prompt[i] != '\'')
+			while (data->clean_prompt[i] && data->clean_prompt[i] != '\'')
 			{
 				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = 95;
+					data->clean_prompt[i] = 31;
 				i++;
 			}
 			if (data->clean_prompt[i] == '\'' && data->clean_prompt[i
@@ -126,7 +126,7 @@ void	split_space(t_data *data, int i)
 			{
 				while (data->arg[i][j])
 				{
-					if (data->arg[i][j] == 95)
+					if (data->arg[i][j] == 31)
 						data->arg[i][j] = 32;
 					j++;
 				}

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 12:40:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:28:15 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	quote_finalcheck(t_data *data)
 	i = 0;
 	while (data->arg[i])
 	{
-		if (data->arg[i][0] == '"' && data->arg[i][ft_strlen(data->arg[i])
-			- 1] == '\'')
+		if (data->arg[i][0] == '"' && (data->arg[i][ft_strlen(data->arg[i])
+			- 1] == '\'' || (data->arg[i][1] == '"'
+			&& count_dquotes(data->arg[i]) % 2 == 1)))
 		{
 			quote_err2(data, QUOTE_ERR, '"');
 			return (1);

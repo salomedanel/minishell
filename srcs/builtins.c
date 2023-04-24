@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 15:25:35 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 17:41:44 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_exit_code;
 
 int	is_builtin(char *str)
 {
-	int len;
+	int	len;
 
 	if (!str)
 		return (0);
@@ -35,13 +35,13 @@ int	is_builtin(char *str)
 		return (1);
 	if (!ft_strncmp(str, "exit", len) && len == 4)
 		return (1);
-	return (0);	
+	return (0);
 }
 
 int	exec_builtin(char **envp, t_data *data)
 {
 	int	i;
-    int	len;
+	int	len;
 
 	i = 0;
 	while (data->f_arg[i])
@@ -85,7 +85,6 @@ int	mini_echo(t_data *data)
 	int	i;
 	int	option;
 
-	
 	if (data->ast[1] == T_OPTION)
 	{
 		option = 1;
@@ -105,7 +104,7 @@ int	mini_echo(t_data *data)
 
 int	mini_pwd(void)
 {
-	char	*buf;
+	char *buf;
 
 	buf = getcwd(NULL, 0);
 	ft_putendl_fd(buf, 1);

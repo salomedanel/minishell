@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 15:32:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:26:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 typedef enum e_token_type
 {
-	T_PIPE,           // 0 |
+	T_PIPE,           // 0
 	T_REDOUT,         // 1 >
 	T_REDIN,          // 2 <
 	T_HERE_DOC,       // 3 <<
@@ -37,7 +37,7 @@ typedef enum e_token_type
 	T_CMD,            // 9
 	T_OPTION,         // 10
 	T_WORD,           // 11
-	T_BUILTIN		 // 12
+	T_BUILTIN         // 12
 }			t_token_type;
 
 typedef struct s_data
@@ -50,7 +50,7 @@ typedef struct s_data
 }			t_data;
 
 // parsing00
-int			count_metachar(char *prompt);
+int			count_metachar(char *prompt, int count);
 int			add_space(char *prompt, char *new_prompt);
 char		*clean_prompt(char *prompt);
 void		split_input(char *prompt, char **env);
@@ -94,14 +94,18 @@ void		replace_dollar(char *arg, t_data *data, int index);
 
 // token
 void		token(t_data *data);
-void		print_arg_ast(t_data *data);
-int			init_ast(t_data *data);
 int			token_metachar(t_data *data);
 int			token_word_metachar(t_data *data, int nb_arg);
 int			token_command_option(t_data *data);
+int			token_command_builtin(t_data *data);
+
+// token_utils
+void		print_arg_ast(t_data *data);
+int			init_ast(t_data *data);
 
 // signal
 void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
 
 // free
 void		free_arg(t_data *data);
@@ -114,7 +118,11 @@ void		mini_echo_loop(t_data *data, int i);
 int			mini_echo(t_data *data);
 int			mini_pwd(void);
 
-// builtins_revenge
+// cd
+void		set_pwd(t_data *data);
+void		set_old_pwd(t_data *data);
+int			count_args(t_data *data);
+void		exec_cd(t_data *data);
 int			mini_cd(t_data *data);
 
 // env

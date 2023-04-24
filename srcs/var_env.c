@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/04/21 10:37:43 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/24 16:56:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ void	dup_env(t_data *data, char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	data->new_env = malloc(sizeof(char *) * i);
+	data->new_env = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (env[i])
 	{
 		data->new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
+	data->new_env[i] = '\0';
 }
 
 int	len_varenv(char *varenv)
