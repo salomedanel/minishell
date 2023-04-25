@@ -6,13 +6,38 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/24 18:27:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:23:58 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
+
+int	freetab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	if (!tab)
+		return (0);
+	while (tab[++i])
+	{
+		tab[i] = NULL;
+		free(tab[i]);
+	}
+	free(tab);
+	return (i);
+}
+
+void	mini_getenv(char **envp, t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		data->new_env[i] = ft_strdup(envp[i]);
+}
 
 int	mini_env(t_data *data)
 {
@@ -31,38 +56,27 @@ int	mini_export(char **envp, t_data *data)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = freetab(data->new_env);
+	if (i == 0)
+		return(g_exit_code = 1);
 	j = 0;
-	while (data->new_env[i])
-	{
-		free(data->new_env[i]);
-		i++;
-	}
-	free(data->new_env);
 	while (data->f_arg[j])
 		j++;
-	data->new_env = malloc(sizeof(char *) * (i + j));
+	data->new_env = calloc(i + j, sizeof(char *));
 	if (!data->new_env)
 		return (g_exit_code = 1);
-	dup_env(data, envp);
+	mini_getenv(envp, data);
 	j = 0;
 	while (data->f_arg[++j])
 	{
-		if (ft_strchr(data->f_arg[j], '='))
-			data->new_env[i++] = ft_strdup(data->arg[j]);
+		if (ft_strchr(data->f_arg[j], 61))
+		{
+			data->new_env[i] = ft_strdup(data->f_arg[j]);
+			i++;
+		}
 	}
 	data->new_env[i] = NULL;
 	return (g_exit_code);
-}
-
-void	freetab(char **tab)
-{
-	int	i;
-
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
 }
 
 int	var_to_unset(t_data *data)

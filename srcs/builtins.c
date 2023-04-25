@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 17:41:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:34:16 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_builtin(char **envp, t_data *data)
 	i = 0;
 	while (data->f_arg[i])
 	{
-		if (data->ast[i] == T_CMD)
+		if (data->ast[i] == T_BUILTIN)
 		{
 			len = ft_strlen(data->f_arg[i]);
 			if (!ft_strncmp(data->f_arg[i], "echo", len) && len == 4)
@@ -57,12 +57,12 @@ int	exec_builtin(char **envp, t_data *data)
 				return (mini_pwd());
 			if (!ft_strncmp(data->f_arg[i], "export", len) && len == 6)
 				return (mini_export(envp, data));
-			// if (!ft_strncmp(data->f_arg[i], "unset", len) && len == 5)
-			// 	return (mini_unset(envp, data));
+			if (!ft_strncmp(data->f_arg[i], "unset", len) && len == 5)
+				return (mini_unset(envp, data));
 			if (!ft_strncmp(data->f_arg[i], "env", len) && len == 3)
 				return (mini_env(data));
-			// if (!ft_strncmp(data->arg[i], "exit", len) && len == 4)
-			// 	return (mini_exit(data));
+			if (!ft_strncmp(data->f_arg[i], "exit", len) && len == 4)
+				return (mini_exit(data));
 		}
 		i++;
 	}
@@ -85,7 +85,7 @@ int	mini_echo(t_data *data)
 	int	i;
 	int	option;
 
-	if (data->ast[1] == T_OPTION)
+	if (data->ast[1] != T_OPTION)
 	{
 		option = 1;
 		mini_echo_loop(data, 0);

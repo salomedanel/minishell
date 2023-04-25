@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 17:30:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 10:52:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,14 @@ char	*handle_quotes(t_data *data, int i)
 	return (data->clean_prompt);
 }
 
-void	split_space(t_data *data, int i)
+int	split_space(t_data *data, int i)
 {
 	int	j;
 
 	j = 0;
 	data->arg = ft_split(data->clean_prompt, 32);
 	if (quote_finalcheck(data) == 1)
-		return ;
+		return (-1);
 	while (data->arg[++i])
 	{
 		while (data->arg[i][j])
@@ -136,4 +136,5 @@ void	split_space(t_data *data, int i)
 		}
 		j = 0;
 	}
+	return (0);
 }

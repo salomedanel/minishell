@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 18:28:15 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:01:59 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	quote_finalcheck(t_data *data)
 			quote_err2(data, QUOTE_ERR, '"');
 			return (1);
 		}
-		if (data->arg[i][0] == '\'' && data->arg[i][ft_strlen(data->arg[i])
-			- 1] == '"')
+		if (data->arg[i][0] == '\'' && (data->arg[i][ft_strlen(data->arg[i])
+			- 1] == '"' || (data->arg[i][1] == '\''
+			&& count_squotes(data->arg[i]) % 2 == 1)))
 		{
 			quote_err2(data, QUOTE_ERR, '\'');
 			return (1);
@@ -50,6 +51,8 @@ int	new_len(char *arg, t_data *data)
 			return (check_varenv(data, &arg[i]));
 		i++;
 	}
+	// if (str_contains_dollar(arg) == 1)
+	// 	return (var_len(arg, data));
 	if (arg[0] == '"')
 		return (ft_strlen(arg) - count_dquotes(arg));
 	return (ft_strlen(arg));
@@ -67,7 +70,7 @@ void	new_words(char *arg, t_data *data, int index)
 	}
 	while (arg[i])
 	{
-		if (arg[i] == '$')
+		while (arg[i] == '$')
 		{
 			replace_dollar(arg, data, index);
 			return ;

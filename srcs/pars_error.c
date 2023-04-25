@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/21 15:29:38 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 11:48:00 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	quote_err2(t_data *data, char *err, char quote)
 
 	i = 0;
 	ft_printf("%s '%c'\n", err, quote);
-	g_exit_code = 3;
+	g_exit_code = 2;
 	while (data->arg[i])
 	{
 		free(data->arg[i]);

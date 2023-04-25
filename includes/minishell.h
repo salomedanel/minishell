@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 18:26:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:30:01 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ typedef struct s_data
 int			count_metachar(char *prompt, int count);
 int			add_space(char *prompt, char *new_prompt);
 char		*clean_prompt(char *prompt);
-void		split_input(char *prompt, char **env);
+void		split_input(char *prompt, char **env, t_data *data);
 
 // parsing01
 int			check_otherquote(char *prompt, int i, int quote);
 int			space_dquotes(t_data *data);
 int			space_squotes(t_data *data);
 char		*handle_quotes(t_data *data, int i);
-void		split_space(t_data *data, int i);
+int			split_space(t_data *data, int i);
 
 // parsing02
 int			quote_finalcheck(t_data *data);
@@ -91,6 +91,10 @@ int			len_varenv(char *varenv);
 int			strncmp_dollar(char *env, char *arg);
 int			check_varenv(t_data *data, char *arg);
 void		replace_dollar(char *arg, t_data *data, int index);
+int			is_in_env(char *arg, t_data *data, int index);
+int			var_len(char *arg, t_data *data);
+int			str_contains_dollar(char *str);
+int			str_contains_dollar(char *str);
 
 // token
 void		token(t_data *data);
@@ -109,7 +113,7 @@ void		handle_sigquit(int sig);
 
 // free
 void		free_arg(t_data *data);
-void		free_parsing_token(t_data *data);
+int			mini_exit(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
@@ -130,4 +134,15 @@ int			mini_env(t_data *data);
 int			mini_export(char **envp, t_data *data);
 int			mini_unset(char **envp, t_data *data);
 
+// exec
+void		launcher(char **envp, t_data *data);
+
 #endif
+
+/*
+
+      
+avion$123 $-avion  $PATH$PATH$Gsdfdsfd avion
+avion23$-avion
+
+*/

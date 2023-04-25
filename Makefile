@@ -19,6 +19,7 @@ SRC =	main \
 		builtins \
 		cd \
 		env \
+		exec \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

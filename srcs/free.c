@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 17:17:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:34:41 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_arg(t_data *data)
 	free(data->clean_prompt);
 }
 
-void	free_parsing_token(t_data *data)
+int	mini_exit(t_data *data)
 {
 	int	i;
 
@@ -45,4 +45,5 @@ void	free_parsing_token(t_data *data)
 	free(data->new_env);
 	free(data->f_arg);
 	free(data->ast);
+	exit(0);
 }

@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:20:07 by sdanel           ###   ########.fr       */
+/*   Created: 2023/04/25 11:58:45 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/04/25 16:34:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_exit_code = 0;
+extern int	g_exit_code;
 
-int	main(int argc, char **argv, char **env)
+void	launcher(char **envp, t_data *data)
 {
-	char	*prompt;
-	t_data	data;
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	signal(SIGINT, handle_sigint);
-	dup_env(&data, env);
-	while (1)
+	i = 0;
+	while (data->f_arg[i])
 	{
-		prompt = readline("minishell> ");
-		add_history(prompt);
-		split_input(prompt, env, &data);
-		if (prompt == NULL)
-			break ;
+		if (data->ast[i] == T_BUILTIN)
+			exec_builtin(envp, data);
+		i++;
 	}
-	return (0);
 }
