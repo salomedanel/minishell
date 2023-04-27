@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:27:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:15:37 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,11 @@ char	*clean_prompt(char *prompt)
 	return (new_prompt);
 }
 
-void	split_input(char *prompt, char **env, t_data *data)
+void	split_input(char *prompt, t_data *data)
 {
-	//t_data	data;
-	int		i;
+	int	i;
 
 	i = -1;
-	//dup_env(&data, env);
 	data->clean_prompt = clean_prompt(prompt);
 	data->clean_prompt = handle_quotes(data, i);
 	if (data->clean_prompt == NULL)
@@ -99,7 +97,6 @@ void	split_input(char *prompt, char **env, t_data *data)
 		return ;
 	final_arg(data);
 	token(data);
-	launcher(env, data);
-	//free_parsing_token(data);
+	launcher(data);
 	return ;
 }

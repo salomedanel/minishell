@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:30:01 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 16:57:07 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	char	**arg;
 	char	**f_arg;
 	char	**new_env;
+	char	**prev_env;
 	int		*ast;
 }			t_data;
 
@@ -53,7 +54,7 @@ typedef struct s_data
 int			count_metachar(char *prompt, int count);
 int			add_space(char *prompt, char *new_prompt);
 char		*clean_prompt(char *prompt);
-void		split_input(char *prompt, char **env, t_data *data);
+void		split_input(char *prompt, t_data *data);
 
 // parsing01
 int			check_otherquote(char *prompt, int i, int quote);
@@ -114,10 +115,11 @@ void		handle_sigquit(int sig);
 // free
 void		free_arg(t_data *data);
 int			mini_exit(t_data *data);
+int			freetab(char **tab);
 
 // builtins
 int			is_builtin(char *str);
-int			exec_builtin(char **envp, t_data *data);
+int			exec_builtin(t_data *data);
 void		mini_echo_loop(t_data *data, int i);
 int			mini_echo(t_data *data);
 int			mini_pwd(void);
@@ -131,11 +133,15 @@ int			mini_cd(t_data *data);
 
 // env
 int			mini_env(t_data *data);
-int			mini_export(char **envp, t_data *data);
-int			mini_unset(char **envp, t_data *data);
+int			mini_export(t_data *data);
+int			mini_unset(t_data *data);
+
+// env_utlils
+void		dup_tab(char **tab1, char **tab2);
+int			var_to_unset(t_data *data);
 
 // exec
-void		launcher(char **envp, t_data *data);
+void		launcher(t_data *data);
 
 #endif
 

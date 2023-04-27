@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/04/21 11:13:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 15:53:05 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	trim_dquotes(char *arg, t_data *data, int index)
 
 	i = 0;
 	j = 0;
+	printf("trim dquotes\n");
 	while (arg[i])
 	{
 		if (arg[i] != '"')

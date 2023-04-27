@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:20:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 16:47:57 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		prompt = readline("minishell> ");
 		add_history(prompt);
-		split_input(prompt, env, &data);
+		split_input(prompt, &data);
 		if (prompt == NULL)
 			break ;
 	}

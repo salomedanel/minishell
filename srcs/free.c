@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:34:41 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:15:04 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,20 @@ int	mini_exit(t_data *data)
 	free(data->f_arg);
 	free(data->ast);
 	exit(0);
+}
+
+int	freetab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	if (!tab)
+		return (0);
+	while (tab[++i])
+	{
+		tab[i] = NULL;
+		free(tab[i]);
+	}
+	free(tab);
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:58:45 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/25 16:34:18 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:15:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-void	launcher(char **envp, t_data *data)
+void	launcher(t_data *data)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ void	launcher(char **envp, t_data *data)
 	while (data->f_arg[i])
 	{
 		if (data->ast[i] == T_BUILTIN)
-			exec_builtin(envp, data);
+			exec_builtin(data);
 		i++;
 	}
 }

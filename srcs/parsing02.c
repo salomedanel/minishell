@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:01:59 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:12:35 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,13 @@ int	new_len(char *arg, t_data *data)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '\'')
-		return (ft_strlen(arg) - count_squotes(arg));
+	while (arg[i])
+	{
+		if (arg[0] == '\'')
+			return (ft_strlen(arg) - count_squotes(arg));
+		i++;
+	}
+	i = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '$')
@@ -53,8 +58,13 @@ int	new_len(char *arg, t_data *data)
 	}
 	// if (str_contains_dollar(arg) == 1)
 	// 	return (var_len(arg, data));
-	if (arg[0] == '"')
-		return (ft_strlen(arg) - count_dquotes(arg));
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[0] == '"')
+			return (ft_strlen(arg) - count_dquotes(arg));
+		i++;
+	}
 	return (ft_strlen(arg));
 }
 
@@ -63,11 +73,16 @@ void	new_words(char *arg, t_data *data, int index)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '\'')
+	while (arg[i])
 	{
-		trim_squotes(arg, data, index);
-		return ;
+		if (arg[i] == '\'')
+		{
+			trim_squotes(arg, data, index);
+			return ;
+		}
+		i++;
 	}
+	i = 0;
 	while (arg[i])
 	{
 		while (arg[i] == '$')
@@ -77,10 +92,15 @@ void	new_words(char *arg, t_data *data, int index)
 		}
 		i++;
 	}
-	if (arg[0] == '"')
+	i = 0;
+	while (arg[i])
 	{
-		trim_dquotes(arg, data, index);
-		return ;
+		if (arg[i] == '"')
+		{
+			trim_dquotes(arg, data, index);
+			return ;
+		}
+		i++;
 	}
 	ft_strcpy(data->f_arg[index], arg, 0);
 	return ;

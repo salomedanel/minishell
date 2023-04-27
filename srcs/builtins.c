@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 16:34:16 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:14:20 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int	exec_builtin(char **envp, t_data *data)
+int	exec_builtin(t_data *data)
 {
 	int	i;
 	int	len;
@@ -56,9 +56,9 @@ int	exec_builtin(char **envp, t_data *data)
 			if (!ft_strncmp(data->f_arg[i], "pwd", len) && len == 3)
 				return (mini_pwd());
 			if (!ft_strncmp(data->f_arg[i], "export", len) && len == 6)
-				return (mini_export(envp, data));
+				return (mini_export(data));
 			if (!ft_strncmp(data->f_arg[i], "unset", len) && len == 5)
-				return (mini_unset(envp, data));
+				return (mini_unset(data));
 			if (!ft_strncmp(data->f_arg[i], "env", len) && len == 3)
 				return (mini_env(data));
 			if (!ft_strncmp(data->f_arg[i], "exit", len) && len == 4)
@@ -104,7 +104,7 @@ int	mini_echo(t_data *data)
 
 int	mini_pwd(void)
 {
-	char *buf;
+	char	*buf;
 
 	buf = getcwd(NULL, 0);
 	ft_putendl_fd(buf, 1);
