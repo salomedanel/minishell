@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils01.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/04/27 15:53:05 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 17:41:22 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	trim_dquotes(char *arg, t_data *data, int index)
 
 	i = 0;
 	j = 0;
-	printf("trim dquotes\n");
 	while (arg[i])
 	{
 		if (arg[i] != '"')

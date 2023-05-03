@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing02.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/27 17:12:35 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 15:10:47 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	final_arg(t_data *data)
 	int	i;
 
 	i = 0;
+	print_arg(data->arg);
 	while (data->arg[i])
 		i++;
 	data->f_arg = malloc(sizeof(char *) * (i + 1));

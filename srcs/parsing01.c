@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing01.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/25 10:52:42 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:25:53 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	space_squotes(t_data *data)
 	return (0);
 }
 
-char	*handle_quotes(t_data *data, int i)
+char	*handle_quotesbis(t_data *data, int i)
 {
 	int	qtype;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/04/27 17:14:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 10:35:47 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,11 @@ int	var_len(char *arg, t_data *data)
 {
 	int	i;
 	int	len;
-	int	in_doll;
+	//int	in_doll;
 
 	i = 0;
 	len = 0;
-	in_doll = 0;
+	//in_doll = 0;
 	while (arg[i])
 	{
 		while (arg[i] != '$' && arg[i] != '"')

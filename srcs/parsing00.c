@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing00.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/27 17:15:37 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:25:23 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	split_input(char *prompt, t_data *data)
 
 	i = -1;
 	data->clean_prompt = clean_prompt(prompt);
+	//data->clean_prompt = handle_quotes(data, i);
 	data->clean_prompt = handle_quotes(data, i);
 	if (data->clean_prompt == NULL)
 		return ;

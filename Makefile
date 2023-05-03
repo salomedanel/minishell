@@ -10,6 +10,7 @@ SRC =	main \
 		parsing02 \
 		parsing_utils00 \
 		parsing_utils01 \
+		handle_quotes \
 		pars_error \
 		var_env \
 		builtins \

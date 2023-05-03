@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/27 16:57:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:25:59 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ void		split_input(char *prompt, t_data *data);
 int			check_otherquote(char *prompt, int i, int quote);
 int			space_dquotes(t_data *data);
 int			space_squotes(t_data *data);
-char		*handle_quotes(t_data *data, int i);
+char		*handle_quotesbis(t_data *data, int i);
 int			split_space(t_data *data, int i);
+
+// handle_quotes
+int			check_quotes_open(t_data *data, int dquotes, int squotes);
+void		close_quotes(t_data *data, int *dq_open, int *sq_open, int i);
+char		*handle_quotes(t_data *data, int i);
 
 // parsing02
 int			quote_finalcheck(t_data *data);
