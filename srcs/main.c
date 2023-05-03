@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/27 16:47:57 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/03 15:22:24 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigquit);
 	dup_env(&data, env);
 	while (1)
 	{

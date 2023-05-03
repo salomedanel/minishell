@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/04/24 16:18:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/03 17:12:00 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	token(t_data *data)
 		return ;
 	if (token_command_option(data) == -1)
 		return ;
-	print_arg_ast(data);
+	//print_arg_ast(data);
 }
 
 int	token_metachar(t_data *data)

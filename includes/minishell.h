@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/03 11:23:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/03 16:59:25 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,17 @@ typedef struct s_data
 int			count_metachar(char *prompt, int count);
 int			add_space(char *prompt, char *new_prompt);
 char		*clean_prompt(char *prompt);
-void		split_input(char *prompt, t_data *data);
-
-// parsing01
-int			check_otherquote(char *prompt, int i, int quote);
-int			space_dquotes(t_data *data);
-int			space_squotes(t_data *data);
-char		*handle_quotesbis(t_data *data, int i);
 int			split_space(t_data *data, int i);
+void		split_input(char *prompt, t_data *data);
 
 // handle_quotes
 int			check_quotes_open(t_data *data, int dquotes, int squotes);
-void		close_quotes(t_data *data, int *dq_open, int *sq_open, int i);
+void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
 char		*handle_quotes(t_data *data, int i);
+int			count_newlen(char *arg, int i, int count);
+void		trimquotes(char *arg, t_data *data, int index, int i);
 
-// parsing02
-int			quote_finalcheck(t_data *data);
+// parsing01
 int			new_len(char *arg, t_data *data);
 void		new_words(char *arg, t_data *data, int index);
 void		final_arg(t_data *data);
@@ -77,14 +72,14 @@ void		final_arg(t_data *data);
 // parsing_utils00
 int			is_metachar(char c);
 int			cpy_prompt(char *prompt, char *new_prompt, int j, int i);
-int			count_dquotes(char *arg);
-int			count_squotes(char *arg);
+int			open_quotes(char c, int *dq_open, int *sq_open, int *count);
+int			close_quotes(char c, int *dq_open, int *sq_open, int *count);
 void		print_arg(char **arg);
 
 // parsing_utils01
-void		trim_squotes(char *arg, t_data *data, int index);
-void		trim_dquotes(char *arg, t_data *data, int index);
+void		trimquotes_utils(char c, int *dq_open, int *sq_open, int *i);
 void		ft_strcpy(char *dest, char *src, int start);
+int			contains_quotes(char *arg);
 
 // pars_err
 void		quote_err(t_data *data, char *err, char quote);
@@ -152,11 +147,3 @@ int			var_to_unset(t_data *data);
 void		launcher(t_data *data);
 
 #endif
-
-/*
-
-      
-avion$123 $-avion  $PATH$PATH$Gsdfdsfd avion
-avion23$-avion
-
-*/

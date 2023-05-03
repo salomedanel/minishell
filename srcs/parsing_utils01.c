@@ -3,51 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils01.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/02 17:41:22 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/03 17:10:20 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	trim_squotes(char *arg, t_data *data, int index)
+void	trimquotes_utils(char c, int *dq_open, int *sq_open, int *i)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (arg[i])
+	if (c == '"' && *dq_open == 0 && *sq_open == 0)
 	{
-		if (arg[i] != '\'')
-		{
-			data->f_arg[index][j] = arg[i];
-			j++;
-		}
-		i++;
+		*dq_open = 1;
+		*i = *i + 1;
 	}
-	data->f_arg[index][j] = '\0';
-}
-
-void	trim_dquotes(char *arg, t_data *data, int index)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (arg[i])
+	if (c == '\'' && *dq_open == 0 && *sq_open == 0)
 	{
-		if (arg[i] != '"')
-		{
-			data->f_arg[index][j] = arg[i];
-			j++;
-		}
-		i++;
+		*sq_open = 1;
+		*i = *i + 1;
 	}
-	data->f_arg[index][j] = '\0';
+	return ;
 }
 
 void	ft_strcpy(char *dest, char *src, int start)
@@ -65,4 +42,18 @@ void	ft_strcpy(char *dest, char *src, int start)
 	}
 	dest[i] = '\0';
 	return ;
+}
+
+int		contains_quotes(char *arg)
+{
+	int	i;
+	
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '"' || arg[i] == '\'')
+			return (1);
+		i++;
+	}
+	return (0);
 }

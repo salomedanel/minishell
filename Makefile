@@ -7,7 +7,6 @@ DIRLIB = ./libft/
 SRC =	main \
 		parsing00 \
 		parsing01 \
-		parsing02 \
 		parsing_utils00 \
 		parsing_utils01 \
 		handle_quotes \

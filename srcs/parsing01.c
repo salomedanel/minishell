@@ -3,138 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   parsing01.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 14:18:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/02 18:25:53 by danelsalome      ###   ########.fr       */
+/*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
+/*   Updated: 2023/05/03 17:11:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_otherquote(char *prompt, int i, int quote)
+int	new_len(char *arg, t_data *data)
 {
-	while (prompt[i])
+	int	i;
+	int	count;
+
+	i = 0;
+	while (arg[i])
 	{
-		if (prompt[i] == quote)
-			return (1);
+		if (arg[i] == '$')
+			return (check_varenv(data, &arg[i]));
 		i++;
 	}
-	return (0);
+	i = -1;
+	count = ft_strlen(arg);
+	return (count_newlen(arg, i, count));
 }
 
-int	space_dquotes(t_data *data)
+void	new_words(char *arg, t_data *data, int index)
 {
 	int	i;
 
 	i = 0;
-	while (i < ft_strlen(data->clean_prompt) && data->clean_prompt[i])
+	while (arg[i])
 	{
-		if (data->clean_prompt[i] == '"')
+		while (arg[i] == '$')
 		{
-			i++;
-			if (check_otherquote(data->clean_prompt, i, '"') == 0)
-				return (1);
-			if (data->clean_prompt[i] == '"')
-				i++;
-			while (data->clean_prompt[i] && data->clean_prompt[i] != '"')
-			{
-				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = 31;
-				i++;
-			}
-			if (data->clean_prompt[i] == '"' && data->clean_prompt[i + 1] == '"'
-				&& count_dquotes(data->clean_prompt) % 2 == 0)
-				return (0);
+			replace_dollar(arg, data, index);
+			return ;
 		}
 		i++;
 	}
-	return (0);
+	i = -1;
+	if (contains_quotes(arg) == 0)
+		ft_strcpy(data->f_arg[index], arg, 0);
+	else 
+		trimquotes(arg, data, index, i);
+	return ;
 }
 
-int	space_squotes(t_data *data)
+void	final_arg(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < ft_strlen(data->clean_prompt) && data->clean_prompt[i])
+	while (data->arg[i])
+		i++;
+	data->f_arg = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (data->arg[i])
 	{
-		if (data->clean_prompt[i] == '\'')
-		{
-			i++;
-			if (check_otherquote(data->clean_prompt, i, '\'') == 0)
-				return (1);
-			if (data->clean_prompt[i] == '\'')
-				i++;
-			while (data->clean_prompt[i] && data->clean_prompt[i] != '\'')
-			{
-				if (data->clean_prompt[i] == 32)
-					data->clean_prompt[i] = 31;
-				i++;
-			}
-			if (data->clean_prompt[i] == '\'' && data->clean_prompt[i
-					+ 1] == '\'' && count_squotes(data->clean_prompt) % 2 == 0)
-				return (0);
-		}
+		data->f_arg[i] = malloc(sizeof(char) * (new_len(data->arg[i], data)
+					+ 1));
+		new_words(data->arg[i], data, i);
 		i++;
 	}
-	return (0);
-}
-
-char	*handle_quotesbis(t_data *data, int i)
-{
-	int	qtype;
-
-	qtype = 0;
-	while (data->clean_prompt[++i])
-	{
-		if (data->clean_prompt[i] == '"' && (qtype == 0 || qtype == 2))
-		{
-			qtype = 2;
-			if (space_dquotes(data) == 1)
-			{
-				quote_err(data, QUOTE_ERR, '"');
-				return (NULL);
-			}
-		}
-		else if (data->clean_prompt[i] == '\'' && (qtype == 0 || qtype == 1))
-		{
-			qtype = 1;
-			if (space_squotes(data) == 1)
-			{
-				quote_err(data, QUOTE_ERR, '\'');
-				return (NULL);
-			}
-		}
-	}
-	return (data->clean_prompt);
-}
-
-int	split_space(t_data *data, int i)
-{
-	int	j;
-
-	j = 0;
-	data->arg = ft_split(data->clean_prompt, 32);
-	if (quote_finalcheck(data) == 1)
-		return (-1);
-	while (data->arg[++i])
-	{
-		while (data->arg[i][j])
-		{
-			if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
-			{
-				while (data->arg[i][j])
-				{
-					if (data->arg[i][j] == 31)
-						data->arg[i][j] = 32;
-					j++;
-				}
-			}
-			if (j < ft_strlen(data->arg[i]))
-				j++;
-		}
-		j = 0;
-	}
-	return (0);
+	data->f_arg[i] = NULL;
+	free_arg(data);
+	return ;
 }
