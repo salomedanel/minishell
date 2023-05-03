@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+         #
+#    By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 11:05:17 by tmichel-          #+#    #+#              #
-#    Updated: 2023/04/12 16:30:38 by tmichel-         ###   ########.fr        #
+#    Updated: 2023/05/03 11:22:23 by sdanel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS	= ft_atoi.c\
 		  ft_strcmp.c\
 		  ft_atof.c\
 		  ft_countchar.c\
+		  ft_isspecialchar.c\
 
 OBJS		= ${SRCS:.c=.o}
 

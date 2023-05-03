@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   ft_isspecialchar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 11:58:45 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:22:28 by tmichel-         ###   ########.fr       */
+/*   Created: 2023/04/27 14:48:30 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/05/02 18:16:24 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-extern int	g_exit_code;
-
-void	launcher(t_data *data)
+int	ft_isspecialchar(int c)
 {
-	int	i;
-
-	i = 0;
-	while (data->f_arg[i])
-	{
-		if (data->ast[i] == T_BUILTIN)
-			exec_builtin(data);
-		i++;
-	}
+	if (c == 39 || c == '"' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
+	return (0);
 }

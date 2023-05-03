@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:25:58 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/12 16:30:20 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:21:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
 # include <ctype.h>
-# include <string.h>
-# include <stdarg.h>
 # include <fcntl.h>
+# include <stdarg.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 typedef struct s_list
 {
@@ -48,6 +48,7 @@ int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
+int					ft_isspecialchar(int c);
 
 //str
 int					ft_countchar(char *str, char c);

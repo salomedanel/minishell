@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/02 18:25:59 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/03 11:23:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,11 @@ int			mini_env(t_data *data);
 int			mini_export(t_data *data);
 int			mini_unset(t_data *data);
 
-// env_utlils
+//env_utils
 void		dup_tab(char **tab1, char **tab2);
+int			parse_var_to_exp(char *var);
+int			count_var_to_exp(t_data *data);
+int			export_exist(t_data *data, char *var);
 int			var_to_unset(t_data *data);
 
 // exec

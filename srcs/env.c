@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/27 16:39:02 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/02 23:10:40 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	mini_export(t_data *data)
 	int	i;
 	int	j;
 
+	j = count_var_to_exp(data);
+	if (j == 1)
+		return (g_exit_code = 1);
 	i = freetab(data->new_env);
 	if (i == 0)
 		return (g_exit_code = 1);
-	j = 0;
-	while (data->f_arg[j])
-		j++;
 	data->new_env = calloc(i + j, sizeof(char *));
 	if (!data->new_env)
 		return (g_exit_code = 1);
@@ -44,7 +44,7 @@ int	mini_export(t_data *data)
 	j = 0;
 	while (data->f_arg[++j])
 	{
-		if (ft_strchr(data->f_arg[j], 61))
+		if (export_exist(data, data->f_arg[j]) && ft_strchr(data->f_arg[j], 61))
 			data->new_env[i++] = ft_strdup(data->f_arg[j]);
 	}
 	data->new_env[i] = NULL;
@@ -58,21 +58,28 @@ int	mini_unset(t_data *data)
 {
 	int	i;
 	int	j;
+	int k;
 	int	len;
 
 	i = var_to_unset(data);
-	j = freetab(data->new_env);
-	data->new_env = malloc(sizeof(char *) * (j - i));
+	freetab(data->new_env);
+	data->new_env = malloc(sizeof(char *) * i);
 	if (!data->new_env)
 		return (g_exit_code = 1);
 	j = -1;
 	while (data->new_env[++j])
 	{
-		len = ft_strlen(data->arg[j]);
-		if (!ft_strncmp(data->new_env[j], data->f_arg[j], len))
-			j++;
-		data->new_env[j] = ft_strdup(data->prev_env[j]);
+		k = 0;
+		while (data->f_arg[++k])
+		{
+			len = ft_strlen(data->f_arg[k]);
+			printf("len = %d\n", len);
+			printf("cmp is %d\n", ft_strncmp(data->prev_env[j], data->f_arg[k], len));
+			if (ft_strncmp(data->prev_env[j], data->f_arg[k], len) != 0)
+				data->new_env[j] = ft_strdup(data->prev_env[j]);
+		}
 	}
+	printf("j = %d\n", j);
 	data->new_env[j] = NULL;
 	freetab(data->prev_env);
 	data->prev_env = malloc(sizeof(char *) * j);
