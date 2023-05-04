@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/02 23:12:04 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:57:04 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	parse_var_to_exp(char *var)
 
 	i = -1;
 	j = 0;
-	while (var[++i] != '=')
+	while (var[++i] && var[++i] != '=')
 		if (ft_isspecialchar(var[i]) == 1)
 			j++;
 	if (j > 0)
@@ -91,13 +91,13 @@ int	export_exist(t_data *data, char *var)
 	int	i;
 	int	j;
 
-	i = 0;
 	j = -1;
-	while (var[i] && var[i] != '=')
-		i++;
 	while (data->new_env[++j])
 	{
-		if (ft_strncmp(data->new_env[j], var, i) == 0)
+		i = 0;
+		while (data->new_env[j][i] && data->new_env[j][i] != '=')
+			i++;
+		if (var[i] && ft_strncmp(data->new_env[j], var, i) == 0)
 		{
 			free(data->new_env[j]);
 			data->new_env[j] = ft_strdup(var);
@@ -111,30 +111,42 @@ int	var_to_unset(t_data *data)
 {
 	int	i;
 	int	j;
-	int k;
+	int	k;
 	int	len;
 
 	i = 0;
 	j = 0;
 	while (data->new_env[i])
 		i++;
-	// printf("il y a %d variables\n", i);	
 	while (data->f_arg[++j])
 	{
-		// A TESTER SUR BASH 42
-		// if (ft_strchr(data->f_arg[j], '='))
-		// {
-		// 	g_exit_code = 1;
-		// 	ft_putstr_fd("unset: ", 2);
-		// 	ft_putstr_fd(data->f_arg[j], 2);
-		// 	ft_putendl_fd(": invalid parameter name", 2);
-		// }
 		len = ft_strlen(data->f_arg[j]);
 		k = -1;
 		while (data->new_env[++k])
 			if (!ft_strncmp(data->new_env[k], data->f_arg[j], len))
 				i--;
 	}
-	// printf("il reste %d variables\n", i);
 	return (i);
+}
+
+int	check_unset(char **var_to_unset, char *var_to_check)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = -1;
+	j = 0;
+	len = 0;
+	while (var_to_check[++i] && var_to_check[i] != '=')
+		len++;
+	i = -1;
+	while (var_to_unset[++i])
+	{
+		if (!ft_strncmp(var_to_unset[i], var_to_check, len))
+			j++;
+	}
+	if (j == 0)
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/03 17:11:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:56:16 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	new_words(char *arg, t_data *data, int index)
 	i = -1;
 	if (contains_quotes(arg) == 0)
 		ft_strcpy(data->f_arg[index], arg, 0);
-	else 
+	else
 		trimquotes(arg, data, index, i);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/03 16:59:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:59:32 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int			parse_var_to_exp(char *var);
 int			count_var_to_exp(t_data *data);
 int			export_exist(t_data *data, char *var);
 int			var_to_unset(t_data *data);
+int			check_unset(char **var_to_unset, char *var_to_check);
 
 // exec
 void		launcher(t_data *data);

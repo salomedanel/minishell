@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/03 16:46:48 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:53:38 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,25 @@ void	trimquotes(char *arg, t_data *data, int index, int i)
 	{
 		trimquotes_utils(arg[i], &dq_open, &sq_open, &i);
 		if (arg[i] == '"' && dq_open == 1)
-			dq_open = 0;
-		if (arg[i] == '\'' && sq_open == 1)
-			sq_open = 0;
-		if ((arg[i] != '"' && dq_open == 1) || (arg[i] != '\'' && sq_open == 1))
 		{
-			data->f_arg[index][j] = arg[i];
-			j++;
+			dq_open = 0;
+			i++;
 		}
+		if (arg[i] == '\'' && sq_open == 1)
+		{
+			sq_open = 0;
+			i++;
+		}
+		if ((arg[i] == '"' && sq_open == 0) || (arg[i] == '\''&& dq_open == 0))
+		{
+			if (arg[i] == '"' && dq_open == 0)
+				dq_open = 1;
+			else if (arg[i] == '\'' && sq_open == 0)
+				sq_open = 1;
+			continue ;
+		}
+		data->f_arg[index][j] = arg[i];
+		j++;
 	}
 	data->f_arg[index][j] = '\0';
 
