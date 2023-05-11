@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/04 14:59:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/10 18:45:12 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ int			is_in_env(char *arg, t_data *data, int index);
 int			var_len(char *arg, t_data *data);
 int			str_contains_dollar(char *str);
 int			str_contains_dollar(char *str);
+
+// var_env bis
+int 		len_env(char *arg, t_data *data);
 
 // token
 void		token(t_data *data);

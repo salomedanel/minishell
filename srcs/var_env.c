@@ -6,7 +6,7 @@
 /*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/02 10:35:47 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/10 19:12:09 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,27 @@ int	check_varenv(t_data *data, char *arg)
 {
 	int	i;
 	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
+	k = 0;
+	printf("check varenv\n");
 	while (data->new_env[i])
 	{
+		printf("check varenv1\n");
 		while (data->new_env[i][j])
 		{
 			if (data->new_env[i][j] == '=')
 			{
-				if (arg[j + 1] == data->new_env[i][j])
+				printf("check varenv2\n");
+				printf("env[%d] = %s\n", i, data->new_env[i]);
+				printf("arg = %s | j + 1 = %c\n", arg, arg[j + 1]);
+				if (arg[k + 1] == data->new_env[i][j])
+				{
+					printf("len varenv = %d\n", len_varenv(data->new_env[i] - 1));
 					return (len_varenv(data->new_env[i]) - 1);
+				}
 			}
 			j++;
 		}
@@ -203,7 +213,6 @@ int	str_contains_dollar(char *str)
 	int i;
 
 	i = 0;
-	printf("contains dollar\n");
 	while (str[i])
 	{
 		if (str[i] == '$')
