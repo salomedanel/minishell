@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/11 11:50:05 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/11 15:33:13 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	char	**new_env;
 	char	**prev_env;
 	int		*ast;
+	int		count;
 }			t_data;
 
 // parsing00
@@ -61,7 +62,7 @@ void		split_input(char *prompt, t_data *data);
 int			check_quotes_open(t_data *data, int dquotes, int squotes);
 void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
 char		*handle_quotes(t_data *data, int i);
-int			count_newlen(char *arg, int i, int count);
+int			count_newlen(char *arg, int i, t_data *data);
 void		trimquotes(char *arg, t_data *data, int index, int i);
 
 // parsing01
@@ -89,7 +90,6 @@ void		metachar_err(t_data *data, char *err, char *metachar);
 
 // var_env
 void		dup_env(t_data *data, char **env);
-int			len_varenv(char *varenv);
 int			strncmp_dollar(char *env, char *arg);
 int			check_varenv(t_data *data, char *arg);
 void		replace_dollar(char *arg, t_data *data, int index);
@@ -99,7 +99,8 @@ int			str_contains_dollar(char *str);
 int			str_contains_dollar(char *str);
 
 // var_env bis
-int 		len_env(char *arg, t_data *data);
+int			len_varenv(char *varenv);
+int			len_env(char *arg, t_data *data, int *i, int *sq_open);
 
 // token
 void		token(t_data *data);

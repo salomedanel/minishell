@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:29:32 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/04/24 18:28:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/11 15:39:04 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,32 @@ int	count_args(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->arg[i])
+	while (data->f_arg[i])
 		i++;
 	return (i);
 }
 
 void	exec_cd(t_data *data)
 {
-	if (!chdir(data->arg[1]))
-	{
-		set_old_pwd(data);
+	set_old_pwd(data);
+	if (!chdir(data->f_arg[1]))
 		set_pwd(data);
-	}
 	else
 	{
 		ft_putstr_fd("cd: ", 2);
 		ft_putstr_fd(data->f_arg[1], 2);
-		ft_putstr_fd(" No such file or directory", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
 	}	
 }
 
 int	mini_cd(t_data *data)
 {
 	int		i;
+	int		j;
 	char	*tmp;
 
 	i = count_args(data);
+	j = -1;
 	if (i > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
@@ -87,11 +87,18 @@ int	mini_cd(t_data *data)
 	}
 	if (i == 1)
 	{
-		set_old_pwd(data);
-		tmp = ft_strdup("~");
-		chdir(tmp);
-		free(tmp);
-		set_pwd(data);
+		while (data->new_env[++j])
+		{
+			if (!ft_strncmp(data->new_env[j], "HOME=", 5))
+			{
+				set_old_pwd(data);
+				tmp = ft_strdup(data->new_env[j] + 5);
+				chdir(tmp);
+				free(tmp);
+				set_pwd(data);
+				break ;
+			}
+		}
 	}
 	else
 		exec_cd(data);

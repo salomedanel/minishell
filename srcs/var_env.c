@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/11 12:01:01 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/11 13:49:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,6 @@ void	dup_env(t_data *data, char **env)
 	}
 	data->prev_env[i] = NULL;
 	data->new_env[i] = NULL;
-}
-
-int	len_varenv(char *varenv)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (varenv[i] != '=')
-		i++;
-	while (varenv[i])
-	{
-		count++;
-		i++;
-	}
-	printf("len = %d\n", count);
-	return (count);
 }
 
 int	strncmp_dollar(char *env, char *arg)

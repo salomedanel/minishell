@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/11 11:57:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/11 15:35:12 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,35 @@ void	replace_space(t_data *data, int *dq_open, int *sq_open, int i)
 		data->clean_prompt[i] = 31;
 }
 
-int	count_newlen(char *arg, int i, int count)
+int	count_newlen(char *arg, int i, t_data *data)
 {
 	int	dq_open;
 	int	sq_open;
 
 	dq_open = 0;
 	sq_open = 0;
+	//printf("count = %d\n", data->count);
 	while (arg[++i])
 	{
 		if (arg[i] == '"' && sq_open == 0 && dq_open == 0)
 		{
-			count = open_quotes(arg[i], &dq_open, &sq_open, &count);
+			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
 			i++;
 		}
+		data->count = len_env(arg, data, &i, &sq_open);
+		//printf("i = %d\n", i);
 		if (arg[i] == '\'' && sq_open == 0 && dq_open == 0)
 		{
-			count = open_quotes(arg[i], &dq_open, &sq_open, &count);
+			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
 			i++;
 		}
 		if (arg[i] == '"' && dq_open == 1)
-			count = close_quotes(arg[i], &dq_open, &sq_open, &count);
+			data->count = close_quotes(arg[i], &dq_open, &sq_open, &data->count);
 		if (arg[i] == '\'' && sq_open == 1)
-			count = close_quotes(arg[i], &dq_open, &sq_open, &count);
+			data->count = close_quotes(arg[i], &dq_open, &sq_open, &data->count);
 	}
-	return (count);
+	//printf("count = %d\n", data->count);
+	return (data->count);
 }
 
 void	trimquotes(char *arg, t_data *data, int index, int i)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing01.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/10 18:58:28 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/11 13:53:51 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	new_len(char *arg, t_data *data)
 {
 	int	i;
-	int	count;
+	//int	count;
 
-	if (str_contains_dollar(arg) == 1)
-		return (len_env(arg, data));
+	// if (str_contains_dollar(arg) == 1)
+	// 	return (len_env(arg, data));
 	i = -1;
-	count = ft_strlen(arg);
-	return (count_newlen(arg, i, count));
+	data->count = ft_strlen(arg);
+	return (count_newlen(arg, i, data));
 }
 
 void	new_words(char *arg, t_data *data, int index)
@@ -39,10 +39,7 @@ void	new_words(char *arg, t_data *data, int index)
 		i++;
 	}
 	i = -1;
-	if (contains_quotes(arg) == 0)
-		ft_strcpy(data->f_arg[index], arg, 0);
-	else
-		trimquotes(arg, data, index, i);
+	trimquotes(arg, data, index, i);
 	return ;
 }
 
