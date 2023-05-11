@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/04 14:56:36 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:54:12 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	mini_export(t_data *data)
 	i = freetab(data->new_env);
 	if (i == 0)
 		return (g_exit_code = 1);
-	data->new_env = calloc(i + j, sizeof(char *));
+	data->new_env = ft_calloc(i + j, sizeof(char *));
 	if (!data->new_env)
 		return (g_exit_code = 1);
 	dup_tab(data->prev_env, data->new_env);
@@ -56,28 +56,20 @@ int	mini_unset(t_data *data)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	len;
 
 	i = var_to_unset(data);
 	if (i == 1)
 		return (g_exit_code = 1);
 	freetab(data->new_env);
-	data->new_env = malloc(sizeof(char *) * (i + 1));
+	data->new_env = ft_calloc(i + 1, sizeof(char *));
 	if (!data->new_env)
 		return (g_exit_code = 1);
-	k = 0;
 	i = 0;
-	while (data->f_arg[++k])
+	j = -1;
+	while (data->prev_env[++j])
 	{
-		len = ft_strlen(data->f_arg[k]);
-		j = -1;
-		while (data->prev_env[++j])
-		{
-			if (ft_strncmp(data->prev_env[j], data->f_arg[k], len) != 0
-				&& check_unset(data->f_arg, data->prev_env[j]) == 1)
-				data->new_env[i++] = ft_strdup(data->prev_env[j]);
-		}
+		if (check_unset(data->f_arg, data->prev_env[j]) == 0)
+			data->new_env[i++] = ft_strdup(data->prev_env[j]);
 	}
 	data->new_env[i] = NULL;
 	freetab(data->prev_env);

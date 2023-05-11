@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/04 14:57:04 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:06:51 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,6 @@ void	dup_tab(char **tab1, char **tab2)
 	tab2[i] = NULL;
 }
 
-// char	*get_clean_var(char *var)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	len;
-// 	char	*clean;
-
-// 	i = -1;
-// 	j = 0;
-// 	len = ft_strlen(var);
-// 	while (var[++i] != '=')
-// 		if (ft_isspecialchar(var[j]) == 1)
-// 			j++;
-// 	clean = malloc(sizeof(char) * (len - j + 1));
-// 	if (!clean)
-// 		return (NULL);
-// 	i = 1;
-// 	while(var[i] != '=')
-// 	{
-// 		if (ft_isspecialchar(var[i]) == 1)
-// 			i++;
-// 		clean[i] = var[i];
-// 		i++;
-// 	}
-// 	clean[i] = '\0';
-// 	return (clean);
-// }
-
 int	parse_var_to_exp(char *var)
 {
 	int		i;
@@ -59,31 +31,42 @@ int	parse_var_to_exp(char *var)
 
 	i = -1;
 	j = 0;
-	while (var[++i] && var[++i] != '=')
+	while (var[++i] && var[i] != '=')
 		if (ft_isspecialchar(var[i]) == 1)
 			j++;
 	if (j > 0)
 		return (1);
+	i = -1;
+	while (var[++i])
+		if (var[i] == '=')
+			break ;
+	if (i == ft_strlen(var))
+		return (2);
 	return (0);
 }
 
 int	count_var_to_exp(t_data *data)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (data->f_arg[i])
+	i = -1;
+	count = 1;
+	while (data->f_arg[++i])
 	{
-		if (parse_var_to_exp(data->f_arg[i]) == 1)
+		if (parse_var_to_exp(data->f_arg[i]) == 0)
+			count++;
+		else if (parse_var_to_exp(data->f_arg[i]) == 1)
 		{
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(data->f_arg[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			return (g_exit_code = 1);
 		}
-		i++;
+		else if (parse_var_to_exp(data->f_arg[i]) == 2)
+			continue ;
 	}
-	return (i);
+	return (count);
 }
 
 int	export_exist(t_data *data, char *var)
@@ -95,9 +78,13 @@ int	export_exist(t_data *data, char *var)
 	while (data->new_env[++j])
 	{
 		i = 0;
-		while (data->new_env[j][i] && data->new_env[j][i] != '=')
+		while (data->new_env[j][i])
+		{
 			i++;
-		if (var[i] && ft_strncmp(data->new_env[j], var, i) == 0)
+			if (data->new_env[j][i] == '=')
+				break ;
+		}
+		if (var[i] && ft_strncmp(data->new_env[j], var, i + 1) == 0)
 		{
 			free(data->new_env[j]);
 			data->new_env[j] = ft_strdup(var);
@@ -109,10 +96,11 @@ int	export_exist(t_data *data, char *var)
 
 int	var_to_unset(t_data *data)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	len;
+	int		i;
+	int		j;
+	int		k;
+	int		len;
+	char	*var;
 
 	i = 0;
 	j = 0;
@@ -120,10 +108,11 @@ int	var_to_unset(t_data *data)
 		i++;
 	while (data->f_arg[++j])
 	{
-		len = ft_strlen(data->f_arg[j]);
+		var = ft_strjoin(data->f_arg[j], "=");
+		len = ft_strlen(var);
 		k = -1;
 		while (data->new_env[++k])
-			if (!ft_strncmp(data->new_env[k], data->f_arg[j], len))
+			if (!ft_strncmp(data->new_env[k], var, len))
 				i--;
 	}
 	return (i);
@@ -134,19 +123,18 @@ int	check_unset(char **var_to_unset, char *var_to_check)
 	int	i;
 	int	j;
 	int	len;
+	char *var;
 
-	i = -1;
 	j = 0;
-	len = 0;
-	while (var_to_check[++i] && var_to_check[i] != '=')
-		len++;
-	i = -1;
+	i = 0;
 	while (var_to_unset[++i])
 	{
-		if (!ft_strncmp(var_to_unset[i], var_to_check, len))
+		var = ft_strjoin(var_to_unset[i], "=");
+		len = ft_strlen(var);
+		if (!ft_strncmp(var_to_check, var, len))
 			j++;
 	}
-	if (j == 0)
+	if (j > 0)
 		return (1);
 	return (0);
 }

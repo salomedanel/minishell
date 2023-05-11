@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/10 19:12:09 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/11 12:01:01 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,14 @@ int	check_varenv(t_data *data, char *arg)
 	i = 0;
 	j = 0;
 	k = 0;
-	printf("check varenv\n");
 	while (data->new_env[i])
 	{
-		printf("check varenv1\n");
 		while (data->new_env[i][j])
 		{
 			if (data->new_env[i][j] == '=')
 			{
-				printf("check varenv2\n");
-				printf("env[%d] = %s\n", i, data->new_env[i]);
-				printf("arg = %s | j + 1 = %c\n", arg, arg[j + 1]);
+				//printf("env[%d] = %s\n", i, data->new_env[i]);
+				//printf("arg = %s | k + 1 = %c\n", arg, arg[k + 1]);
 				if (arg[k + 1] == data->new_env[i][j])
 				{
 					printf("len varenv = %d\n", len_varenv(data->new_env[i] - 1));
@@ -104,6 +101,7 @@ int	check_varenv(t_data *data, char *arg)
 				}
 			}
 			j++;
+			k++;
 		}
 		j = 0;
 		i++;
@@ -174,11 +172,9 @@ int	var_len(char *arg, t_data *data)
 {
 	int	i;
 	int	len;
-	//int	in_doll;
 
 	i = 0;
 	len = 0;
-	//in_doll = 0;
 	while (arg[i])
 	{
 		while (arg[i] != '$' && arg[i] != '"')
@@ -204,7 +200,6 @@ int	var_len(char *arg, t_data *data)
 			len = len + is_in_env(arg, data, i + 1);
 		i++;
 	}
-	printf("len main function = %d\n", len);
 	return (len);
 }
 

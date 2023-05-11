@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/10 18:45:12 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/11 11:50:05 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int			close_quotes(char c, int *dq_open, int *sq_open, int *count);
 void		print_arg(char **arg);
 
 // parsing_utils01
-void		trimquotes_utils(char c, int *dq_open, int *sq_open, int *i);
+void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
+void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
 void		ft_strcpy(char *dest, char *src, int start);
 int			contains_quotes(char *arg);
 

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/04 14:53:38 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/11 11:57:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,9 @@ void	trimquotes(char *arg, t_data *data, int index, int i)
 	j = 0;
 	while (arg[++i])
 	{
-		trimquotes_utils(arg[i], &dq_open, &sq_open, &i);
-		if (arg[i] == '"' && dq_open == 1)
-		{
-			dq_open = 0;
-			i++;
-		}
-		if (arg[i] == '\'' && sq_open == 1)
-		{
-			sq_open = 0;
-			i++;
-		}
-		if ((arg[i] == '"' && sq_open == 0) || (arg[i] == '\''&& dq_open == 0))
+		trimquotes_utils1(arg[i], &dq_open, &sq_open, &i);
+		trimquotes_utils2(arg[i], &dq_open, &sq_open, &i);
+		if ((arg[i] == '"' && sq_open == 0) || (arg[i] == '\'' && dq_open == 0))
 		{
 			if (arg[i] == '"' && dq_open == 0)
 				dq_open = 1;
@@ -98,7 +89,6 @@ void	trimquotes(char *arg, t_data *data, int index, int i)
 		j++;
 	}
 	data->f_arg[index][j] = '\0';
-
 	return ;
 }
 
@@ -111,16 +101,7 @@ char	*handle_quotes(t_data *data, int i)
 	sq_open = 0;
 	while (data->clean_prompt[++i])
 	{
-		if (data->clean_prompt[i] == '"' && sq_open == 0 && dq_open == 0)
-		{
-			dq_open = 1;
-			i++;
-		}
-		if (data->clean_prompt[i] == '\'' && sq_open == 0 && dq_open == 0)
-		{
-			sq_open = 1;
-			i++;
-		}
+		trimquotes_utils1(data->clean_prompt[i], &dq_open, &sq_open, &i);
 		replace_space(data, &dq_open, &sq_open, i);
 	}
 	if (check_quotes_open(data, dq_open, sq_open) == 1)
