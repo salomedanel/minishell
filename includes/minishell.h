@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/13 13:08:59 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/15 17:49:44 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,18 @@ typedef struct s_data
 	char	**prev_env;
 	int		*ast;
 	int		count;
+	int		in;
+	int		out;
 }			t_data;
+
+typedef struct s_quotes
+{
+	int		dq_open;
+	int		sq_open;
+	char	*arg;
+	int		index;
+	int		counter;
+}			t_quotes;
 
 // parsing00
 int			count_metachar(char *prompt, int count);
@@ -62,24 +73,25 @@ void		split_input(char *prompt, t_data *data);
 int			check_quotes_open(t_data *data, int dquotes, int squotes);
 void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
 char		*handle_quotes(t_data *data, int i);
-int			count_newlen(char *arg, int i, t_data *data);
-void		trimquotes(char *arg, t_data *data, int index, int i);
+int			count_newlen(t_data *data, t_quotes *quotes);
+void		trimquotes(t_data *data, t_quotes *quotes, int i, int j);
 
 // parsing01
-int			new_len(char *arg, t_data *data);
-void		new_words(char *arg, t_data *data, int index);
+int			new_len(char *arg, t_data *data, t_quotes *quotes);
+void		new_words(char *arg, t_data *data, int index, t_quotes *quotes);
 void		final_arg(t_data *data);
 
 // parsing_utils00
 int			is_metachar(char c);
 int			cpy_prompt(char *prompt, char *new_prompt, int j, int i);
-int			open_quotes(char c, int *dq_open, int *sq_open, int *count);
-int			close_quotes(char c, int *dq_open, int *sq_open, int *count);
+int			open_quotes(char c, t_quotes *quotes, int *i, int *count);
+int			close_quotes(char c, t_quotes *quotes, int *count);
 void		print_arg(char **arg);
 
 // parsing_utils01
 void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
 void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
+int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 int			contains_quotes(char *arg);
 
@@ -90,8 +102,10 @@ void		metachar_err(t_data *data, char *err, char *metachar);
 
 // var_env
 void		dup_env(t_data *data, char **env);
-int			varenv_len(char *arg, t_data *data, int *i, int *sq_open);
-char		*replace_dollar(char *arg, int *i, int *sq_open);
+int			varenv_len(t_quotes *quotes, t_data *data, int *i);
+char		*replace_dollar(t_quotes *quotes, int *i, t_data *data);
+char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i, t_data *data);
+char		*ft_getenv(t_data *data, char *varname);
 
 // token
 void		token(t_data *data);
@@ -112,6 +126,7 @@ void		handle_sigquit(int sig);
 void		free_arg(t_data *data);
 int			mini_exit(t_data *data);
 int			freetab(char **tab);
+void		free_dobby(t_data *data);
 
 // builtins
 int			is_builtin(char *str);

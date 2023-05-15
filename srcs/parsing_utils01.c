@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/11 11:56:57 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:41:01 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,33 @@ void	trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i)
 		*i = *i + 1;
 	}
 	return ;
+}
+
+int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
+{
+	char	*var;
+	int		k;
+
+	k = 0;
+	var = replace_dollar(quotes, i, data);
+	if (var == NULL && quotes->arg[*i] != '$' && quotes->arg[*i] != '"')
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i];
+		*j = *j + 1;
+	}
+	else if (var != NULL)
+	{
+		while (var[k])
+		{
+			data->f_arg[quotes->index][*j] = var[k];
+			*j = *j + 1;
+			k++;
+		}
+		k = 0;
+	}
+	if (quotes->arg[*i] == '$')
+		*i = *i - 1;
+	return (*j);
 }
 
 void	ft_strcpy(char *dest, char *src, int start)

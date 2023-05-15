@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/13 15:49:24 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/15 17:31:52 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,78 +37,52 @@ void	replace_space(t_data *data, int *dq_open, int *sq_open, int i)
 		data->clean_prompt[i] = 31;
 }
 
-int	count_newlen(char *arg, int i, t_data *data)
+int	count_newlen(t_data *data, t_quotes *quotes)
 {
-	int	dq_open;
-	int	sq_open;
+	int	i;
 
-	dq_open = 0;
-	sq_open = 0;
-	while (arg[++i])
+	i = -1;
+	while (quotes->arg[++i])
 	{
-		if (arg[i] == '"' && sq_open == 0 && dq_open == 0)
-		{
-			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
-			i++;
-		}
-		data->count = varenv_len(arg, data, &i, &sq_open);
-		if (arg[i] == '\'' && sq_open == 0 && dq_open == 0)
-		{
-			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
-			i++;
-		}
-		if (arg[i] == '"' && dq_open == 1)
-			data->count = close_quotes(arg[i], &dq_open, &sq_open, &data->count);
-		if (arg[i] == '\'' && sq_open == 1)
-			data->count = close_quotes(arg[i], &dq_open, &sq_open, &data->count);
+		if (quotes->arg[i] == '"' && quotes->sq_open == 0
+			&& quotes->dq_open == 0)
+			data->count = open_quotes(quotes->arg[i], quotes, &i, &data->count);
+		data->count = varenv_len(quotes, data, &i);
+		if (quotes->arg[i] == '\'' && quotes->sq_open == 0
+			&& quotes->dq_open == 0)
+			data->count = open_quotes(quotes->arg[i], quotes, &i, &data->count);
+		if (quotes->arg[i] == '"' && quotes->dq_open == 1)
+			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
+		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
+			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 	}
 	return (data->count);
 }
 
-void	trimquotes(char *arg, t_data *data, int index, int i)
+void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 {
-	int	dq_open;
-	int	sq_open;
-	int	j;
-	int k;
-	char *var;
-
-	dq_open = 0;
-	sq_open = 0;
-	j = 0;
-	k = 0;
-	while (arg[++i])
+	while (quotes->arg[i] && i <= data->count)
 	{
-		trimquotes_utils1(arg[i], &dq_open, &sq_open, &i);
-		trimquotes_utils2(arg[i], &dq_open, &sq_open, &i);
-		if ((arg[i] == '"' && sq_open == 0) || (arg[i] == '\'' && dq_open == 0))
+		trimquotes_utils1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,
+			&i);
+		trimquotes_utils2(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,
+			&i);
+		if ((quotes->arg[i] == '"' && quotes->sq_open == 0)
+			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
-			if (arg[i] == '"' && dq_open == 0)
-				dq_open = 1;
-			else if (arg[i] == '\'' && sq_open == 0)
-				sq_open = 1;
+			if (quotes->arg[i] == '"' && quotes->dq_open == 0)
+				quotes->dq_open = 1;
+			else if (quotes->arg[i] == '\'' && quotes->sq_open == 0)
+				quotes->sq_open = 1;
 			continue ;
 		}
-		var = replace_dollar(arg, &i, &sq_open);
-		if (var == NULL && arg[i] != '$')
-		{
-			data->f_arg[index][j] = arg[i];
-			j++;
-		}
-		else if (var != NULL)
-		{
-			while (var[k])
-			{
-				data->f_arg[index][j] = var[k];
-				j++;
-				k++;
-			}
-			k = 0;
-		}
-		if (arg[i] == '$')
-			i--;
+		j = cpy_varenv(data, quotes, &i, &j);
+		i++;
 	}
-	data->f_arg[index][j] = '\0';
+	if (data->f_arg[quotes->index][j - 1] == '\0')
+		data->f_arg[quotes->index][j - 1] = '\0';
+	else
+		data->f_arg[quotes->index][j] = '\0';
 	return ;
 }
 

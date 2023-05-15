@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/03 14:18:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/15 12:31:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,33 @@ int	cpy_prompt(char *prompt, char *new_prompt, int j, int i)
 	return (j);
 }
 
-int	open_quotes(char c, int *dq_open, int *sq_open, int *count)
+int	open_quotes(char c, t_quotes *quotes, int *i, int *count)
 {
-	if (c == '"' && *dq_open == 0 && *sq_open == 0)
+	if (c == '"' && quotes->dq_open == 0 && quotes->sq_open == 0)
 	{
-		*dq_open = 1;
+		quotes->dq_open = 1;
 		*count = *count - 1;
+		*i = *i + 1;
 	}
-	if (c == '\'' && *dq_open == 0 && *sq_open == 0)
+	if (c == '\'' && quotes->dq_open == 0 && quotes->sq_open == 0)
 	{
-		*sq_open = 1;
+		quotes->sq_open = 1;
 		*count = *count - 1;
+		*i = *i + 1;
 	}
 	return (*count);
 }
 
-int	close_quotes(char c, int *dq_open, int *sq_open, int *count)
+int	close_quotes(char c, t_quotes *quotes, int *count)
 {
-	if (c == '"' && *dq_open == 1)
+	if (c == '"' && quotes->dq_open == 1)
 	{
-		*dq_open = 0;
+		quotes->dq_open = 0;
 		*count = *count - 1;
 	}
-	if (c == '\'' && *sq_open == 1)
+	if (c == '\'' && quotes->sq_open == 1)
 	{
-		*sq_open = 0;
+		quotes->sq_open = 0;
 		*count = *count - 1;
 	}
 	return (*count);

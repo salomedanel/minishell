@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/13 15:49:45 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/15 17:43:02 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,89 +32,98 @@ void	dup_env(t_data *data, char **env)
 	data->new_env[i] = NULL;
 }
 
-int	varenv_len(char *arg, t_data *data, int *i, int *sq_open)
+int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 {
 	int		index;
 	char	*tmp;
 	int		tmp_i;
-	int		new_len;
 
 	tmp_i = *i;
 	index = 0;
-	new_len = 0;
-	 if (arg[*i] != '$' || *sq_open != 0)
-        return (data->count);
-	if (arg[*i] == '$')
+	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
+		return (data->count);
+	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
-		while (arg[*i] != '\0' && arg[*i] != '"' && arg[*i] != '\'' && arg[*i] != '$')
+		while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
+			&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
 		{
 			*i = *i + 1;
 			index++;
 		}
 	}
 	tmp = malloc(sizeof(char) * index);
-	index = 0;
-	while (tmp_i < *i)
-	{
-		tmp[index] = arg[tmp_i];
-		tmp_i++;
-		index++;
-	}
-	*i = *i - 1;
-	if (getenv(tmp + 1) == NULL)
-	{
-		free(tmp);
+	if (replace_dollar_utils(quotes, &tmp_i, i, data) == NULL)
 		return (data->count);
-	}
 	else
-	{
-		new_len = data->count - ft_strlen(tmp) + ft_strlen(getenv(tmp + 1));
-		free(tmp);
-		return (new_len);
-	}
-	return (data->count);
+		return (data->count - ft_strlen(tmp) + ft_strlen(ft_getenv(data, tmp
+					+ 1)));
 }
 
-char	*replace_dollar(char *arg, int *i, int *sq_open)
+char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 {
-	int		index;
-	char	*tmp;
-	int		tmp_i;
+	int	tmp_i;
+	int	j;
 
 	tmp_i = *i;
-	index = 0;
-	//printf("i = %d\n", *i);
-	if (arg[*i] != '$' || *sq_open != 0)
-        return (NULL);
-	if (arg[*i] == '$')
+	j = 0;
+	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
+		return (NULL);
+	if (quotes->arg[*i] == '$')
 	{
-		//printf("i = %d\n", *i);
 		*i = *i + 1;
-		while (arg[*i] != '\0' && arg[*i] != '"' && arg[*i] != '\'' && arg[*i] != '$')
+		while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
+			&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
 		{
 			*i = *i + 1;
-			index++;
+			quotes->counter++;
 		}
 	}
-	tmp = calloc(sizeof(char), index);
-	index = 0;
-	while (tmp_i < *i)
+	return (replace_dollar_utils(quotes, &tmp_i, i, data));
+}
+
+char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
+		t_data *data)
+{
+	int		j;
+	char	*tmp;
+
+	j = 0;
+	printf("counter = %d | i = %d | tmp_i = %d\n", quotes->counter, *i, *tmp_i);
+	tmp = calloc(sizeof(char), quotes->counter);
+	tmp[quotes->counter] = '\0';
+	while (*tmp_i < *i)
 	{
-		tmp[index] = arg[tmp_i];
-		tmp_i++;
-		index++;
+		tmp[j] = quotes->arg[*tmp_i];
+		*tmp_i = *tmp_i + 1;
+		j++;
 	}
-	//printf("tmp = %s\n", tmp);
 	*i = *i - 1;
-	if (getenv(tmp + 1) == NULL)
+	if (ft_getenv(data, tmp + 1) == NULL)
 	{
 		*i = *i + 1;
-		printf("i = %d\n", *i);
 		free(tmp);
-		return ('\0');
+		return (NULL);
 	}
 	else
-		return (getenv(tmp + 1));
+		return (ft_getenv(data, tmp + 1));
+}
+
+char	*ft_getenv(t_data *data, char *varname)
+{
+	int	i;
+	int	varname_len;
+
+	i = 0;
+	varname_len = ft_strlen(varname);
+	while (data->new_env[i] != NULL)
+	{
+		if (strncmp(varname, data->new_env[i], varname_len) == 0
+			&& data->new_env[i][varname_len] == '=')
+		{
+			return (data->new_env[i] + varname_len + 1);
+		}
+		i++;
+	}
 	return (NULL);
 }

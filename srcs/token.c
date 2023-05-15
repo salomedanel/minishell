@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/10 18:48:55 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/15 12:28:02 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	token(t_data *data)
 		return ;
 	if (token_command_option(data) == -1)
 		return ;
-	//print_arg_ast(data);
 }
 
 int	token_metachar(t_data *data)
