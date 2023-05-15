@@ -12,7 +12,6 @@ SRC =	main \
 		handle_quotes \
 		pars_error \
 		var_env \
-		var_envbis \
 		builtins \
 		token \
 		token_utils \

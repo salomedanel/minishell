@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 13:05:20 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/11 13:49:42 by sdanel           ###   ########.fr       */
+/*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
+/*   Updated: 2023/05/13 15:49:45 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,169 +32,89 @@ void	dup_env(t_data *data, char **env)
 	data->new_env[i] = NULL;
 }
 
-int	strncmp_dollar(char *env, char *arg)
+int	varenv_len(char *arg, t_data *data, int *i, int *sq_open)
 {
-	int	i;
-	int	j;
-	int	count_char;
+	int		index;
+	char	*tmp;
+	int		tmp_i;
+	int		new_len;
 
-	i = 0;
-	j = 0;
-	count_char = 0;
-	while (env[i] != '=')
+	tmp_i = *i;
+	index = 0;
+	new_len = 0;
+	 if (arg[*i] != '$' || *sq_open != 0)
+        return (data->count);
+	if (arg[*i] == '$')
 	{
-		count_char++;
-		i++;
-	}
-	i = 0;
-	while (arg[i] == '"')
-		i++;
-	while (arg[i + 1] == env[j])
-	{
-		if (i == count_char - 1)
-			return (0);
-		i++;
-		j++;
-	}
-	return (-1);
-}
-
-int	check_varenv(t_data *data, char *arg)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (data->new_env[i])
-	{
-		while (data->new_env[i][j])
+		*i = *i + 1;
+		while (arg[*i] != '\0' && arg[*i] != '"' && arg[*i] != '\'' && arg[*i] != '$')
 		{
-			if (data->new_env[i][j] == '=')
-			{
-				//printf("env[%d] = %s\n", i, data->new_env[i]);
-				//printf("arg = %s | k + 1 = %c\n", arg, arg[k + 1]);
-				if (arg[k + 1] == data->new_env[i][j])
-				{
-					printf("len varenv = %d\n", len_varenv(data->new_env[i] - 1));
-					return (len_varenv(data->new_env[i]) - 1);
-				}
-			}
-			j++;
-			k++;
+			*i = *i + 1;
+			index++;
 		}
-		j = 0;
-		i++;
 	}
-	return (1);
+	tmp = malloc(sizeof(char) * index);
+	index = 0;
+	while (tmp_i < *i)
+	{
+		tmp[index] = arg[tmp_i];
+		tmp_i++;
+		index++;
+	}
+	*i = *i - 1;
+	if (getenv(tmp + 1) == NULL)
+	{
+		free(tmp);
+		return (data->count);
+	}
+	else
+	{
+		new_len = data->count - ft_strlen(tmp) + ft_strlen(getenv(tmp + 1));
+		free(tmp);
+		return (new_len);
+	}
+	return (data->count);
 }
 
-void	replace_dollar(char *arg, t_data *data, int index)
+char	*replace_dollar(char *arg, int *i, int *sq_open)
 {
-	int	i;
-	int	j;
+	int		index;
+	char	*tmp;
+	int		tmp_i;
 
-	i = 0;
-	while (data->new_env[i])
+	tmp_i = *i;
+	index = 0;
+	//printf("i = %d\n", *i);
+	if (arg[*i] != '$' || *sq_open != 0)
+        return (NULL);
+	if (arg[*i] == '$')
 	{
-		j = 0;
-		while (data->new_env[i][j])
+		//printf("i = %d\n", *i);
+		*i = *i + 1;
+		while (arg[*i] != '\0' && arg[*i] != '"' && arg[*i] != '\'' && arg[*i] != '$')
 		{
-			if (data->new_env[i][j] == '=')
-			{
-				if (strncmp_dollar(data->new_env[i], arg) == 0)
-				{
-					ft_strcpy(data->f_arg[index], data->new_env[i], j + 1);
-					return ;
-				}
-			}
-			j++;
+			*i = *i + 1;
+			index++;
 		}
-		i++;
 	}
-	data->f_arg[index][0] = '\0';
-	return ;
-}
-
-int	is_in_env(char *arg, t_data *data, int index)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (data->new_env[i] != NULL)
+	tmp = calloc(sizeof(char), index);
+	index = 0;
+	while (tmp_i < *i)
 	{
-		j = 0;
-		while (arg[index] != '$' || arg[index] != '"' || arg[index] != '\0')
-		{
-			if (arg[index] != data->new_env[i][j] && data->new_env[i][j] != '=')
-				i++;
-			else
-			{
-				if (data->new_env[i][j] == '=')
-				{
-					if (arg[index] == '\0' || arg[index] == '"'
-						|| arg[index] == '$')
-						return (len_varenv(data->new_env[i]) - 1);
-					else
-						return (0);
-				}
-				index++;
-				j++;
-			}
-		}
-		i++;
+		tmp[index] = arg[tmp_i];
+		tmp_i++;
+		index++;
 	}
-	return (0);
-}
-
-int	var_len(char *arg, t_data *data)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (arg[i])
+	//printf("tmp = %s\n", tmp);
+	*i = *i - 1;
+	if (getenv(tmp + 1) == NULL)
 	{
-		while (arg[i] != '$' && arg[i] != '"')
-		{
-			if (arg[i] == '$')
-			{
-				while (arg[i] != '"')
-				{
-					i++;
-					if (arg[i] == '"')
-						len++;
-				}
-			}
-			len++;
-			i++;
-		}
-		i++;
+		*i = *i + 1;
+		printf("i = %d\n", *i);
+		free(tmp);
+		return ('\0');
 	}
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '$')
-			len = len + is_in_env(arg, data, i + 1);
-		i++;
-	}
-	return (len);
-}
-
-int	str_contains_dollar(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
+	else
+		return (getenv(tmp + 1));
+	return (NULL);
 }

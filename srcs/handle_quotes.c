@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/11 15:35:12 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/13 15:49:24 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	count_newlen(char *arg, int i, t_data *data)
 
 	dq_open = 0;
 	sq_open = 0;
-	//printf("count = %d\n", data->count);
 	while (arg[++i])
 	{
 		if (arg[i] == '"' && sq_open == 0 && dq_open == 0)
@@ -52,8 +51,7 @@ int	count_newlen(char *arg, int i, t_data *data)
 			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
 			i++;
 		}
-		data->count = len_env(arg, data, &i, &sq_open);
-		//printf("i = %d\n", i);
+		data->count = varenv_len(arg, data, &i, &sq_open);
 		if (arg[i] == '\'' && sq_open == 0 && dq_open == 0)
 		{
 			data->count = open_quotes(arg[i], &dq_open, &sq_open, &data->count);
@@ -64,7 +62,6 @@ int	count_newlen(char *arg, int i, t_data *data)
 		if (arg[i] == '\'' && sq_open == 1)
 			data->count = close_quotes(arg[i], &dq_open, &sq_open, &data->count);
 	}
-	//printf("count = %d\n", data->count);
 	return (data->count);
 }
 
@@ -73,10 +70,13 @@ void	trimquotes(char *arg, t_data *data, int index, int i)
 	int	dq_open;
 	int	sq_open;
 	int	j;
+	int k;
+	char *var;
 
 	dq_open = 0;
 	sq_open = 0;
 	j = 0;
+	k = 0;
 	while (arg[++i])
 	{
 		trimquotes_utils1(arg[i], &dq_open, &sq_open, &i);
@@ -89,8 +89,24 @@ void	trimquotes(char *arg, t_data *data, int index, int i)
 				sq_open = 1;
 			continue ;
 		}
-		data->f_arg[index][j] = arg[i];
-		j++;
+		var = replace_dollar(arg, &i, &sq_open);
+		if (var == NULL && arg[i] != '$')
+		{
+			data->f_arg[index][j] = arg[i];
+			j++;
+		}
+		else if (var != NULL)
+		{
+			while (var[k])
+			{
+				data->f_arg[index][j] = var[k];
+				j++;
+				k++;
+			}
+			k = 0;
+		}
+		if (arg[i] == '$')
+			i--;
 	}
 	data->f_arg[index][j] = '\0';
 	return ;

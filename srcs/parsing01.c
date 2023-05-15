@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing01.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/11 13:53:51 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/13 15:47:12 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int	new_len(char *arg, t_data *data)
 {
 	int	i;
-	//int	count;
-
-	// if (str_contains_dollar(arg) == 1)
-	// 	return (len_env(arg, data));
+	
 	i = -1;
 	data->count = ft_strlen(arg);
 	return (count_newlen(arg, i, data));
@@ -28,16 +25,6 @@ void	new_words(char *arg, t_data *data, int index)
 {
 	int	i;
 
-	i = 0;
-	while (arg[i])
-	{
-		while (arg[i] == '$')
-		{
-			replace_dollar(arg, data, index);
-			return ;
-		}
-		i++;
-	}
 	i = -1;
 	trimquotes(arg, data, index, i);
 	return ;
@@ -60,6 +47,7 @@ void	final_arg(t_data *data)
 		i++;
 	}
 	data->f_arg[i] = NULL;
+	//print_arg(data->f_arg);
 	free_arg(data);
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/11 15:33:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/13 13:08:59 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,8 @@ void		metachar_err(t_data *data, char *err, char *metachar);
 
 // var_env
 void		dup_env(t_data *data, char **env);
-int			strncmp_dollar(char *env, char *arg);
-int			check_varenv(t_data *data, char *arg);
-void		replace_dollar(char *arg, t_data *data, int index);
-int			is_in_env(char *arg, t_data *data, int index);
-int			var_len(char *arg, t_data *data);
-int			str_contains_dollar(char *str);
-int			str_contains_dollar(char *str);
-
-// var_env bis
-int			len_varenv(char *varenv);
-int			len_env(char *arg, t_data *data, int *i, int *sq_open);
+int			varenv_len(char *arg, t_data *data, int *i, int *sq_open);
+char		*replace_dollar(char *arg, int *i, int *sq_open);
 
 // token
 void		token(t_data *data);
