@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/15 17:31:52 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/16 18:08:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,31 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 	}
+	printf("%d\n", data->count);
 	return (data->count);
 }
 
 void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 {
-	while (quotes->arg[i] && i <= data->count)
+	int	dq;
+	int	sq;
+	int	count;
+	int	stop;
+
+	dq = -1;
+	sq = -1;
+	stop = 0;
+	while (quotes->arg[++dq])
+		if (quotes->arg[dq] == '"')
+			break ;
+	while (quotes->arg[++sq])
+		if (quotes->arg[sq] == '\'')
+			break ;
+	if (dq < sq)
+		count = count_char(quotes->arg, '"');
+	else
+		count = count_char(quotes->arg, '\'');
+	while (quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
 		trimquotes_utils1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,
 			&i);
@@ -78,11 +97,9 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 		}
 		j = cpy_varenv(data, quotes, &i, &j);
 		i++;
+		stop++;
 	}
-	if (data->f_arg[quotes->index][j - 1] == '\0')
-		data->f_arg[quotes->index][j - 1] = '\0';
-	else
-		data->f_arg[quotes->index][j] = '\0';
+	data->f_arg[quotes->index][j] = '\0';
 	return ;
 }
 

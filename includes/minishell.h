@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/15 17:49:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/16 18:01:06 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
 void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
 int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
-int			contains_quotes(char *arg);
+//int			contains_quotes(char *arg);
+int			count_char(char *arg, char c);
 
 // pars_err
 void		quote_err(t_data *data, char *err, char quote);
@@ -104,7 +105,8 @@ void		metachar_err(t_data *data, char *err, char *metachar);
 void		dup_env(t_data *data, char **env);
 int			varenv_len(t_quotes *quotes, t_data *data, int *i);
 char		*replace_dollar(t_quotes *quotes, int *i, t_data *data);
-char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i, t_data *data);
+char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
+				t_data *data);
 char		*ft_getenv(t_data *data, char *varname);
 
 // token

@@ -33,7 +33,7 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -g
 
 .c.o:
-	@${CC} ${CFLAGS} -c -I${DIRCINC} -I${DIRLIB} $< -o ${<:.c=.o} -lreadline 
+	@${CC} ${CFLAGS} -c -I${DIRCINC} -I${DIRLIB} $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
 	@cd ${DIRLIB} && ${MAKE}

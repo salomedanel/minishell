@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/15 16:41:01 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/16 18:08:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,17 @@ void	ft_strcpy(char *dest, char *src, int start)
 	return ;
 }
 
-int	contains_quotes(char *arg)
+int	count_char(char *arg, char c)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (arg[i])
+	i = -1;
+	count = 0;
+	while (arg[++i])
 	{
-		if (arg[i] == '"' || arg[i] == '\'')
-			return (1);
-		i++;
+		if (arg[i] == c)
+			count++;
 	}
-	return (0);
+	return (count);
 }

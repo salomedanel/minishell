@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/15 17:43:02 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/16 18:09:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 
 	j = 0;
 	printf("counter = %d | i = %d | tmp_i = %d\n", quotes->counter, *i, *tmp_i);
-	tmp = calloc(sizeof(char), quotes->counter);
+	tmp = calloc(sizeof(char), quotes->counter + 1);
 	tmp[quotes->counter] = '\0';
 	while (*tmp_i < *i)
 	{
