@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/22 11:26:19 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:21:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,20 @@ int	token_command_option(t_data *data)
 	while (data->f_arg[++i])
 		if (data->ast[i] == -1)
 			data->ast[i] = T_CMD;
-	token_command_builtin(data);
+	// token_command_builtin(data);
 	return (0);
 }
 
-int	token_command_builtin(t_data *data)
-{
-	int	i;
+// int	token_command_builtin(t_data *data)
+// {
+// 	int	i;
 
-	i = 0;
-	while (data->f_arg[i])
-	{
-		if (data->ast[i] == 9 && is_builtin(data->f_arg[i]) == 1)
-			data->ast[i] = T_BUILTIN;
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (data->f_arg[i])
+// 	{
+// 		if (data->ast[i] == 9 && is_builtin(data->f_arg[i]) == 1)
+// 			data->ast[i] = T_BUILTIN;
+// 		i++;
+// 	}
+// 	return (0);
+// }

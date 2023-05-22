@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:01:23 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/22 11:12:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:20:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 extern int	g_exit_code;
 
-void	dupnclose(int fd1, int fd2)
+void	dupnclose(t_data *data, int fd1, int fd2)
 {
 	dup2(fd1, fd2);
 	close(fd1);
+	if (fd2 == STDIN_FILENO)
+		data->in = fd1;
+	if (fd2 == STDOUT_FILENO)
+		data->out = fd1;
 }
 
 int	count_cmd(t_data *data)
@@ -35,41 +39,61 @@ int	count_cmd(t_data *data)
 	return (count);
 }
 
-// void	create_pipes(t_args *args)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	while (++i < args->cmd_nbr - 1)
-// 	{
-// 		if (pipe(args->pipe + 2 * i) < 0)
-// 		{
-// 			free_parent(args);
-// 			ft_error("An error has occurred while creating pipe.\n");
-// 		}
-// 	}
-// }
-
-char	**pre_cmd(t_data *data, int	i)
+char	*ft_jointab(char **tab)
 {
-	int		j;
-	char	**cmd_tab;
+    int		i;
+    int		j;
+	int		k;
+    int		len;
+    char	*str;
 
+    i = -1;
+    j = 0;
+	k = 0;
+    len = 0;
+    while (tab[++i])
+	{
+        len += ft_strlen(tab[i]);
+		k++;
+	}
+    str = (char *)malloc(sizeof(char) * (len + k));
+    i = -1;
+	k = 0;
+    while (tab[++i])
+    {
+        j = -1;
+        while (tab[i][++j])
+            str[k++] = tab[i][j];
+		if (tab[i + 1])
+			str[k++] = ' ';
+    }
+    str[k] = '\0';
+    return (str);
+}
+
+char	*get_cmd_tab(t_data *data)
+{
+	int		i;
+	int		j;
+	char	*cmd;
+
+	i = -1;
 	j = 0;
-	cmd_tab = malloc(sizeof(char *) * (count_cmd(data) + 1));
-	if (!cmd_tab)
+	freetab(data->cmd_tab);
+	data->cmd_tab = malloc(sizeof(char *) * (count_cmd(data) + 1));
+	if (!data->cmd_tab)
 		return (NULL);
-	while (data->f_arg[i] && data->ast[i] != T_PIPE)
+	while (data->f_arg[++i])
 	{
 		if (data->ast[i] == T_CMD)
 		{
-			cmd_tab[j] = ft_strdup(data->f_arg[i]);
+			data->cmd_tab[j] = ft_strdup(data->f_arg[i]);
 			j++;
 		}
-		i++;
 	}
-	cmd_tab[count_cmd(data)] = NULL;
-	return (cmd_tab);
+	data->cmd_tab[j] = NULL;
+	cmd = ft_jointab(data->cmd_tab);
+	return (cmd);
 }
 
 char	**ft_get_path(t_data *data)
@@ -88,4 +112,23 @@ char	**ft_get_path(t_data *data)
 	}
 	return (NULL);
 	// si NULL penser message erreur -> unset PATH
+}
+
+char	*get_cmd_path(char *cmd, char **path)
+{
+	int		i;
+	char	*cmd_path;
+	char 	*tmp;
+
+	i = -1;
+	while (path[++i])
+	{
+		tmp = ft_strjoin(path[i], "/");
+		cmd_path = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (access(cmd_path, F_OK) == 0)
+			return (cmd_path);
+		free(cmd_path);
+	}
+	return (NULL);
 }

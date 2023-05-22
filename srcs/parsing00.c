@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/22 11:26:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:18:03 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ int	count_metachar(char *prompt, int count)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (prompt == NULL)
 		return (0);
 	while (prompt[++i])
 	{
+		if (i == 0 && is_metachar(prompt[i]) == 1)
+		{
+			count++;
+			i++;
+		}
 		if (is_metachar(prompt[i]) == 1 && is_metachar(prompt[i - 1]) == 0
 			&& is_metachar(prompt[i + 1]) == 0)
 			count = count + 2;
@@ -37,7 +42,7 @@ int	count_metachar(char *prompt, int count)
 			&& is_metachar(prompt[i + 1]) == 0)
 			count++;
 	}
-	printf("count = %d\n", count);
+	//printf("count = %d\n", count);
 	return (count);
 }
 
@@ -118,7 +123,7 @@ void	split_input(char *prompt, t_data *data)
 
 	i = -1;
 	data->clean_prompt = clean_prompt(prompt);
-	printf("clean_prompt1 = %s\n", data->clean_prompt);
+	//printf("clean_prompt1 = %s\n", data->clean_prompt);
 	data->clean_prompt = handle_quotes(data, i);
 	//printf("clean_prompt2 = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL)
@@ -128,6 +133,7 @@ void	split_input(char *prompt, t_data *data)
 	//print_arg(data->arg);
 	final_arg(data);
 	token(data);
-	launcher(data);
+	split_pipe(data);
+	//launcher(data);
 	return ;
 }

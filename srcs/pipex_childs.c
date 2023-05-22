@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   pipex_childs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 11:58:45 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/22 16:17:57 by sdanel           ###   ########.fr       */
+/*   Created: 2023/05/22 13:18:43 by tmichel-          #+#    #+#             */
+/*   Updated: 2023/05/22 16:19:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 extern int	g_exit_code;
 
-// void	exec_cmd(t_data *data)
+// void	child(t_data *data)
 // {
+// 	pid_t	pid;
+// 	int		fd[2];
 
-// }
-
-// void	launcher(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (data->f_arg[i])
+// 	pid = fork();
+// 	if (!pid)
 // 	{
-// 		if (data->ast[i] == T_BUILTIN)
-// 			exec_builtin(builtins, data, i);
-// 		// else if (data->ast[i] == T_CMD)
-// 		// 	exec_cmd(data);
-// 		// else if (data->ast[i] == T_WORD)
-// 		// 	continue ;
-// 		i++;
+// 		if (data->prev_pipe == -1 && data->cmd_id < data->cmd_count - 1)
+// 		{
+// 			dupnclose(data, data->in, STDIN_FILENO);
+// 			dupnclose(data, fd[1], STDOUT_FILENO);
+// 			data->prev_pipe = fd[0];
+// 		}
+// 		else
+
+// 		// exec_builtin(data->f_arg[i]);
 // 	}
 // }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/22 11:13:43 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:21:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,16 @@ typedef struct s_data
 	char	*clean_prompt;
 	char	**arg;
 	char	**f_arg;
+	char	**p_arg;
+	char	**tmp_arg;
 	char	**new_env;
 	char	**prev_env;
+	char	**cmd_tab;
 	int		*ast;
 	int		count;
+	int		count_cmd;
+	int		cmd_id;
+	int		prev_pipe;
 	int		in;
 	int		out;
 }			t_data;
@@ -77,7 +83,7 @@ int			split_space(t_data *data, int i);
 void		split_input(char *prompt, t_data *data);
 
 // handle_quotes
-int			check_quotes_open(t_data *data, int dquotes, int squotes);
+void		check_quotes_open(t_data *data, int dquotes, int squotes);
 void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
 char		*handle_quotes(t_data *data, int i);
 int			count_newlen(t_data *data, t_quotes *quotes);
@@ -105,8 +111,8 @@ int			count_char(char *arg, char c);
 
 // pars_err
 void		quote_err(t_data *data, char *err, char quote);
-void		quote_err2(t_data *data, char *err, char quote);
-void		metachar_err(t_data *data, char *err, char *metachar);
+//void		quote_err2(t_data *data, char *err, char quote);
+//void		metachar_err(t_data *data, char *err, char *metachar);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -121,7 +127,7 @@ void		token(t_data *data);
 int			token_metachar(t_data *data);
 int			token_word_metachar(t_data *data, int nb_arg);
 int			token_command_option(t_data *data);
-int			token_command_builtin(t_data *data);
+// int			token_command_builtin(t_data *data);
 
 // token_utils
 void		print_arg_ast(t_data *data);
@@ -139,7 +145,7 @@ void		free_dobby(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
-int			exec_builtin(t_data *data);
+int			exec_builtin(char *builtin, t_data *data, int i);
 void		mini_echo_loop(t_data *data, int i);
 int			mini_echo(t_data *data, int i);
 int			mini_pwd(void);
@@ -168,12 +174,19 @@ int			check_unset(char **var_to_unset, char *var_to_check);
 void		launcher(t_data *data);
 
 // pipex
-int			open_files(t_data *data);
+int            open_files(t_data *data);
 
 // pipex_utils
-void		dupnclose(int fd1, int fd2);
-int			count_cmd(t_data *data);
-char		**pre_cmd(t_data *data, int i);
-char		**ft_get_path(t_data *data);
+void        dupnclose(t_data *data, int fd1, int fd2);
+int            count_cmd(t_data *data);
+char        *ft_jointab(char **tab);
+char        *get_cmd(t_data *data, int i);
+char        **ft_get_path(t_data *data);
+char        *get_cmd_path(char *cmd, char **path);
+
+// split pipe
+char		*ft_jointab(char **tab);
+void		ft_strcpy_pipe(char *dest, char *src, int start);
+char		**split_pipe(t_data *data);
 
 #endif

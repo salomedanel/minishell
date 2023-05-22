@@ -6,25 +6,25 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/22 11:15:54 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 15:08:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quotes_open(t_data *data, int dquotes, int squotes)
+void	check_quotes_open(t_data *data, int dquotes, int squotes)
 {
 	if (dquotes == 1)
 	{
 		quote_err(data, QUOTE_ERR, 34);
-		return (1);
+		return ;
 	}
 	if (squotes == 1)
 	{
 		quote_err(data, QUOTE_ERR, 39);
-		return (1);
+		return ;
 	}
-	return (0);
+	return ;
 }
 
 void	replace_space(t_data *data, int *dq_open, int *sq_open, int i)
@@ -113,9 +113,10 @@ char	*handle_quotes(t_data *data, int i)
 	while (data->clean_prompt[++i])
 	{
 		trimquotes_utils1(data->clean_prompt[i], &dq_open, &sq_open, &i);
+		if (i >= ft_strlen(data->clean_prompt))
+			break ;
 		replace_space(data, &dq_open, &sq_open, i);
 	}
-	if (check_quotes_open(data, dq_open, sq_open) == 1)
-		return (NULL);
+	check_quotes_open(data, dq_open, sq_open);
 	return (data->clean_prompt);
 }
