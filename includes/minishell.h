@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/16 18:01:06 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:13:43 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ typedef enum e_token_type
 	T_OUTFILE_APPEND, // 8
 	T_CMD,            // 9
 	T_OPTION,         // 10
-	T_WORD,           // 11
-	T_BUILTIN         // 12
+	T_BUILTIN         // 11
 }			t_token_type;
 
 typedef struct s_data
@@ -61,6 +60,14 @@ typedef struct s_quotes
 	int		index;
 	int		counter;
 }			t_quotes;
+
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**arg;
+	char	**fd;
+	int		*redir;
+}			t_cmd;
 
 // parsing00
 int			count_metachar(char *prompt, int count);
@@ -93,7 +100,7 @@ void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
 void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
 int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
-//int			contains_quotes(char *arg);
+int			contains_quotes(char *arg);
 int			count_char(char *arg, char c);
 
 // pars_err
@@ -134,7 +141,7 @@ void		free_dobby(t_data *data);
 int			is_builtin(char *str);
 int			exec_builtin(t_data *data);
 void		mini_echo_loop(t_data *data, int i);
-int			mini_echo(t_data *data);
+int			mini_echo(t_data *data, int i);
 int			mini_pwd(void);
 
 // cd
@@ -159,5 +166,14 @@ int			check_unset(char **var_to_unset, char *var_to_check);
 
 // exec
 void		launcher(t_data *data);
+
+// pipex
+int			open_files(t_data *data);
+
+// pipex_utils
+void		dupnclose(int fd1, int fd2);
+int			count_cmd(t_data *data);
+char		**pre_cmd(t_data *data, int i);
+char		**ft_get_path(t_data *data);
 
 #endif

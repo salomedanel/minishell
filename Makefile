@@ -21,6 +21,8 @@ SRC =	main \
 		env \
 		env_utils \
 		exec \
+		pipex_new \
+		pipex_utils \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

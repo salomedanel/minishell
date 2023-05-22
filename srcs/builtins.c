@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/02 18:21:33 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:49:39 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_builtin(t_data *data)
 		{
 			len = ft_strlen(data->f_arg[i]);
 			if (!ft_strncmp(data->f_arg[i], "echo", len) && len == 4)
-				return (mini_echo(data));
+				return (mini_echo(data, i));
 			if (!ft_strncmp(data->f_arg[i], "cd", len) && len == 2)
 				return (mini_cd(data));
 			if (!ft_strncmp(data->f_arg[i], "pwd", len) && len == 3)
@@ -79,20 +79,35 @@ void	mini_echo_loop(t_data *data, int i)
 	}
 }
 
-int	mini_echo(t_data *data)
+int	check_echo_opt(char *str)
 {
 	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (i == 0 && str[i] != '-')
+			return (0);
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	mini_echo(t_data *data, int i)
+{
 	int	option;
 
-	if (data->ast[1] != T_OPTION)
+	if (!check_echo_opt(data->f_arg[i + 1]))
 	{
 		option = 1;
-		mini_echo_loop(data, 0);
+		mini_echo_loop(data, i);
 	}
 	else
 	{
-		i = 2;
-		while (data->ast[i] == T_OPTION)
+		i += 2;
+		while (check_echo_opt(data->f_arg[i]) == 1)
 			i++;
 		option = 0;
 		mini_echo_loop(data, i - 1);

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/16 18:08:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:15:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 	}
-	printf("%d\n", data->count);
+	//printf("%d\n", data->count);
 	return (data->count);
 }
 
