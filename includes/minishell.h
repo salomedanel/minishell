@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/22 16:21:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:09:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_data
 	int		count_cmd;
 	int		cmd_id;
 	int		prev_pipe;
+	int		fd[2];
 	int		in;
 	int		out;
 }			t_data;
@@ -139,13 +140,14 @@ void		handle_sigquit(int sig);
 
 // free
 void		free_arg(t_data *data);
+void		free_tmp(t_data *data);
 int			mini_exit(t_data *data);
 int			freetab(char **tab);
 void		free_dobby(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
-int			exec_builtin(char *builtin, t_data *data, int i);
+int			exec_builtin(t_data *data, char *builtin, int i);
 void		mini_echo_loop(t_data *data, int i);
 int			mini_echo(t_data *data, int i);
 int			mini_pwd(void);
@@ -174,19 +176,19 @@ int			check_unset(char **var_to_unset, char *var_to_check);
 void		launcher(t_data *data);
 
 // pipex
-int            open_files(t_data *data);
+int			open_files(t_data *data);
 
 // pipex_utils
-void        dupnclose(t_data *data, int fd1, int fd2);
-int            count_cmd(t_data *data);
-char        *ft_jointab(char **tab);
-char        *get_cmd(t_data *data, int i);
-char        **ft_get_path(t_data *data);
-char        *get_cmd_path(char *cmd, char **path);
+void		dupnclose(int fd1, int fd2);
+int			count_cmd(t_data *data);
+char		*ft_jointab(char **tab);
+char		*get_cmd(t_data *data, int i);
+char		**ft_get_path(t_data *data);
+char		*get_cmd_path(char *cmd, char **path);
 
 // split pipe
 char		*ft_jointab(char **tab);
-void		ft_strcpy_pipe(char *dest, char *src, int start);
+void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data);
 
 #endif

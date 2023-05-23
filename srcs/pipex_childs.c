@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:18:43 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/22 16:19:56 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:11:36 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,38 @@
 
 extern int	g_exit_code;
 
-// void	child(t_data *data)
-// {
-// 	pid_t	pid;
-// 	int		fd[2];
+void	select_pipe(t_data *data)
+{
+	if (data->cmd_id == 0)
+	{
+		dupnclose(data->in, STDIN_FILENO);
+		dupnclose(data->fd[1], STDOUT_FILENO);
+		data->prev_pipe = data->fd[0];
+	}
+	else if (data->cmd_id < data->count_cmd - 1)
+	{
+		dupnclose(data->prev_pipe, STDIN_FILENO);
+		dupnclose(data->fd[1], STDOUT_FILENO);
+	}
+	else if (data->cmd_id == data->count_cmd - 1)
+	{
+		dupnclose(data->prev_pipe, STDIN_FILENO);
+		dupnclose(data->out, STDOUT_FILENO);
+	}
+	data->cmd_id++;
+}
 
-// 	pid = fork();
-// 	if (!pid)
-// 	{
-// 		if (data->prev_pipe == -1 && data->cmd_id < data->cmd_count - 1)
-// 		{
-// 			dupnclose(data, data->in, STDIN_FILENO);
-// 			dupnclose(data, fd[1], STDOUT_FILENO);
-// 			data->prev_pipe = fd[0];
-// 		}
-// 		else
+void	child(t_data *data, int i)
+{
+	pid_t	pid;
 
-// 		// exec_builtin(data->f_arg[i]);
-// 	}
-// }
+	pipe(data->fd);
+	pid = fork();
+	if (!pid)
+	{
+		select_pipe(data);
+		open_files(data);
+		exec_builtin(data, data->p_arg[i], i);
+		execve(data->p_arg[0], &data->p_arg[i], data->new_env);
+	}
+}

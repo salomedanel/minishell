@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:01:23 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/22 16:20:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:09:48 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 extern int	g_exit_code;
 
-void	dupnclose(t_data *data, int fd1, int fd2)
+void	dupnclose(int fd1, int fd2)
 {
 	dup2(fd1, fd2);
 	close(fd1);
-	if (fd2 == STDIN_FILENO)
-		data->in = fd1;
-	if (fd2 == STDOUT_FILENO)
-		data->out = fd1;
 }
 
 int	count_cmd(t_data *data)
@@ -33,7 +29,7 @@ int	count_cmd(t_data *data)
 	i = -1;
 	while (data->f_arg[++i])
 	{
-		if (data->ast[i] == T_PIPE)
+		if (!ft_strcmp(data->f_arg[i],"|"))
 			count++;
 	}
 	return (count);
@@ -70,6 +66,7 @@ char	*ft_jointab(char **tab)
     str[k] = '\0';
     return (str);
 }
+
 
 char	*get_cmd_tab(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:37:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/22 16:18:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:10:16 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ void	ft_op_error(char *str)
 {
 	ft_putstr_fd("minishell: An error has occurred while opening ", 2);
 	ft_putendl_fd(str, 2);
+}
+
+int	count_redir_out(t_data *data)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (data->ast[++i])
+	{
+		if (data->ast[i] == T_REDOUT || data->ast[i] == T_RED_OUT_APPEND)
+			count++;
+	}
+	return (count);
 }
 
 int	open_files(t_data *data)
@@ -37,9 +52,11 @@ int	open_files(t_data *data)
 		if (fd == -1)
 			ft_op_error(data->f_arg[i + 1]);
 		if (data->ast[i] == T_REDOUT || data->ast[i] == T_RED_OUT_APPEND)
-			dupnclose(data, fd, STDOUT_FILENO);
+			dupnclose(fd, STDOUT_FILENO);
 		else if (data->ast[i] == T_REDIN)
-			dupnclose(data, fd, STDIN_FILENO);
+			dupnclose(fd, STDIN_FILENO);
 	}
+	// if (data->cmd_id == data->count_cmd - 1 && count_redir_out(data) == 0)
+	// 	dupnclose(data->save_out, STDOUT_FILENO);
 	return (0);
 }

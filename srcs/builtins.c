@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/22 16:16:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/22 17:51:45 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ extern int	g_exit_code;
 // 	return (g_exit_code);
 // }
 
-int	exec_builtin(char *builtin, t_data *data, int i)
+int	exec_builtin(t_data *data, char *builtin, int i)
 {
 	int	len;
 
@@ -87,7 +87,7 @@ int	exec_builtin(char *builtin, t_data *data, int i)
 		return (mini_env(data));
 	if (!ft_strncmp(builtin, "exit", len) && len == 4)
 		return (mini_exit(data));
-	return (g_exit_code);
+	return (0);
 }
 
 void	mini_echo_loop(t_data *data, int i)

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/15 17:10:58 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/23 15:39:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	free_arg(t_data *data)
 	}
 	free(data->arg);
 	free(data->clean_prompt);
+}
+
+void	free_tmp(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tmp_arg[i])
+	{
+		free(data->tmp_arg[i]);
+		i++;
+	}
+	free(data->tmp_arg);
 }
 
 int	mini_exit(t_data *data)
@@ -60,6 +73,13 @@ void	free_dobby(t_data *data)
 		free(data->f_arg[i]);
 		i++;
 	}
+	i = 0;
+	while (data->p_arg[i])
+	{
+		free(data->p_arg[i]);
+		i++;
+	}
+	free(data->p_arg);
 	free(data->f_arg);
 	free(data->ast);
 }
