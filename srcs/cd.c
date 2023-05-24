@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:29:32 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/11 15:39:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 14:52:50 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_args(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->f_arg[i])
+	while (data->tmp_arg[i])
 		i++;
 	return (i);
 }
@@ -61,12 +61,12 @@ int	count_args(t_data *data)
 void	exec_cd(t_data *data)
 {
 	set_old_pwd(data);
-	if (!chdir(data->f_arg[1]))
+	if (!chdir(data->tmp_arg[1]))
 		set_pwd(data);
 	else
 	{
 		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(data->f_arg[1], 2);
+		ft_putstr_fd(data->tmp_arg[1], 2);
 		ft_putstr_fd(" No such file or directory\n", 2);
 	}	
 }

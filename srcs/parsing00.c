@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/23 15:25:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:57:44 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	count_metachar(char *prompt, int count)
 			&& is_metachar(prompt[i + 1]) == 0)
 			count++;
 	}
-	//printf("count = %d\n", count);
 	return (count);
 }
 
@@ -63,7 +62,7 @@ int	add_space(char *prompt, char *new_prompt)
 			&& (prompt[i] != prompt[i + 1]))
 			j = cpy_prompt(prompt, new_prompt, j, i);
 		else if (is_metachar(prompt[i]) == 1 && is_metachar(prompt[i + 1]) != 2
-			&& is_metachar(prompt[i + 1]) != 1)
+				&& is_metachar(prompt[i + 1]) != 1)
 			j = cpy_prompt(prompt, new_prompt, j, i);
 		else
 			new_prompt[j] = prompt[i];
@@ -123,17 +122,16 @@ void	split_input(char *prompt, t_data *data)
 
 	i = -1;
 	data->clean_prompt = clean_prompt(prompt);
-	//printf("clean_prompt1 = %s\n", data->clean_prompt);
 	data->clean_prompt = handle_quotes(data, i);
-	//printf("clean_prompt2 = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL)
 		return ;
 	if (split_space(data, i) == -1)
 		return ;
 	//print_arg(data->arg);
 	final_arg(data);
-	token(data);
+	syntax_error(data);
+	//token(data);
 	split_pipe(data);
-	//launcher(data);
+	exec(data);
 	return ;
 }

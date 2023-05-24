@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/23 16:01:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 14:49:21 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	dup_env(t_data *data, char **env)
 
 int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 {
-	int		index;
-	char	*tmp;
+	char	*var;
 	int		tmp_i;
+	int		len;
 
 	tmp_i = *i;
-	index = 0;
+	len = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (data->count);
 	if (quotes->arg[*i] == '$')
@@ -49,15 +49,19 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 			&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
 		{
 			*i = *i + 1;
-			index++;
+			quotes->counter++;
 		}
 	}
-	tmp = malloc(sizeof(char) * index);
-	if (replace_dollar_utils(quotes, &tmp_i, i, data) == NULL)
+	var = get_dollvalue(quotes, &tmp_i, i);
+	quotes->tmp = replace_dollar_utils(quotes, &tmp_i, i, data);
+	len = (ft_strlen(var) * -1) + ft_strlen(quotes->tmp);
+	free(var);
+	if (quotes->tmp == NULL)
+	{
 		return (data->count);
+	}
 	else
-		return (data->count - ft_strlen(tmp) + ft_strlen(ft_getenv(data, tmp
-					+ 1)));
+		return (data->count + len);
 }
 
 char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
@@ -86,29 +90,45 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 		t_data *data)
 {
 	int		j;
-	char	*tmp;
 
 	j = 0;
-	quotes->counter = 0;
-	printf("i = %d | tmp_i = %d\n", *i, *tmp_i);
-	//printf("counter = %d | i = %d | tmp_i = %d\n", quotes->counter, *i, *tmp_i);
-	tmp = calloc(sizeof(char), quotes->counter + 1);
-	tmp[quotes->counter] = '\0';
+	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);
+	if (quotes->tmp == NULL)
+		return (NULL);
 	while (*tmp_i < *i)
 	{
-		tmp[j] = quotes->arg[*tmp_i];
+		quotes->tmp[j] = quotes->arg[*tmp_i];
 		*tmp_i = *tmp_i + 1;
 		j++;
 	}
+	quotes->tmp[j] = '\0';
 	*i = *i - 1;
-	if (ft_getenv(data, tmp + 1) == NULL)
+	if (ft_getenv(data, quotes->tmp + 1) == NULL)
 	{
 		*i = *i + 1;
-		free(tmp);
 		return (NULL);
 	}
 	else
-		return (ft_getenv(data, tmp + 1));
+		return (ft_getenv(data, quotes->tmp + 1));
+}
+
+char	*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i)
+{
+	int		j;
+	char	*tmp;
+	int		tmp2;
+
+	j = 0;
+	tmp2 = *tmp_i;
+	tmp = malloc(sizeof(char) * quotes->counter + 2);
+	while (tmp2 < *i)
+	{
+		tmp[j] = quotes->arg[tmp2];
+		tmp2++;
+		j++;
+	}
+	tmp[j] = '\0';
+	return (tmp);
 }
 
 char	*ft_getenv(t_data *data, char *varname)

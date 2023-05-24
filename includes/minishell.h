@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/23 16:09:31 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 17:02:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 
-# define QUOTE_ERR "minishell: syntax error near unexpected token"
+# define ERR_MSG "minishell: syntax error near unexpected token"
 
 typedef enum e_token_type
 {
@@ -49,12 +51,14 @@ typedef struct s_data
 	char	**new_env;
 	char	**prev_env;
 	char	**cmd_tab;
+	char	**path;
 	int		*ast;
 	int		count;
 	int		count_cmd;
 	int		cmd_id;
 	int		prev_pipe;
 	int		fd[2];
+	int		pid[1024];
 	int		in;
 	int		out;
 }			t_data;
@@ -66,15 +70,16 @@ typedef struct s_quotes
 	char	*arg;
 	int		index;
 	int		counter;
+	char	*tmp;
 }			t_quotes;
 
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**arg;
-	char	**fd;
-	int		*redir;
-}			t_cmd;
+// typedef struct s_cmd
+// {
+// 	char	*cmd;
+// 	char	**arg;
+// 	char	**fd;
+// 	int		*redir;
+// }			t_cmd;
 
 // parsing00
 int			count_metachar(char *prompt, int count);
@@ -97,6 +102,7 @@ void		final_arg(t_data *data);
 
 // parsing_utils00
 int			is_metachar(char c);
+int			metachar_type(char c, int *count);
 int			cpy_prompt(char *prompt, char *new_prompt, int j, int i);
 int			open_quotes(char c, t_quotes *quotes, int *i, int *count);
 int			close_quotes(char c, t_quotes *quotes, int *count);
@@ -111,9 +117,8 @@ int			contains_quotes(char *arg);
 int			count_char(char *arg, char c);
 
 // pars_err
-void		quote_err(t_data *data, char *err, char quote);
-//void		quote_err2(t_data *data, char *err, char quote);
-//void		metachar_err(t_data *data, char *err, char *metachar);
+void		err_msg(char *err, char quote);
+void		syntax_error(t_data *data);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -122,6 +127,7 @@ char		*replace_dollar(t_quotes *quotes, int *i, t_data *data);
 char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 				t_data *data);
 char		*ft_getenv(t_data *data, char *varname);
+char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 
 // token
 void		token(t_data *data);
@@ -140,16 +146,17 @@ void		handle_sigquit(int sig);
 
 // free
 void		free_arg(t_data *data);
-void		free_tmp(t_data *data);
+void		freefrom_quotes_err(t_data *data);
+void		freefrom_syntax_err(t_data *data);
 int			mini_exit(t_data *data);
 int			freetab(char **tab);
 void		free_dobby(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
-int			exec_builtin(t_data *data, char *builtin, int i);
+int			exec_builtin(t_data *data, char *builtin);
 void		mini_echo_loop(t_data *data, int i);
-int			mini_echo(t_data *data, int i);
+int			mini_echo(t_data *data);
 int			mini_pwd(void);
 
 // cd
@@ -172,23 +179,28 @@ int			export_exist(t_data *data, char *var);
 int			var_to_unset(t_data *data);
 int			check_unset(char **var_to_unset, char *var_to_check);
 
-// exec
-void		launcher(t_data *data);
-
-// pipex
-int			open_files(t_data *data);
-
-// pipex_utils
-void		dupnclose(int fd1, int fd2);
-int			count_cmd(t_data *data);
-char		*ft_jointab(char **tab);
-char		*get_cmd(t_data *data, int i);
-char		**ft_get_path(t_data *data);
-char		*get_cmd_path(char *cmd, char **path);
-
 // split pipe
 char		*ft_jointab(char **tab);
 void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data);
+
+//pipex_utils00
+int			count_cmd(t_data *data);
+int			count_sub_cmd(t_data *data);
+char		*ft_jointab(char **tab);
+void		cmd_not_found(char *cmd);
+void		dupnclose(int fd1, int fd2);
+
+// ipex_utils01
+void		get_cmd_tab(t_data *data);
+char		**ft_get_path(t_data *data);
+char		*get_cmd_path(char *cmd, char **path);
+void		ft_op_error(char *str);
+int			count_redir_out(t_data *data);
+int			open_files(t_data *data);
+
+// pipex_newbis
+void		select_pipe(t_data *data);
+void		exec(t_data *data);
 
 #endif

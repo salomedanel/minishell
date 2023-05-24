@@ -20,10 +20,9 @@ SRC =	main \
 		cd \
 		env \
 		env_utils \
-		exec \
-		pipex_new \
-		pipex_childs \
-		pipex_utils \
+		pipex_utils00 \
+		pipex_utils01 \
+		pipex_newbis \
 		split_pipe \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))

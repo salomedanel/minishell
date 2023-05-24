@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/23 16:12:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:22:01 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ char	**split_pipe(t_data *data)
 		i++;
 	}
 	data->p_arg[i] = NULL;
-	printf("PIPE ARG\n");
-	print_arg(data->p_arg);
+	//printf("PIPE ARG\n");
+	//print_arg(data->p_arg);
 	free(str);
-	free_tmp(data);
+	freetab(data->tmp_arg);
 	return (data->p_arg);
 }

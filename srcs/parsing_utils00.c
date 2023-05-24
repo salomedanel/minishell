@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/23 15:03:52 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:46:13 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,26 @@ int	is_metachar(char c)
 		return (1);
 	if (c == 32)
 		return (2);
+	return (0);
+}
+
+int	metachar_type(char c, int *count)
+{
+	if (c == '>')
+	{
+		*count = *count + 1;
+		return (1);
+	}
+	if (c == '<')
+	{
+		*count = *count + 1;
+		return (2);
+	}
+	if (c == '|')
+	{
+		*count = *count + 1;
+		return (3);
+	}
 	return (0);
 }
 
