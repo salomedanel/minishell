@@ -6,11 +6,13 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 15:37:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 11:54:02 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	free_arg(t_data *data)
 {
@@ -28,7 +30,7 @@ void	free_arg(t_data *data)
 
 void	freefrom_quotes_err(t_data *data)
 {
-	free(data->clean_prompt);
+	//free(data->clean_prompt);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 }
@@ -40,28 +42,32 @@ void	freefrom_syntax_err(t_data *data)
 	freetab(data->prev_env);
 }
 
-int	mini_exit(t_data *data)
+int    mini_exit(t_data *data)
+{
+    freetab(data->f_arg);
+    freetab(data->p_arg);
+    freetab(data->new_env);
+    freetab(data->prev_env);
+    freetab(data->cmd_tab);
+    freetab(data->path);
+    freetab(data->tmp_arg);
+	freetab(data->redir);
+	free(data->type);
+    free(data->ast);
+    exit(0);
+}
+
+
+int    mini_exit_bis(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (data->f_arg[i])
-	{
-		free(data->f_arg[i]);
-		i++;
-	}
-	i = 0;
-	while (data->new_env[i])
-	{
-		free(data->new_env[i]);
-		free(data->prev_env[i]);
-		i++;
-	}
-	free(data->new_env);
-	free(data->prev_env);
-	free(data->f_arg);
+    freetab(data->new_env);
+    freetab(data->prev_env);
+	freetab(data->path);
 	free(data->ast);
-	exit(0);
+    exit(0);
 }
 
 void	free_dobby(t_data *data)
@@ -82,7 +88,7 @@ void	free_dobby(t_data *data)
 	}
 	free(data->p_arg);
 	free(data->f_arg);
-	free(data->ast);
+	//free(data->ast);
 }
 
 int	freetab(char **tab)

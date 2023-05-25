@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 16:57:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 11:08:49 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	add_space(char *prompt, char *new_prompt)
 			&& (prompt[i] != prompt[i + 1]))
 			j = cpy_prompt(prompt, new_prompt, j, i);
 		else if (is_metachar(prompt[i]) == 1 && is_metachar(prompt[i + 1]) != 2
-				&& is_metachar(prompt[i + 1]) != 1)
+			&& is_metachar(prompt[i + 1]) != 1)
 			j = cpy_prompt(prompt, new_prompt, j, i);
 		else
 			new_prompt[j] = prompt[i];
@@ -127,10 +127,8 @@ void	split_input(char *prompt, t_data *data)
 		return ;
 	if (split_space(data, i) == -1)
 		return ;
-	//print_arg(data->arg);
 	final_arg(data);
 	syntax_error(data);
-	//token(data);
 	split_pipe(data);
 	exec(data);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 15:46:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/24 18:19:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,6 @@ int	is_metachar(char c)
 		return (1);
 	if (c == 32)
 		return (2);
-	return (0);
-}
-
-int	metachar_type(char c, int *count)
-{
-	if (c == '>')
-	{
-		*count = *count + 1;
-		return (1);
-	}
-	if (c == '<')
-	{
-		*count = *count + 1;
-		return (2);
-	}
-	if (c == '|')
-	{
-		*count = *count + 1;
-		return (3);
-	}
 	return (0);
 }
 
@@ -80,14 +60,17 @@ int	close_quotes(char c, t_quotes *quotes, int *count)
 	return (*count);
 }
 
-void	print_arg(char **arg)
+int	count_char(char *arg, char c)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (arg[i])
+	i = -1;
+	count = 0;
+	while (arg[++i])
 	{
-		printf("arg[%d] = %s\n", i, arg[i]);
-		i++;
+		if (arg[i] == c)
+			count++;
 	}
+	return (count);
 }

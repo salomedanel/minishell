@@ -6,11 +6,13 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/24 14:48:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 10:29:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i)
 {
@@ -86,17 +88,9 @@ void	ft_strcpy(char *dest, char *src, int start)
 	return ;
 }
 
-int	count_char(char *arg, char c)
+void	norm_count_mc(int *count, int *i)
 {
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (arg[++i])
-	{
-		if (arg[i] == c)
-			count++;
-	}
-	return (count);
+	*count = *count + 1;
+	*i = *i + 1;
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 16:58:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 09:20:35 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	final_arg(t_data *data)
 		i++;
 	}
 	data->f_arg[i] = NULL;
-	// print_arg(data->f_arg);
+	print_arg(data->f_arg);
 	free_arg(data);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/24 15:39:48 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 12:59:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	check_quotes_open(t_data *data, int dquotes, int squotes)
 	{
 		err_msg(ERR_MSG, 34);
 		freefrom_quotes_err(data);
-		exit (0);
+		new_prompt();
 	}
 	if (squotes == 1)
 	{
 		err_msg(ERR_MSG, 39);
 		freefrom_quotes_err(data);
-		exit (0);
+		new_prompt();
 	}
 	return ;
 }
@@ -81,6 +81,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 		count = count_char(quotes->arg, '"');
 	else
 		count = count_char(quotes->arg, '\'');
+	//count = trimquotes_utils(quotes, &count);
 	while (quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
 		trimquotes_utils1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,

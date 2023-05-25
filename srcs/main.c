@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/15 15:38:39 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 11:55:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,20 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, handle_sigint);
-	//signal(SIGINT, handle_sigquit);
+	// signal(SIGINT, handle_sigquit);
 	dup_env(&data, env);
+	data.path = NULL;
+	data.ast = NULL;
 	while (1)
 	{
 		prompt = readline("minishell> ");
 		add_history(prompt);
-		split_input(prompt, &data);
 		if (prompt == NULL)
 		{
-			mini_exit(&data);
+			mini_exit_bis(&data);
 			break ;
 		}
+		split_input(prompt, &data);
 		free_dobby(&data);
 	}
 	return (0);

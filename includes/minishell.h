@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 17:02:26 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 11:20:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <sys/wait.h>
 # include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define ERR_MSG "minishell: syntax error near unexpected token"
 
@@ -61,6 +61,8 @@ typedef struct s_data
 	int		pid[1024];
 	int		in;
 	int		out;
+	char	**redir;
+	int		*type;
 }			t_data;
 
 typedef struct s_quotes
@@ -72,14 +74,6 @@ typedef struct s_quotes
 	int		counter;
 	char	*tmp;
 }			t_quotes;
-
-// typedef struct s_cmd
-// {
-// 	char	*cmd;
-// 	char	**arg;
-// 	char	**fd;
-// 	int		*redir;
-// }			t_cmd;
 
 // parsing00
 int			count_metachar(char *prompt, int count);
@@ -102,23 +96,30 @@ void		final_arg(t_data *data);
 
 // parsing_utils00
 int			is_metachar(char c);
-int			metachar_type(char c, int *count);
 int			cpy_prompt(char *prompt, char *new_prompt, int j, int i);
 int			open_quotes(char c, t_quotes *quotes, int *i, int *count);
 int			close_quotes(char c, t_quotes *quotes, int *count);
-void		print_arg(char **arg);
+int			count_char(char *arg, char c);
 
 // parsing_utils01
 void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
 void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
 int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
-int			contains_quotes(char *arg);
-int			count_char(char *arg, char c);
+void		norm_count_mc(int *count, int *i);
 
 // pars_err
 void		err_msg(char *err, char quote);
+void		new_prompt(void);
 void		syntax_error(t_data *data);
+void		syntax_err_utils(t_data *data, char c);
+void		sing_syntax_error(t_data *data);
+void		mult_syntax_error(t_data *data);
+
+// parserr_utils
+int			metachar_type(char c, int *count);
+int			str_contains_mc(char *str);
+int			tab_len(char **tab);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -129,16 +130,19 @@ char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 char		*ft_getenv(t_data *data, char *varname);
 char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 
+// quotes_env>_utils
+int			trimquotes_utils(t_quotes *quotes, int *count);
+
 // token
 void		token(t_data *data);
 int			token_metachar(t_data *data);
 int			token_word_metachar(t_data *data, int nb_arg);
 int			token_command_option(t_data *data);
-// int			token_command_builtin(t_data *data);
-
-// token_utils
-void		print_arg_ast(t_data *data);
 int			init_ast(t_data *data);
+
+// temporary_utils
+void		print_arg(char **arg);
+void		print_arg_ast(t_data *data);
 
 // signal
 void		handle_sigint(int sig);
@@ -185,22 +189,24 @@ void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data);
 
 //pipex_utils00
-int			count_cmd(t_data *data);
-int			count_sub_cmd(t_data *data);
-char		*ft_jointab(char **tab);
-void		cmd_not_found(char *cmd);
-void		dupnclose(int fd1, int fd2);
+int            count_cmd(t_data *data);
+int            count_sub_cmd(t_data *data);
+char        *ft_jointab(char **tab);
+void        cmd_not_found(char *cmd);
+void        dupnclose(int fd1, int fd2);
 
-// ipex_utils01
-void		get_cmd_tab(t_data *data);
-char		**ft_get_path(t_data *data);
-char		*get_cmd_path(char *cmd, char **path);
-void		ft_op_error(char *str);
-int			count_redir_out(t_data *data);
-int			open_files(t_data *data);
+// pipex_utils01
+void        get_cmd_tab(t_data *data);
+char        **ft_get_path(t_data *data);
+char        *get_cmd_path(char *cmd, char **path);
+void        ft_op_error(char *str);
+int            count_redir_out(t_data *data);
+int            open_files(t_data *data);
 
 // pipex_newbis
-void		select_pipe(t_data *data);
-void		exec(t_data *data);
+void        select_pipe(t_data *data, int i);
+int            count_redir(t_data data);
+void        get_redir_tab(t_data *data);
+void        exec(t_data *data);
 
 #endif

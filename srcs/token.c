@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 15:25:44 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:19:12 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,19 @@ int	token_command_option(t_data *data)
 		if (data->ast[i] == -1)
 			data->ast[i] = T_CMD;
 	return (0);
+}
+
+int	init_ast(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tmp_arg[i])
+		i++;
+	data->ast = ft_calloc(i + 1, sizeof(int));
+	i = -1;
+	while (data->tmp_arg[++i])
+		data->ast[i] = -1;
+	return (i);
 }
 

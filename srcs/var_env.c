@@ -6,11 +6,13 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/24 14:49:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 11:10:52 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	dup_env(t_data *data, char **env)
 {
@@ -68,11 +70,18 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 {
 	int	tmp_i;
 	int	j;
+	char	*ex_code;
 
 	tmp_i = *i;
 	j = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (NULL);
+	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
+	{
+		ex_code = ft_itoa(g_exit_code);
+		*i = *i + 1;
+		return (ex_code);
+	}
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;

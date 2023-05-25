@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/24 15:38:32 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:08:58 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	get_cmd_tab(t_data *data)
 
 	i = -1;
 	j = 0;
-	// freetab(data->cmd_tab);
 	data->cmd_tab = malloc(sizeof(char *) * (count_sub_cmd(data) + 1));
 	if (!data->cmd_tab)
 		return ;
@@ -79,44 +78,27 @@ void	ft_op_error(char *str)
 	ft_putendl_fd(str, 2);
 }
 
-int	count_redir_out(t_data *data)
-{
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (data->ast[++i])
-	{
-		if (data->ast[i] == T_REDOUT || data->ast[i] == T_RED_OUT_APPEND)
-			count++;
-	}
-	return (count);
-}
-
 int	open_files(t_data *data)
 {
 	int	i;
 	int	fd;
 
 	i = -1;
-	while (data->tmp_arg[++i])
+	while (data->redir[++i])
 	{
-		if (data->ast[i] == T_REDOUT)
-			fd = open(data->tmp_arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (data->ast[i] == T_REDIN)
-			fd = open(data->tmp_arg[i + 1], O_RDONLY);
-		else if (data->ast[i] == T_RED_OUT_APPEND)
-			fd = open(data->tmp_arg[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (data->type[i] == T_REDOUT)
+			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (data->type[i] == T_REDIN)
+			fd = open(data->redir[i], O_RDONLY);
+		else if (data->type[i] == T_RED_OUT_APPEND)
+			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			ft_op_error(data->tmp_arg[i + 1]);
-		if (data->ast[i] == T_REDOUT || data->ast[i] == T_RED_OUT_APPEND)
+			ft_op_error(data->redir[i]);
+		if (data->type[i] == T_REDOUT || data->type[i] == T_RED_OUT_APPEND)
 			dupnclose(fd, STDOUT_FILENO);
-		else if (data->ast[i] == T_REDIN)
+		else if (data->type[i] == T_REDIN)
 			dupnclose(fd, STDIN_FILENO);
 	}
-	// if (data->cmd_id == data->count_cmd - 1 && count_redir_out(data) == 0)
-	// 	dupnclose(data->save_out, STDOUT_FILENO);
 	return (0);
 }
 
