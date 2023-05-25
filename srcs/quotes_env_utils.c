@@ -6,20 +6,20 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 10:37:51 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 13:47:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int    trimquotes_utils(t_quotes *quotes, int *count)
+int	trimquotes_utils(t_quotes *quotes, int *count)
 {
-    int	dq;
+	int	dq;
 	int	sq;
 
-    dq = -1;
+	dq = -1;
 	sq = -1;
-    while (quotes->arg[++dq])
+	while (quotes->arg[++dq])
 		if (quotes->arg[dq] == '"')
 			break ;
 	while (quotes->arg[++sq])
@@ -29,5 +29,24 @@ int    trimquotes_utils(t_quotes *quotes, int *count)
 		return (*count = count_char(quotes->arg, '"'));
 	else
 		return (*count = count_char(quotes->arg, '\''));
-    return (*count);
+	return (*count);
+}
+
+char	*ft_getenv(t_data *data, char *varname)
+{
+	int	i;
+	int	varname_len;
+
+	i = 0;
+	varname_len = ft_strlen(varname);
+	while (data->new_env[i] != NULL)
+	{
+		if (strncmp(varname, data->new_env[i], varname_len) == 0
+			&& data->new_env[i][varname_len] == '=')
+		{
+			return (data->new_env[i] + varname_len + 1);
+		}
+		i++;
+	}
+	return (NULL);
 }

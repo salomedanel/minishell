@@ -6,26 +6,20 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 11:08:49 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:21:29 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_metachar(char *prompt, int count)
+int	count_metachar(char *prompt, int count, int i)
 {
-	int	i;
-
-	i = -1;
 	if (prompt == NULL)
 		return (0);
 	while (prompt[++i])
 	{
 		if (i == 0 && is_metachar(prompt[i]) == 1)
-		{
-			count++;
-			i++;
-		}
+			norm_count_mc(&count, &i);
 		if (is_metachar(prompt[i]) == 1 && is_metachar(prompt[i - 1]) == 0
 			&& is_metachar(prompt[i + 1]) == 0)
 			count = count + 2;
@@ -45,7 +39,7 @@ int	count_metachar(char *prompt, int count)
 	return (count);
 }
 
-int	add_space(char *prompt, char *new_prompt)
+int	add_space(char *prompt, char *new_prompt, int k)
 {
 	int	i;
 	int	j;
@@ -66,7 +60,7 @@ int	add_space(char *prompt, char *new_prompt)
 			j = cpy_prompt(prompt, new_prompt, j, i);
 		else
 			new_prompt[j] = prompt[i];
-		if (j == ft_strlen(prompt) + count_metachar(prompt, count))
+		if (j == ft_strlen(prompt) + count_metachar(prompt, count, k))
 			return (j);
 		i++;
 		j++;
@@ -78,12 +72,14 @@ char	*clean_prompt(char *prompt)
 {
 	char	*new_prompt;
 	int		i;
+	int		j;
 	int		count;
 
 	count = 0;
+	j = -1;
 	new_prompt = malloc(sizeof(char) * (ft_strlen(prompt)
-				+ count_metachar(prompt, count)) + 1);
-	i = add_space(prompt, new_prompt);
+				+ count_metachar(prompt, count, j)) + 1);
+	i = add_space(prompt, new_prompt, j);
 	new_prompt[i] = '\0';
 	free(prompt);
 	return (new_prompt);
@@ -123,7 +119,7 @@ void	split_input(char *prompt, t_data *data)
 	i = -1;
 	data->clean_prompt = clean_prompt(prompt);
 	data->clean_prompt = handle_quotes(data, i);
-	if (data->clean_prompt == NULL)
+	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
 	if (split_space(data, i) == -1)
 		return ;

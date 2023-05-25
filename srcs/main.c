@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 11:55:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:24:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, handle_sigint);
-	// signal(SIGINT, handle_sigquit);
 	dup_env(&data, env);
 	data.path = NULL;
 	data.ast = NULL;
+	data.tmp_arg = NULL;
 	while (1)
 	{
 		prompt = readline("minishell> ");
@@ -36,7 +36,11 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		split_input(prompt, &data);
-		free_dobby(&data);
+		// if (g_exit_code > 2)
+		// {
+		// 	printf("exit_code = %d\n", g_exit_code);
+		// 	free_dobby(&data);
+		// }
 	}
 	return (0);
 }

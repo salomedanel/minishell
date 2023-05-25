@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/25 11:43:51 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:26:00 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void	exec(t_data *data)
 		get_redir_tab(data);
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (is_builtin(data->cmd_tab[0]))
+		{
+			// open_files(data);
 			exec_builtin(data, data->cmd_tab[0]);
+		}
 		else
 		{
 			data->pid[i] = fork();
@@ -106,7 +109,8 @@ void	exec(t_data *data)
 		free(data->type);
 		free(cmd);
 	}
-	for (int i = 0; i < data->count_cmd; i++)
+	i = -1;
+	while (++i < data->count_cmd)
 		waitpid(data->pid[i], 0, 0);
 	close(data->fd[0]);
 }

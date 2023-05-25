@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/25 11:10:52 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 13:48:12 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	int		len;
 
 	tmp_i = *i;
-	len = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (data->count);
 	if (quotes->arg[*i] == '$')
@@ -59,17 +58,15 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	len = (ft_strlen(var) * -1) + ft_strlen(quotes->tmp);
 	free(var);
 	if (quotes->tmp == NULL)
-	{
 		return (data->count);
-	}
 	else
 		return (data->count + len);
 }
 
 char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 {
-	int	tmp_i;
-	int	j;
+	int		tmp_i;
+	int		j;
 	char	*ex_code;
 
 	tmp_i = *i;
@@ -138,23 +135,4 @@ char	*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i)
 	}
 	tmp[j] = '\0';
 	return (tmp);
-}
-
-char	*ft_getenv(t_data *data, char *varname)
-{
-	int	i;
-	int	varname_len;
-
-	i = 0;
-	varname_len = ft_strlen(varname);
-	while (data->new_env[i] != NULL)
-	{
-		if (strncmp(varname, data->new_env[i], varname_len) == 0
-			&& data->new_env[i][varname_len] == '=')
-		{
-			return (data->new_env[i] + varname_len + 1);
-		}
-		i++;
-	}
-	return (NULL);
 }

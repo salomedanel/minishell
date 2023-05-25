@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 12:00:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 13:42:13 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ int	exec_builtin(t_data *data, char *builtin)
 	if (!ft_strncmp(builtin, "unset", len) && len == 5)
 		return (mini_unset(data));
 	if (!ft_strncmp(builtin, "env", len) && len == 3)
-	{
-		printf("yo\n");
 		return (mini_env(data));
-	}
 	if (!ft_strncmp(builtin, "exit", len) && len == 4)
 		return (mini_exit(data));
 	return (0);
@@ -67,6 +64,8 @@ void	mini_echo_loop(t_data *data, int i)
 {
 	while (data->tmp_arg[++i])
 	{
+		if (data->ast[i] != T_CMD)
+			continue ;
 		ft_putstr_fd(data->tmp_arg[i], 1);
 		if (!data->tmp_arg[i + 1])
 			break ;

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:08:58 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:16:51 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,24 @@ char	*get_cmd_path(char *cmd, char **path)
 	return (NULL);
 }
 
-void	ft_op_error(char *str)
+void	outfile_error(t_data *data, char *str)
 {
 	ft_putstr_fd("minishell: An error has occurred while opening ", 2);
 	ft_putendl_fd(str, 2);
+	if (data->prev_pipe != -1)
+		close(data->prev_pipe);
+	close(data->fd[0]);
+	close(data->fd[1]);
+}
+
+void	infile_error(t_data *data, char *str)
+{
+	ft_putstr_fd("minishell: no such file or directory ", 2);
+	ft_putendl_fd(str, 2);
+	if (data->prev_pipe != -1)
+		close(data->prev_pipe);
+	close(data->fd[0]);
+	close(data->fd[1]);
 }
 
 int	open_files(t_data *data)
@@ -88,12 +102,14 @@ int	open_files(t_data *data)
 	{
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (data->type[i] == T_REDIN)
-			fd = open(data->redir[i], O_RDONLY);
 		else if (data->type[i] == T_RED_OUT_APPEND)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			ft_op_error(data->redir[i]);
+			return(outfile_error(data, data->redir[i]), g_exit_code);	
+		else if (data->type[i] == T_REDIN)
+			fd = open(data->redir[i], O_RDONLY);
+		if (fd == -1)
+			return(infile_error(data, data->redir[i]), g_exit_code);	
 		if (data->type[i] == T_REDOUT || data->type[i] == T_RED_OUT_APPEND)
 			dupnclose(fd, STDOUT_FILENO);
 		else if (data->type[i] == T_REDIN)
@@ -101,4 +117,3 @@ int	open_files(t_data *data)
 	}
 	return (0);
 }
-

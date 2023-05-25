@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 11:20:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 14:37:37 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_token_type
 typedef struct s_data
 {
 	char	*clean_prompt;
+	char	*tmp_prompt;
 	char	**arg;
 	char	**f_arg;
 	char	**p_arg;
@@ -76,14 +77,14 @@ typedef struct s_quotes
 }			t_quotes;
 
 // parsing00
-int			count_metachar(char *prompt, int count);
-int			add_space(char *prompt, char *new_prompt);
+int			count_metachar(char *prompt, int count, int i);
+int			add_space(char *prompt, char *new_prompt, int k);
 char		*clean_prompt(char *prompt);
 int			split_space(t_data *data, int i);
 void		split_input(char *prompt, t_data *data);
 
 // handle_quotes
-void		check_quotes_open(t_data *data, int dquotes, int squotes);
+int			check_quotes_open(int dquotes, int squotes);
 void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
 char		*handle_quotes(t_data *data, int i);
 int			count_newlen(t_data *data, t_quotes *quotes);
@@ -102,13 +103,13 @@ int			close_quotes(char c, t_quotes *quotes, int *count);
 int			count_char(char *arg, char c);
 
 // parsing_utils01
-void		trimquotes_utils1(char c, int *dq_open, int *sq_open, int *i);
-void		trimquotes_utils2(char c, int *dq_open, int *sq_open, int *i);
+void		trquotes_util1(char c, int *dq_open, int *sq_open, int *i);
+void		trquotes_util2(char c, int *dq_open, int *sq_open, int *i);
 int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 void		norm_count_mc(int *count, int *i);
 
-// pars_err
+// pars_errprintf("clean prompt = %s\n", data->clean_prompt);
 void		err_msg(char *err, char quote);
 void		new_prompt(void);
 void		syntax_error(t_data *data);
@@ -130,8 +131,9 @@ char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 char		*ft_getenv(t_data *data, char *varname);
 char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 
-// quotes_env>_utils
+// quotes_env_utils
 int			trimquotes_utils(t_quotes *quotes, int *count);
+char		*ft_getenv(t_data *data, char *varname);
 
 // token
 void		token(t_data *data);
@@ -155,6 +157,7 @@ void		freefrom_syntax_err(t_data *data);
 int			mini_exit(t_data *data);
 int			freetab(char **tab);
 void		free_dobby(t_data *data);
+int			mini_exit_bis(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
@@ -182,31 +185,28 @@ int			count_var_to_exp(t_data *data);
 int			export_exist(t_data *data, char *var);
 int			var_to_unset(t_data *data);
 int			check_unset(char **var_to_unset, char *var_to_check);
+//pipex_utils00
+int			count_cmd(t_data *data);
+int			count_sub_cmd(t_data *data);
+char		*ft_jointab(char **tab);
+void		cmd_not_found(char *cmd);
+void		dupnclose(int fd1, int fd2);
+
+// pipex_utils01
+void		get_cmd_tab(t_data *data);
+char		**ft_get_path(t_data *data);
+char		*get_cmd_path(char *cmd, char **path);
+void		ft_op_error(char *str);
+int			count_redir_out(t_data *data);
+int			open_files(t_data *data);
+
+// pipex_newbis
+void		select_pipe(t_data *data, int i);
+void		exec(t_data *data);
 
 // split pipe
 char		*ft_jointab(char **tab);
 void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data);
-
-//pipex_utils00
-int            count_cmd(t_data *data);
-int            count_sub_cmd(t_data *data);
-char        *ft_jointab(char **tab);
-void        cmd_not_found(char *cmd);
-void        dupnclose(int fd1, int fd2);
-
-// pipex_utils01
-void        get_cmd_tab(t_data *data);
-char        **ft_get_path(t_data *data);
-char        *get_cmd_path(char *cmd, char **path);
-void        ft_op_error(char *str);
-int            count_redir_out(t_data *data);
-int            open_files(t_data *data);
-
-// pipex_newbis
-void        select_pipe(t_data *data, int i);
-int            count_redir(t_data data);
-void        get_redir_tab(t_data *data);
-void        exec(t_data *data);
 
 #endif

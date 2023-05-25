@@ -6,11 +6,11 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:15:19 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 18:16:00 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 13:49:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	print_arg(char **arg)
 {

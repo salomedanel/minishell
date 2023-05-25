@@ -6,27 +6,25 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/25 12:59:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:22:19 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_quotes_open(t_data *data, int dquotes, int squotes)
+int	check_quotes_open(int dquotes, int squotes)
 {
 	if (dquotes == 1)
 	{
 		err_msg(ERR_MSG, 34);
-		freefrom_quotes_err(data);
-		new_prompt();
+		return (1);
 	}
 	if (squotes == 1)
 	{
 		err_msg(ERR_MSG, 39);
-		freefrom_quotes_err(data);
-		new_prompt();
+		return (1);
 	}
-	return ;
+	return (0);
 }
 
 void	replace_space(t_data *data, int *dq_open, int *sq_open, int i)
@@ -63,31 +61,15 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 
 void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 {
-	int	dq;
-	int	sq;
 	int	count;
 	int	stop;
 
-	dq = -1;
-	sq = -1;
 	stop = 0;
-	while (quotes->arg[++dq])
-		if (quotes->arg[dq] == '"')
-			break ;
-	while (quotes->arg[++sq])
-		if (quotes->arg[sq] == '\'')
-			break ;
-	if (dq < sq)
-		count = count_char(quotes->arg, '"');
-	else
-		count = count_char(quotes->arg, '\'');
-	//count = trimquotes_utils(quotes, &count);
+	count = trimquotes_utils(quotes, &count);
 	while (quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
-		trimquotes_utils1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,
-			&i);
-		trimquotes_utils2(quotes->arg[i], &quotes->dq_open, &quotes->sq_open,
-			&i);
+		trquotes_util1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open, &i);
+		trquotes_util2(quotes->arg[i], &quotes->dq_open, &quotes->sq_open, &i);
 		if ((quotes->arg[i] == '"' && quotes->sq_open == 0)
 			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
@@ -114,11 +96,12 @@ char	*handle_quotes(t_data *data, int i)
 	sq_open = 0;
 	while (data->clean_prompt[++i])
 	{
-		trimquotes_utils1(data->clean_prompt[i], &dq_open, &sq_open, &i);
+		trquotes_util1(data->clean_prompt[i], &dq_open, &sq_open, &i);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
 		replace_space(data, &dq_open, &sq_open, i);
 	}
-	check_quotes_open(data, dq_open, sq_open);
+	if (check_quotes_open(dq_open, sq_open) == 1)
+		return (NULL);
 	return (data->clean_prompt);
 }

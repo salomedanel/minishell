@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 15:22:01 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 14:51:04 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	ft_strcpy_pipe(char *dest, char *src, int count)
 		j++;
 		i++;
 	}
-	if (i < count)
-		dest[j - 1] = '\0';
+	//printf("i = %d | count = %d\n", i, count);
+	// if (i < count)
+	// 	dest[j - 1] = '\0';
 	dest[j] = '\0';
 	return ;
 }
@@ -46,9 +47,12 @@ char	**split_pipe(t_data *data)
 	data->count_cmd = count_cmd(data);
 	str = ft_jointab(data->f_arg);
 	data->tmp_arg = ft_split(str, '|');
+	//printf("str = %s\n", str);
 	while (data->tmp_arg[count])
 		count++;
 	data->p_arg = malloc(sizeof(char *) * (count + 1));
+	//printf("TMP_ARG\n");
+	//print_arg(data->tmp_arg);
 	while (data->tmp_arg[i])
 	{
 		data->p_arg[i] = malloc(sizeof(char) * (ft_strlen(data->tmp_arg[i])
@@ -59,7 +63,7 @@ char	**split_pipe(t_data *data)
 		i++;
 	}
 	data->p_arg[i] = NULL;
-	//printf("PIPE ARG\n");
+//	printf("PARG\n");
 	//print_arg(data->p_arg);
 	free(str);
 	freetab(data->tmp_arg);

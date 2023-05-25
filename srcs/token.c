@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 11:19:12 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 14:58:49 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	token_metachar(t_data *data)
 	int	i;
 
 	i = -1;
+	if (data->tmp_arg == NULL)
+		return (0);
 	while (data->tmp_arg[++i])
 	{
 		if (!ft_strcmp(data->tmp_arg[i], "|"))
@@ -53,6 +55,8 @@ int	token_word_metachar(t_data *data, int nb_arg)
 
 	i = -1;
 	(void)nb_arg;
+	if (data->tmp_arg == NULL)
+		return (0);
 	while (data->tmp_arg[++i])
 	{
 		if (!ft_strcmp(data->tmp_arg[i], ">") && data->ast[i + 1])
@@ -72,6 +76,8 @@ int	token_command_option(t_data *data)
 	int	i;
 
 	i = -1;
+	if (data->tmp_arg == NULL)
+		return (0);
 	while (data->tmp_arg[++i])
 		if (data->ast[i] == -1)
 			data->ast[i] = T_CMD;
@@ -83,6 +89,8 @@ int	init_ast(t_data *data)
 	int	i;
 
 	i = 0;
+	if (data->tmp_arg == NULL)
+		return (0);
 	while (data->tmp_arg[i])
 		i++;
 	data->ast = ft_calloc(i + 1, sizeof(int));
@@ -91,4 +99,3 @@ int	init_ast(t_data *data)
 		data->ast[i] = -1;
 	return (i);
 }
-

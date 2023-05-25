@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 11:54:02 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:21:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,53 +42,44 @@ void	freefrom_syntax_err(t_data *data)
 	freetab(data->prev_env);
 }
 
-int    mini_exit(t_data *data)
+int	mini_exit(t_data *data)
 {
-    freetab(data->f_arg);
-    freetab(data->p_arg);
-    freetab(data->new_env);
-    freetab(data->prev_env);
-    freetab(data->cmd_tab);
-    freetab(data->path);
-    freetab(data->tmp_arg);
+	freetab(data->f_arg);
+	freetab(data->p_arg);
+	freetab(data->new_env);
+	freetab(data->prev_env);
+	freetab(data->cmd_tab);
+	freetab(data->path);
+	freetab(data->tmp_arg);
 	freetab(data->redir);
 	free(data->type);
-    free(data->ast);
-    exit(0);
+	free(data->ast);
+	exit(0);
 }
 
-
-int    mini_exit_bis(t_data *data)
+int	mini_exit_bis(t_data *data)
 {
 	int	i;
 
 	i = 0;
-    freetab(data->new_env);
-    freetab(data->prev_env);
+	freetab(data->new_env);
+	freetab(data->prev_env);
 	freetab(data->path);
 	free(data->ast);
-    exit(0);
+	exit(0);
 }
 
 void	free_dobby(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (data->f_arg[i])
-	{
-		free(data->f_arg[i]);
-		i++;
-	}
-	i = 0;
-	while (data->p_arg[i])
-	{
-		free(data->p_arg[i]);
-		i++;
-	}
-	free(data->p_arg);
-	free(data->f_arg);
-	//free(data->ast);
+	free(data->clean_prompt);
+	freetab(data->f_arg);
+	freetab(data->p_arg);
+	freetab(data->new_env);
+	freetab(data->prev_env);
+	freetab(data->cmd_tab);
+	freetab(data->tmp_arg);
+	freetab(data->path);
+	free(data->ast);
 }
 
 int	freetab(char **tab)
