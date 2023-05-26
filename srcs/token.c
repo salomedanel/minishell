@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:33:40 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 14:58:49 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 16:01:25 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	token_metachar(t_data *data)
 		else if (!ft_strcmp(data->tmp_arg[i], "<<"))
 			data->ast[i] = T_HERE_DOC;
 		else if (!ft_strcmp(data->tmp_arg[i], ">>"))
-			data->ast[i] = T_RED_OUT_APPEND;
+			data->ast[i] = T_RED_APPEND;
 	}
 	return (0);
 }

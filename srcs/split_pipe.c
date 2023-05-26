@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 09:54:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 11:35:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ char	**split_pipe(t_data *data)
 	data->count_cmd = count_cmd(data);
 	str = ft_jointab(data->f_arg);
 	data->tmp_arg = ft_split(str, '|');
-	//printf("str = %s\n", str);
 	while (data->tmp_arg[count])
 		count++;
 	data->p_arg = malloc(sizeof(char *) * (count + 1));
-	//printf("TMP_ARG\n");
-	//print_arg(data->tmp_arg);
+	if (data->p_arg == NULL)
+		return (NULL);
 	while (data->tmp_arg[i])
 	{
 		data->p_arg[i] = malloc(sizeof(char) * (ft_strlen(data->tmp_arg[i])

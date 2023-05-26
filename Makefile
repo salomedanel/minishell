@@ -26,6 +26,8 @@ SRC =	main \
 		pipex_newbis \
 		split_pipe \
 		temporary_utils \
+		echo \
+		redirections \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

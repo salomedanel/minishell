@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@students.42.fr>         +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 07:44:16 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:02:22 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 
 # define ERR_MSG "minishell: syntax error near unexpected token"
+# define ERR_MSG_NL "minishell: syntax error near unexpected token 'newline'"
 
 typedef enum e_token_type
 {
@@ -31,7 +32,7 @@ typedef enum e_token_type
 	T_REDOUT,         // 1 >
 	T_REDIN,          // 2 <
 	T_HERE_DOC,       // 3 <<
-	T_RED_OUT_APPEND, // 4 >>
+	T_RED_APPEND,     // 4 >>
 	T_OUTFILE_TRUNC,  // 5 > word + 1
 	T_INFILE,         // 6
 	T_LIMITER,        // 7 << word + 1
@@ -82,7 +83,7 @@ int			count_metachar(char *prompt, int count, int i);
 int			add_space(char *prompt, char *new_prompt, int k);
 char		*clean_prompt(char *prompt);
 int			split_space(t_data *data, int i);
-void		split_input(char *prompt, t_data *data);
+void		parsing(char *prompt, t_data *data);
 
 // handle_quotes
 int			check_quotes_open(int dquotes, int squotes);
@@ -110,16 +111,16 @@ int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 void		norm_count_mc(int *count, int *i);
 
-// pars_errprintf("clean prompt = %s\n", data->clean_prompt);
+// pars_error;
 void		err_msg(char *err, char quote);
-void		new_prompt(void);
-void		syntax_error(t_data *data);
-void		syntax_err_utils(t_data *data, char c);
-void		sing_syntax_error(t_data *data);
-void		mult_syntax_error(t_data *data);
+void		err_msg_newline(char *err);
+int			syntax_error(t_data *data);
+int			sing_syntax_error(t_data *data);
+int			mult_syntax_error(t_data *data);
 
 // parserr_utils
-int			metachar_type(char c, int *count);
+int			metachar_type(char c);
+int			count_metac(char *str);
 int			str_contains_mc(char *str);
 int			tab_len(char **tab);
 
@@ -162,6 +163,7 @@ int			mini_exit_bis(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
+int			unforkable_builtins(char *str);
 int			exec_builtin(t_data *data, char *builtin);
 void		mini_echo_loop(t_data *data, int i);
 int			mini_echo(t_data *data);

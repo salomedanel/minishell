@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:24:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:06:50 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 			mini_exit_bis(&data);
 			break ;
 		}
-		split_input(prompt, &data);
+		parsing(prompt, &data);
 		// if (g_exit_code > 2)
 		// {
 		// 	printf("exit_code = %d\n", g_exit_code);

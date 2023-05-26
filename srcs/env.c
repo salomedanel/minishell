@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:13:19 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:36:28 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,15 @@ int	mini_unset(t_data *data)
 	freetab(data->prev_env);
 	data->prev_env = malloc(sizeof(char *) * i);
 	dup_tab(data->new_env, data->prev_env);
+	return (g_exit_code);
+}
+
+int	mini_pwd(void)
+{
+	char	*buf;
+
+	buf = getcwd(NULL, 0);
+	ft_putendl_fd(buf, 1);
+	free(buf);
 	return (g_exit_code);
 }

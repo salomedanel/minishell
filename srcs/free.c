@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:21:18 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:08:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ void	free_arg(t_data *data)
 	free(data->clean_prompt);
 }
 
-void	freefrom_quotes_err(t_data *data)
-{
-	//free(data->clean_prompt);
-	freetab(data->new_env);
-	freetab(data->prev_env);
-}
+// void	freefrom_quotes_err(t_data *data)
+// {
+// 	//free(data->clean_prompt);
+// 	freetab(data->new_env);
+// 	freetab(data->prev_env);
+// }
 
-void	freefrom_syntax_err(t_data *data)
-{
-	freetab(data->f_arg);
-	freetab(data->new_env);
-	freetab(data->prev_env);
-}
+// void	freefrom_syntax_err(t_data *data)
+// {
+// 	freetab(data->f_arg);
+// 	freetab(data->new_env);
+// 	freetab(data->prev_env);
+// }
 
 int	mini_exit(t_data *data)
 {
@@ -62,6 +62,8 @@ int	mini_exit_bis(t_data *data)
 	int	i;
 
 	i = 0;
+	//freetab(data->f_arg);
+	//freetab(data->p_arg);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->path);

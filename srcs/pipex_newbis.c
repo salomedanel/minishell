@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@students.42.fr>         +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/26 07:45:52 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:55:59 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	count_redir(t_data data)
 	count = 0;
 	while (data.ast[++i])
 	{
-		if (data.ast[i] == T_REDOUT || data.ast[i] == T_RED_OUT_APPEND
+		if (data.ast[i] == T_REDOUT || data.ast[i] == T_RED_APPEND
 			|| data.ast[i] == T_REDIN)
 			count++;
 	}
@@ -53,7 +53,7 @@ void	get_redir_tab(t_data *data)
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] == T_REDIN || data->ast[i] == T_REDOUT
-			|| data->ast[i] == T_RED_OUT_APPEND)
+			|| data->ast[i] == T_RED_APPEND)
 		{
 			data->redir[j] = ft_strdup(data->tmp_arg[i + 1]);
 			data->type[j++] = data->ast[i];
@@ -68,6 +68,8 @@ void	exec(t_data *data)
 	char 	*cmd;
 
 	i = -1;
+	data->in = dup(STDIN_FILENO);
+	data->out = dup(STDOUT_FILENO);
 	data->prev_pipe = -1;
 	data->act_fd = -1;
 	data->path = ft_get_path(data);
@@ -79,18 +81,13 @@ void	exec(t_data *data)
 		get_cmd_tab(data);
 		get_redir_tab(data);
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
-		if (is_builtin(data->cmd_tab[0]))
+		if (is_builtin(data->cmd_tab[0]) && data->count_cmd == 1)
 		{
 			if (open_files(data) == 1)
 				continue ;
-			// print_arg(data->cmd_tab);
-			// int r = -1;
-			// while (data->type[++r])
-			// 	printf("type[%d] is %d\n", r, data->type[r]);
 			exec_builtin(data, data->cmd_tab[0]);
-			if (data->act_fd != -1)
-				close(data->act_fd);
-			//comment redonner la prio a stdout ?
+			dupnclose(data->in, STDIN_FILENO);
+			dupnclose(data->out, STDOUT_FILENO);
 		}
 		else
 		{
@@ -98,7 +95,10 @@ void	exec(t_data *data)
 			if (data->pid[i] == 0)
 			{
 				select_pipe(data, i);
-				open_files(data);
+				if (open_files(data) == 1)
+					exit (1) ;
+				if (unforkable_builtins(data->cmd_tab[0]) == 1)
+					exit(0);
 				if (cmd)
 					execve(cmd, data->cmd_tab, data->new_env);
 				cmd_not_found(data->cmd_tab[0]);

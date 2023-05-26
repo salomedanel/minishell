@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/26 10:25:26 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 15:55:33 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	dup_env(t_data *data, char **env)
 		i++;
 	data->prev_env = malloc(sizeof(char *) * (i + 1));
 	data->new_env = malloc(sizeof(char *) * (i + 1));
+	if (data->new_env == NULL || data->prev_env == NULL)
+		return ;
 	i = 0;
 	while (env[i])
 	{
@@ -43,8 +45,10 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	tmp_i = *i;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (data->count);
+	if (quotes->arg[*i] == '$' && quotes->arg[*i - 1] == '?' && !quotes->arg[*i + 1])
+	 	return (2);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
-		return (data->count + ft_strlen(ft_itoa(g_exit_code)));
+	 	return (data->count + ft_strlen(ft_itoa(g_exit_code)) - 1);
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
@@ -70,16 +74,16 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 	int		tmp_i;
 	int		j;
 	char	*ex_code;
-
+	
 	tmp_i = *i;
 	j = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (NULL);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
 	{
-		// ex_code = ft_itoa(g_exit_code);
-		// *i = *i + 1;
-		// return (ex_code);
+		ex_code = ft_itoa(g_exit_code);
+		*i = *i + 1;
+		return (ex_code);
 	}
 	if (quotes->arg[*i] == '$')
 	{
@@ -101,6 +105,8 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 
 	j = 0;
 	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);
+	if (quotes->tmp == NULL)
+		return (NULL);
 	if (quotes->tmp == NULL)
 		return (NULL);
 	while (*tmp_i < *i)
@@ -129,6 +135,8 @@ char	*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i)
 	j = 0;
 	tmp2 = *tmp_i;
 	tmp = malloc(sizeof(char) * quotes->counter + 2);
+	if (tmp == NULL)
+		return (NULL);
 	while (tmp2 < *i)
 	{
 		tmp[j] = quotes->arg[tmp2];

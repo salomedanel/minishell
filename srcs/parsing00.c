@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 10:11:00 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 15:47:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	count_metachar(char *prompt, int count, int i)
 {
 	if (prompt == NULL)
 		return (0);
-	while (prompt[++i])
+	while (prompt[++i] && prompt[i + 1])
 	{
 		if (i == 0 && is_metachar(prompt[i]) == 1)
 			norm_count_mc(&count, &i);
@@ -114,7 +114,7 @@ int	split_space(t_data *data, int i)
 	return (0);
 }
 
-void	split_input(char *prompt, t_data *data)
+void	parsing(char *prompt, t_data *data)
 {
 	int	i;
 	int	j;
@@ -124,13 +124,15 @@ void	split_input(char *prompt, t_data *data)
 	j = -1;
 	count = 0;
 	data->clean_prompt = clean_prompt(prompt);
-	data->clean_prompt = handle_quotes(data, i);;
+	data->clean_prompt = handle_quotes(data, i);
+	//printf("clean_prompt = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
 	if (split_space(data, i) == -1)
 		return ;
 	final_arg(data);
-	syntax_error(data);
+	if (syntax_error(data) == 0)
+		return;
 	split_pipe(data);
 	exec(data);
 	return ;

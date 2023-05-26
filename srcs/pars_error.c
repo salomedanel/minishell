@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 10:05:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 12:41:43 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,26 @@ void	err_msg(char *err, char quote)
 	return ;
 }
 
-void	new_prompt()
+void	err_msg_newline(char *err)
 {
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	int	i;
 
-void	syntax_err_utils(t_data *data, char c)
-{
-	err_msg(ERR_MSG, c);
-	freefrom_syntax_err(data);
-	new_prompt();
+	i = 0;
+	ft_printf("%s\n", err);
+	g_exit_code = 2;
 	return ;
 }
 
-void	syntax_error(t_data *data)
+int	syntax_error(t_data *data)
 {
-	sing_syntax_error(data);
-	mult_syntax_error(data);
+	if (sing_syntax_error(data) == 0)
+		return (0);
+	if (mult_syntax_error(data) == 0)
+		return (0);
+	return (1);
 }
 
-void	sing_syntax_error(t_data *data)
+int	sing_syntax_error(t_data *data)
 {
 	int	i;
 	int	j;
@@ -53,25 +51,36 @@ void	sing_syntax_error(t_data *data)
 	int	type;
 
 	i = 0;
+	count_mc = count_metac(data->f_arg[i]);
 	while (data->f_arg[i])
 	{
 		j = 0;
-		count_mc = 0;
 		while (data->f_arg[i][j])
 		{
-			type = metachar_type(data->f_arg[i][j], &count_mc);
+			type = metachar_type(data->f_arg[i][j]);
 			if (type == 3 && j > 0)
+			{
 				err_msg(ERR_MSG, '|');
+				return (0);
+			}
+			if (count_mc == 2)
+			{
+				err_msg_newline(ERR_MSG_NL);
+				return (0);
+			}
 			if (count_mc > 2)
+			{
 				err_msg(ERR_MSG, data->f_arg[i][j]);
+				return (0);
+			}
 			j++;
 		}
 		i++;
 	}
-	return ;
+	return (1);
 }
 
-void	mult_syntax_error(t_data *data)
+int	mult_syntax_error(t_data *data)
 {
 	int	i;
 	int	count_arg;
@@ -82,9 +91,17 @@ void	mult_syntax_error(t_data *data)
 	while (data->f_arg[i])
 	{
 		contains_mc = str_contains_mc(data->f_arg[i]);
-		if (i == count_arg - 1 && contains_mc > 0)
+		if (i == count_arg - 1 && contains_mc <= 2 && contains_mc > 0)
+		{
+			err_msg_newline(ERR_MSG_NL);
+			return (0);
+		}
+		if (i == count_arg - 1 && contains_mc > 2)
+		{
 			err_msg(ERR_MSG, data->f_arg[i][0]);
+			return (0);
+		}
 		i++;
 	}
-	return ;
+	return (1);
 }
