@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:21:29 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:11:00 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	*clean_prompt(char *prompt)
 	j = -1;
 	new_prompt = malloc(sizeof(char) * (ft_strlen(prompt)
 				+ count_metachar(prompt, count, j)) + 1);
+	if (new_prompt == NULL)
+		return (NULL);
 	i = add_space(prompt, new_prompt, j);
 	new_prompt[i] = '\0';
 	free(prompt);
@@ -115,10 +117,14 @@ int	split_space(t_data *data, int i)
 void	split_input(char *prompt, t_data *data)
 {
 	int	i;
+	int	j;
+	int	count;
 
 	i = -1;
+	j = -1;
+	count = 0;
 	data->clean_prompt = clean_prompt(prompt);
-	data->clean_prompt = handle_quotes(data, i);
+	data->clean_prompt = handle_quotes(data, i);;
 	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
 	if (split_space(data, i) == -1)

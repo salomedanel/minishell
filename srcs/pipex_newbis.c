@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@students.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/25 15:26:00 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/26 07:45:52 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec(t_data *data)
 
 	i = -1;
 	data->prev_pipe = -1;
+	data->act_fd = -1;
 	data->path = ft_get_path(data);
 	while (++i < data->count_cmd)
 	{
@@ -80,8 +81,16 @@ void	exec(t_data *data)
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (is_builtin(data->cmd_tab[0]))
 		{
-			// open_files(data);
+			if (open_files(data) == 1)
+				continue ;
+			// print_arg(data->cmd_tab);
+			// int r = -1;
+			// while (data->type[++r])
+			// 	printf("type[%d] is %d\n", r, data->type[r]);
 			exec_builtin(data, data->cmd_tab[0]);
+			if (data->act_fd != -1)
+				close(data->act_fd);
+			//comment redonner la prio a stdout ?
 		}
 		else
 		{

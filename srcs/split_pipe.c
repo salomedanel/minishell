@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 14:51:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 09:54:32 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_strcpy_pipe(char *dest, char *src, int count)
 	i = 0;
 	j = 0;
 	len = ft_strlen(src);
+	(void) count;
 	while (src[i])
 	{
 		if (src[i] == ' ' && (i == 0 || i == len) && src[i])

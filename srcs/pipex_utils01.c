@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@students.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/25 15:16:51 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/26 07:44:01 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_cmd_path(char *cmd, char **path)
 
 void	outfile_error(t_data *data, char *str)
 {
-	ft_putstr_fd("minishell: An error has occurred while opening ", 2);
+	ft_putstr_fd("minishell: An error has occurred while opening: ", 2);
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
@@ -84,7 +84,7 @@ void	outfile_error(t_data *data, char *str)
 
 void	infile_error(t_data *data, char *str)
 {
-	ft_putstr_fd("minishell: no such file or directory ", 2);
+	ft_putstr_fd("minishell: no such file or directory: ", 2);
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
@@ -105,15 +105,17 @@ int	open_files(t_data *data)
 		else if (data->type[i] == T_RED_OUT_APPEND)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			return(outfile_error(data, data->redir[i]), g_exit_code);	
+			return(outfile_error(data, data->redir[i]), g_exit_code = 1);	
 		else if (data->type[i] == T_REDIN)
 			fd = open(data->redir[i], O_RDONLY);
 		if (fd == -1)
-			return(infile_error(data, data->redir[i]), g_exit_code);	
+			return(infile_error(data, data->redir[i]), g_exit_code = 1);	
 		if (data->type[i] == T_REDOUT || data->type[i] == T_RED_OUT_APPEND)
 			dupnclose(fd, STDOUT_FILENO);
 		else if (data->type[i] == T_REDIN)
-			dupnclose(fd, STDIN_FILENO);
+			// dupnclose(fd, STDIN_FILENO);
+			close(fd);
+		data->act_fd = fd;
 	}
 	return (0);
 }

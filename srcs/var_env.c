@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/25 13:48:12 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:25:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	tmp_i = *i;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (data->count);
+	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
+		return (data->count + ft_strlen(ft_itoa(g_exit_code)));
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
@@ -75,9 +77,9 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 		return (NULL);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
 	{
-		ex_code = ft_itoa(g_exit_code);
-		*i = *i + 1;
-		return (ex_code);
+		// ex_code = ft_itoa(g_exit_code);
+		// *i = *i + 1;
+		// return (ex_code);
 	}
 	if (quotes->arg[*i] == '$')
 	{

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/25 15:22:19 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:14:47 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 			&& quotes->dq_open == 0)
 			data->count = open_quotes(quotes->arg[i], quotes, &i, &data->count);
 		data->count = varenv_len(quotes, data, &i);
+		//printf("count_newlen: %d\n", data->count);
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 0
 			&& quotes->dq_open == 0)
 			data->count = open_quotes(quotes->arg[i], quotes, &i, &data->count);
