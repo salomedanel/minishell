@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 16:02:22 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 13:00:52 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 // quotes_env_utils
 int			trimquotes_utils(t_quotes *quotes, int *count);
 char		*ft_getenv(t_data *data, char *varname);
+int			is_specialchar(char c);
 
 // token
 void		token(t_data *data);

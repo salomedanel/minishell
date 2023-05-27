@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 12:41:43 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 12:28:05 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ extern int	g_exit_code;
 
 void	err_msg(char *err, char quote)
 {
-	int	i;
+	//int	i;
 
-	i = 0;
+	//i = 0;
 	ft_printf("%s '%c'\n", err, quote);
 	g_exit_code = 2;
 	return ;
@@ -26,9 +26,9 @@ void	err_msg(char *err, char quote)
 
 void	err_msg_newline(char *err)
 {
-	int	i;
+	//int	i;
 
-	i = 0;
+	//i = 0;
 	ft_printf("%s\n", err);
 	g_exit_code = 2;
 	return ;

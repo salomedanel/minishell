@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/26 13:55:59 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 08:42:23 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ void	exec(t_data *data)
 	char 	*cmd;
 
 	i = -1;
-	data->in = dup(STDIN_FILENO);
-	data->out = dup(STDOUT_FILENO);
-	data->prev_pipe = -1;
-	data->act_fd = -1;
-	data->path = ft_get_path(data);
 	while (++i < data->count_cmd)
 	{
 		pipe(data->fd);

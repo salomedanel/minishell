@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/25 13:47:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 13:00:46 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ char	*ft_getenv(t_data *data, char *varname)
 		i++;
 	}
 	return (NULL);
+}
+
+int	is_specialchar(char c)
+{
+	if (c == '$' || c == '\'' || c == '"' || c == '\0' || c == '[' || c == ']' || c == '{' || c == '}')
+		return (1);
+	return (0);
 }

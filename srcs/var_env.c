@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/26 15:55:33 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 12:59:34 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 {
 	int		tmp_i;
-	int		j;
+	//int		j;
 	char	*ex_code;
 	
 	tmp_i = *i;
-	j = 0;
+	//j = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (NULL);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
@@ -88,8 +88,9 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
-		while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
-			&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
+		//while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
+		//	&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
+		while (is_specialchar(quotes->arg[*i]) == 0)
 		{
 			*i = *i + 1;
 			quotes->counter++;

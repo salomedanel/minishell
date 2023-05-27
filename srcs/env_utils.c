@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/24 15:50:26 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 08:05:23 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	parse_var_to_exp(char *var)
 	i = -1;
 	j = 0;
 	while (var[++i] && var[i] != '=')
-		if (ft_isspecialchar(var[i]) == 1)
+		if (ft_isspecialchar(var[i]) == 1 || ft_isdigit(var[i]) == 1)
 			j++;
 	if (j > 0)
 		return (1);

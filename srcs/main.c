@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 13:06:50 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 08:34:24 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_exit_code = 0;
+
+void	init_struct(t_data *data)
+{
+	data->ast = NULL;
+	data->tmp_arg = NULL;
+	data->in = dup(STDIN_FILENO);
+	data->out = dup(STDOUT_FILENO);
+	data->prev_pipe = -1;
+	data->act_fd = -1;
+	data->path = ft_get_path(data);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -23,9 +34,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	signal(SIGINT, handle_sigint);
 	dup_env(&data, env);
-	data.path = NULL;
-	data.ast = NULL;
-	data.tmp_arg = NULL;
+	init_struct(&data);
 	while (1)
 	{
 		prompt = readline("minishell> ");

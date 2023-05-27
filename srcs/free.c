@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 13:08:26 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 07:58:28 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	mini_exit(t_data *data)
 
 int	mini_exit_bis(t_data *data)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	//freetab(data->f_arg);
 	//freetab(data->p_arg);
 	freetab(data->new_env);

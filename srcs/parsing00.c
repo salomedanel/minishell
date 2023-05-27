@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing00.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 15:47:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/27 12:28:38 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,12 @@ int	split_space(t_data *data, int i)
 void	parsing(char *prompt, t_data *data)
 {
 	int	i;
-	int	j;
-	int	count;
+	//int	j;
+	//int	count;
 
 	i = -1;
-	j = -1;
-	count = 0;
+	//j = -1;
+	//count = 0;
 	data->clean_prompt = clean_prompt(prompt);
 	data->clean_prompt = handle_quotes(data, i);
 	//printf("clean_prompt = %s\n", data->clean_prompt);
