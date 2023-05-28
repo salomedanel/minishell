@@ -34,11 +34,15 @@ void	trquotes_util2(char c, t_quotes *quotes, int *i)
 	if (c == '"' && quotes->dq_open == 1)
 	{
 		quotes->dq_open = 0;
+		if (*i == ft_strlen(quotes->arg) - 1)
+			return ;
 		*i = *i + 1;
 	}
 	if (c == '\'' && quotes->sq_open == 1)
 	{
 		quotes->sq_open = 0;
+		if (*i == ft_strlen(quotes->arg) - 1)
+			return ;
 		*i = *i + 1;
 	}
 	return ;

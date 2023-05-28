@@ -124,15 +124,20 @@ void	parsing(char *prompt, t_data *data)
 	quotes.sq_open = 0;
 	data->clean_prompt = clean_prompt(prompt);
 	data->clean_prompt = handle_quotes(data, i, &quotes);
-	printf("clean_prompt = %s\n", data->clean_prompt);
+	//printf("clean_prompt = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
+	//printf("yo1\n");
 	if (split_space(data, i) == -1)
 		return ;
+	//printf("yo2\n");
 	final_arg(data, &quotes);
+	//printf("yo3\n");
 	if (syntax_error(data) == 0)
 		return;
 	split_pipe(data);
+	//printf("yo4\n");
 	exec(data);
+	//printf("yo5\n");
 	return ;
 }

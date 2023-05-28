@@ -86,8 +86,8 @@ int			split_space(t_data *data, int i);
 void		parsing(char *prompt, t_data *data);
 
 // handle_quotes
-int			check_quotes_open(int dquotes, int squotes);
-void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
+int			check_quotes_open(t_quotes *quotes);
+void		replace_space(t_data *data, t_quotes *quotes, int i);
 char		*handle_quotes(t_data *data, int i, t_quotes *quotes);
 int			count_newlen(t_data *data, t_quotes *quotes);
 void		trimquotes(t_data *data, t_quotes *quotes, int i, int j);

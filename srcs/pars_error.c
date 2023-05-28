@@ -58,7 +58,7 @@ int	sing_syntax_error(t_data *data)
 		while (data->f_arg[i][j])
 		{
 			type = metachar_type(data->f_arg[i][j]);
-			if ((type == 3 && j > 0) || (type == 3 && ft_strlen(data->f_arg[i]) == 1))
+			if ((type == 3 && j > 0) || (type == 3 && ft_strlen(data->f_arg[i]) == 1 && i == 0))
 			{
 				err_msg(ERR_MSG, '|');
 				return (0);
@@ -90,6 +90,7 @@ int	mult_syntax_error(t_data *data)
 	count_arg = tab_len(data->f_arg);
 	while (data->f_arg[i])
 	{
+		//printf("yo1\n");
 		contains_mc = str_contains_mc(data->f_arg[i]);
 		if (i == count_arg - 1 && contains_mc <= 2 && contains_mc > 0)
 		{
@@ -98,6 +99,7 @@ int	mult_syntax_error(t_data *data)
 		}
 		if (i == count_arg - 1 && contains_mc > 2)
 		{
+			//printf("mc = %d\n", contains_mc);
 			err_msg(ERR_MSG, data->f_arg[i][0]);
 			return (0);
 		}

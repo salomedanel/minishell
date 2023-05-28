@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	check_quotes_open(int dquotes, int squotes)
+int	check_quotes_open(t_quotes *quotes)
 {
-	if (dquotes == 1)
+	if (quotes->dq_open == 1)
 	{
 		err_msg(ERR_MSG, 34);
 		return (1);
 	}
-	if (squotes == 1)
+	if (quotes->sq_open == 1)
 	{
 		err_msg(ERR_MSG, 39);
 		return (1);
@@ -27,13 +27,13 @@ int	check_quotes_open(int dquotes, int squotes)
 	return (0);
 }
 
-void	replace_space(t_data *data, int *dq_open, int *sq_open, int i)
+void	replace_space(t_data *data, t_quotes *quotes, int i)
 {
-	if (data->clean_prompt[i] == '"' && *dq_open == 1)
-		*dq_open = 0;
-	if (data->clean_prompt[i] == '\'' && *sq_open == 1)
-		*sq_open = 0;
-	if ((*dq_open == 1 || *sq_open == 1) && data->clean_prompt[i] == 32)
+	if (data->clean_prompt[i] == '"' && quotes->dq_open == 1)
+		quotes->dq_open = 0;
+	if (data->clean_prompt[i] == '\'' && quotes->sq_open == 1)
+		quotes->sq_open = 0;
+	if ((quotes->dq_open == 1 || quotes->sq_open == 1) && data->clean_prompt[i] == 32)
 		data->clean_prompt[i] = 31;
 }
 
@@ -89,19 +89,14 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 
 char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 {
-	int	dq_open;
-	int	sq_open;
-
-	dq_open = 0;
-	sq_open = 0;
 	while (data->clean_prompt[++i])
 	{
 		trquotes_util1(data->clean_prompt[i], quotes, &i);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
-		replace_space(data, &dq_open, &sq_open, i);
+		replace_space(data, quotes, i);
 	}
-	if (check_quotes_open(dq_open, sq_open) == 1)
+	if (check_quotes_open(quotes) == 1)
 		return (NULL);
 	return (data->clean_prompt);
 }
