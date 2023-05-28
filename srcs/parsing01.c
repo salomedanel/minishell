@@ -59,7 +59,7 @@ void	final_arg(t_data *data, t_quotes *quotes)
 		i++;
 	}
 	data->f_arg[i] = NULL;
-	//print_arg(data->f_arg);
+	print_arg(data->f_arg);
 	free_arg(data);
 	return ;
 }

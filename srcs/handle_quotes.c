@@ -80,6 +80,8 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 			continue ;
 		}
 		j = cpy_varenv(data, quotes, &i, &j);
+		//printf("sq = %d | dq = %d\n", quotes->sq_open, quotes->dq_open);
+		//printf("f_arg = %s\n", data->f_arg[quotes->index]);
 		i++;
 		stop++;
 	}
