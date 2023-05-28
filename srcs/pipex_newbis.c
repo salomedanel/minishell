@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/27 08:42:23 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:00:07 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	exec(t_data *data)
 	char 	*cmd;
 
 	i = -1;
+	data->in = dup(STDIN_FILENO);
+	data->out = dup(STDOUT_FILENO);
+	data->prev_pipe = -1;
 	while (++i < data->count_cmd)
 	{
 		pipe(data->fd);
@@ -97,7 +100,7 @@ void	exec(t_data *data)
 				if (cmd)
 					execve(cmd, data->cmd_tab, data->new_env);
 				cmd_not_found(data->cmd_tab[0]);
-				exit(127);
+				exit_fork(data, cmd);
 			}
 			else if (data->pid[i] > 0)
 			{

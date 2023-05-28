@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 08:34:24 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:05:09 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ int		g_exit_code = 0;
 
 void	init_struct(t_data *data)
 {
-	data->ast = NULL;
+	data->cmd_tab = NULL;
 	data->tmp_arg = NULL;
-	data->in = dup(STDIN_FILENO);
-	data->out = dup(STDOUT_FILENO);
-	data->prev_pipe = -1;
-	data->act_fd = -1;
+	data->ast = NULL;
+	data->redir = NULL;
+	data->type = NULL;
 	data->path = ft_get_path(data);
+	data->count_cmd = 0;
+	data->fd[0] = -1;
+	data->fd[1] = -1;
 }
 
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 13:00:52 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/28 14:54:18 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int			mini_exit(t_data *data);
 int			freetab(char **tab);
 void		free_dobby(t_data *data);
 int			mini_exit_bis(t_data *data);
+int			exit_fork(t_data *data, char *cmd);
 
 // builtins
 int			is_builtin(char *str);

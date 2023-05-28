@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/26 13:20:07 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:47:21 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	open_files(t_data *data)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 			return(outfile_error(data, data->redir[i]), g_exit_code = 1);	
-		else if (data->type[i] == T_REDIN)
+		if (data->type[i] == T_REDIN)
 			fd = open(data->redir[i], O_RDONLY);
 		if (fd == -1)
 			return(infile_error(data, data->redir[i]), g_exit_code = 1);	

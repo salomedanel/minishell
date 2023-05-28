@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/27 08:05:23 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:45:23 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	count_var_to_exp(t_data *data)
 			count++;
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 1)
 		{
-			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd("minishell: export: '", 2);
 			ft_putstr_fd(data->cmd_tab[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			return (g_exit_code = 1);

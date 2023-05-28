@@ -6,13 +6,26 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 07:58:28 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:00:03 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
+
+int	freetab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	if (!tab)
+		return (0);
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+	return (i);
+}
 
 void	free_arg(t_data *data)
 {
@@ -71,6 +84,16 @@ int	mini_exit_bis(t_data *data)
 	exit(0);
 }
 
+int	exit_fork(t_data *data, char *cmd)
+{
+	free(cmd);
+	freetab(data->tmp_arg);
+	freetab(data->cmd_tab);
+	freetab(data->redir);
+	free(data->type);
+	exit(127);
+}
+
 void	free_dobby(t_data *data)
 {
 	free(data->clean_prompt);
@@ -84,15 +107,3 @@ void	free_dobby(t_data *data)
 	free(data->ast);
 }
 
-int	freetab(char **tab)
-{
-	int	i;
-
-	i = -1;
-	if (!tab)
-		return (0);
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
-	return (i);
-}
