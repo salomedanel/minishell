@@ -6,7 +6,7 @@
 /*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/27 13:06:42 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/28 15:30:55 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 extern int	g_exit_code;
 
-void	trquotes_util1(char c, int *dq_open, int *sq_open, int *i)
+void	trquotes_util1(char c, t_quotes *quotes, int *i)
 {
-	if (c == '"' && *dq_open == 0 && *sq_open == 0)
+	if (c == '"' && quotes->dq_open == 0 && quotes->sq_open == 0)
 	{
-		*dq_open = 1;
+		quotes->dq_open = 1;
 		*i = *i + 1;
 	}
-	if (c == '\'' && *dq_open == 0 && *sq_open == 0)
+	if (c == '\'' && quotes->dq_open == 0 && quotes->sq_open == 0)
 	{
-		*sq_open = 1;
+		quotes->sq_open = 1;
 		*i = *i + 1;
 	}
 	return ;
 }
 
-void	trquotes_util2(char c, int *dq_open, int *sq_open, int *i)
+void	trquotes_util2(char c, t_quotes *quotes, int *i)
 {
-	if (c == '"' && *dq_open == 1)
+	if (c == '"' && quotes->dq_open == 1)
 	{
-		*dq_open = 0;
+		quotes->dq_open = 0;
 		*i = *i + 1;
 	}
-	if (c == '\'' && *sq_open == 1)
+	if (c == '\'' && quotes->sq_open == 1)
 	{
-		*sq_open = 0;
+		quotes->sq_open = 0;
 		*i = *i + 1;
 	}
 	return ;

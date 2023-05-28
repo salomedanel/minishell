@@ -6,7 +6,7 @@
 /*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/28 14:54:18 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/28 15:49:37 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ void		parsing(char *prompt, t_data *data);
 // handle_quotes
 int			check_quotes_open(int dquotes, int squotes);
 void		replace_space(t_data *data, int *dq_open, int *sq_open, int i);
-char		*handle_quotes(t_data *data, int i);
+char		*handle_quotes(t_data *data, int i, t_quotes *quotes);
 int			count_newlen(t_data *data, t_quotes *quotes);
 void		trimquotes(t_data *data, t_quotes *quotes, int i, int j);
 
 // parsing01
 int			new_len(char *arg, t_data *data, t_quotes *quotes);
 void		new_words(char *arg, t_data *data, int index, t_quotes *quotes);
-void		final_arg(t_data *data);
+void		final_arg(t_data *data, t_quotes *quotes);
 
 // parsing_utils00
 int			is_metachar(char c);
@@ -105,8 +105,8 @@ int			close_quotes(char c, t_quotes *quotes, int *count);
 int			count_char(char *arg, char c);
 
 // parsing_utils01
-void		trquotes_util1(char c, int *dq_open, int *sq_open, int *i);
-void		trquotes_util2(char c, int *dq_open, int *sq_open, int *i);
+void		trquotes_util1(char c, t_quotes *quotes, int *i);
+void		trquotes_util2(char c, t_quotes *quotes, int *i);
 int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 void		norm_count_mc(int *count, int *i);

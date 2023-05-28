@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing01.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 15:47:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/28 15:49:14 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,13 @@ void	new_words(char *arg, t_data *data, int index, t_quotes *quotes)
 	return ;
 }
 
-void	final_arg(t_data *data)
+void	final_arg(t_data *data, t_quotes *quotes)
 {
 	int			i;
-	t_quotes	quotes;
 
 	i = 0;
-	quotes.dq_open = 0;
-	quotes.sq_open = 0;
+	quotes->dq_open = 0;
+	quotes->sq_open = 0;
 	while (data->arg[i])
 		i++;
 	data->f_arg = malloc(sizeof(char *) * (i + 1));
@@ -53,14 +52,14 @@ void	final_arg(t_data *data)
 	while (data->arg[i])
 	{
 		data->f_arg[i] = malloc(sizeof(char) * (new_len(data->arg[i], data,
-						&quotes) + 1));
+						quotes) + 1));
 		if (!data->f_arg[i])
 			return ;
-		new_words(data->arg[i], data, i, &quotes);
+		new_words(data->arg[i], data, i, quotes);
 		i++;
 	}
 	data->f_arg[i] = NULL;
-	//print_arg(data->f_arg);
+	print_arg(data->f_arg);
 	free_arg(data);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 12:28:05 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/28 15:10:16 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	sing_syntax_error(t_data *data)
 		while (data->f_arg[i][j])
 		{
 			type = metachar_type(data->f_arg[i][j]);
-			if (type == 3 && j > 0)
+			if ((type == 3 && j > 0) || (type == 3 && ft_strlen(data->f_arg[i]) == 1))
 			{
 				err_msg(ERR_MSG, '|');
 				return (0);

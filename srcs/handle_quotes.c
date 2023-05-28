@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/26 15:34:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/28 15:56:40 by danelsalome      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 	count = trimquotes_utils(quotes, &count);
 	while (quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
-		trquotes_util1(quotes->arg[i], &quotes->dq_open, &quotes->sq_open, &i);
-		trquotes_util2(quotes->arg[i], &quotes->dq_open, &quotes->sq_open, &i);
+		trquotes_util1(quotes->arg[i], quotes, &i);
+		trquotes_util2(quotes->arg[i], quotes, &i);
 		if ((quotes->arg[i] == '"' && quotes->sq_open == 0)
 			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
@@ -87,7 +87,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 	return ;
 }
 
-char	*handle_quotes(t_data *data, int i)
+char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 {
 	int	dq_open;
 	int	sq_open;
@@ -96,7 +96,7 @@ char	*handle_quotes(t_data *data, int i)
 	sq_open = 0;
 	while (data->clean_prompt[++i])
 	{
-		trquotes_util1(data->clean_prompt[i], &dq_open, &sq_open, &i);
+		trquotes_util1(data->clean_prompt[i], quotes, &i);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
 		replace_space(data, &dq_open, &sq_open, i);
