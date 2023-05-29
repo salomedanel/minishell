@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 10:52:36 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 14:45:44 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	check_quotes_open(t_quotes *quotes)
 {
 	if (quotes->dq_open == 1)
 	{
-		err_msg(ERR_MSG, 34);
+		err_msg_char(ERR_MSG, 34);
 		return (1);
 	}
 	if (quotes->sq_open == 1)
 	{
-		err_msg(ERR_MSG, 39);
+		err_msg_char(ERR_MSG, 39);
 		return (1);
 	}
 	return (0);
@@ -100,6 +100,11 @@ char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 		trquotes_util1(data->clean_prompt[i], quotes, &i);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
+		if (metachar_type(data->clean_prompt[i]) > 0 && quotes->dq_open == 0 && quotes->sq_open == 0)
+		{
+			err_msg_char(ERR_MSG, data->clean_prompt[i]);
+			return (NULL);
+		}
 		replace_space(data, quotes, i);
 	}
 	if (check_quotes_open(quotes) == 1)

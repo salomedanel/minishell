@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 11:15:05 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:10:35 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	exec(t_data *data)
 					exit_fork(data, cmd);
 				}
 				cmd_not_found(data->cmd_tab[0]);
+				printf("%d\n", data->ast[0]);
 				exit_fork(data, cmd);
 			}
 			else if (data->pid[i] > 0)
@@ -127,4 +128,7 @@ void	exec(t_data *data)
 	while (++i < data->count_cmd)
 		waitpid(data->pid[i], 0, 0);
 	close(data->fd[0]);
+	close(data->fd[1]);
+	close(data->in);
+	close (data->out);
 }

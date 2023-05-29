@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 10:49:33 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 12:54:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ char	**split_pipe(t_data *data)
 		i++;
 	}
 	data->p_arg[i] = NULL;
-	printf("PARG\n");
-	print_arg(data->p_arg);
+	//printf("PARG\n");
+	//print_arg(data->p_arg);
 	free(str);
 	freetab(data->tmp_arg);
 	return (data->p_arg);

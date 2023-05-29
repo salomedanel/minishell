@@ -11,6 +11,7 @@ SRC =	main \
 		parsing_utils01 \
 		handle_quotes \
 		pars_error \
+		special_error \
 		parserror_utils \
 		var_env \
 		quotes_env_utils \

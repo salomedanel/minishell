@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/28 15:10:16 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 14:24:07 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 extern int	g_exit_code;
 
-void	err_msg(char *err, char quote)
+void	err_msg_char(char *err, char quote)
 {
-	//int	i;
-
-	//i = 0;
 	ft_printf("%s '%c'\n", err, quote);
 	g_exit_code = 2;
 	return ;
 }
 
+// void	err_msg_str(char *err, char *str)
+// {
+// 	ft_printf("minishell: %s: %s\n", str, err);
+// 	return ;
+// }
+
 void	err_msg_newline(char *err)
 {
-	//int	i;
-
-	//i = 0;
 	ft_printf("%s\n", err);
 	g_exit_code = 2;
 	return ;
@@ -36,6 +36,8 @@ void	err_msg_newline(char *err)
 
 int	syntax_error(t_data *data)
 {
+	if (err_onlyspace(data) == 0)
+		return (0);
 	if (sing_syntax_error(data) == 0)
 		return (0);
 	if (mult_syntax_error(data) == 0)
@@ -60,7 +62,7 @@ int	sing_syntax_error(t_data *data)
 			type = metachar_type(data->f_arg[i][j]);
 			if ((type == 3 && j > 0) || (type == 3 && ft_strlen(data->f_arg[i]) == 1 && i == 0))
 			{
-				err_msg(ERR_MSG, '|');
+				err_msg_char(ERR_MSG, '|');
 				return (0);
 			}
 			if (count_mc == 2)
@@ -70,7 +72,7 @@ int	sing_syntax_error(t_data *data)
 			}
 			if (count_mc > 2)
 			{
-				err_msg(ERR_MSG, data->f_arg[i][j]);
+				err_msg_char(ERR_MSG, data->f_arg[i][j]);
 				return (0);
 			}
 			j++;
@@ -90,7 +92,6 @@ int	mult_syntax_error(t_data *data)
 	count_arg = tab_len(data->f_arg);
 	while (data->f_arg[i])
 	{
-		//printf("yo1\n");
 		contains_mc = str_contains_mc(data->f_arg[i]);
 		if (i == count_arg - 1 && contains_mc <= 2 && contains_mc > 0)
 		{
@@ -99,8 +100,7 @@ int	mult_syntax_error(t_data *data)
 		}
 		if (i == count_arg - 1 && contains_mc > 2)
 		{
-			//printf("mc = %d\n", contains_mc);
-			err_msg(ERR_MSG, data->f_arg[i][0]);
+			err_msg_char(ERR_MSG, data->f_arg[i][0]);
 			return (0);
 		}
 		i++;

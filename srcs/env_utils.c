@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/27 14:45:23 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 14:19:36 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ void	dup_tab(char **tab1, char **tab2)
 	while (tab1[++i])
 		tab2[i] = ft_strdup(tab1[i]);
 	tab2[i] = NULL;
+}
+
+int	sizetab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	if ( !tab[0] || !tab)
+		return (0);
+	while (tab[i])
+		i++;
+	return (i);
 }
 
 int	parse_var_to_exp(char *var)

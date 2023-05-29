@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/27 18:40:01 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:24:05 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	mini_export(t_data *data)
 			data->new_env[i++] = ft_strdup(data->cmd_tab[j]);
 	data->new_env[i] = NULL;
 	freetab(data->prev_env);
-	data->prev_env = malloc(sizeof(char *) * i);
+	i = sizetab(data->new_env);
+	data->prev_env = ft_calloc(i + 1, sizeof(char *));
 	dup_tab(data->new_env, data->prev_env);
 	return (g_exit_code);
 }
@@ -73,7 +74,8 @@ int	mini_unset(t_data *data)
 	}
 	data->new_env[i] = NULL;
 	freetab(data->prev_env);
-	data->prev_env = ft_calloc(i, sizeof(char *));
+	i = sizetab(data->new_env);
+	data->prev_env = ft_calloc(i + 1, sizeof(char *));
 	dup_tab(data->new_env, data->prev_env);
 	return (g_exit_code);
 }

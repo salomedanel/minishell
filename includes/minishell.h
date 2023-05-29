@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 11:17:45 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 14:49:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 # define ERR_MSG "minishell: syntax error near unexpected token"
 # define ERR_MSG_NL "minishell: syntax error near unexpected token 'newline'"
+# define ERR_MSG_DIR "Is a directory"
+# define ERR_MSG_NODIR ": No such file or directory"
 
 typedef enum e_token_type
 {
@@ -38,8 +40,6 @@ typedef enum e_token_type
 	T_LIMITER,        // 7 << word + 1
 	T_OUTFILE_APPEND, // 8
 	T_CMD,            // 9
-	T_OPTION,         // 10
-	T_BUILTIN         // 11
 }			t_token_type;
 
 typedef struct s_data
@@ -110,8 +110,9 @@ int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 void		norm_count_mc(int *count, int *i);
 
-// pars_error;
-void		err_msg(char *err, char quote);
+// pars_error
+void		err_msg_char(char *err, char quote);
+void		err_msg_str(char *err, char *str);
 void		err_msg_newline(char *err);
 int			syntax_error(t_data *data);
 int			sing_syntax_error(t_data *data);
@@ -122,6 +123,10 @@ int			metachar_type(char c);
 int			count_metac(char *str);
 int			str_contains_mc(char *str);
 int			tab_len(char **tab);
+
+// special_error
+int			err_special_cases(t_data *data);
+int			err_onlyspace(t_data *data);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -183,6 +188,7 @@ int			mini_export(t_data *data);
 int			mini_unset(t_data *data);
 
 //env_utils
+int			sizetab(char **tab);
 void		dup_tab(char **tab1, char **tab2);
 int			parse_var_to_exp(char *var);
 int			count_var_to_exp(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 11:14:22 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 12:46:52 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,23 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 		*j = *j + 1;
 		return (*j);
 	}
+	// if ((quotes->arg[*i] == '$' && quotes->arg[*i + 1] == 31))
+	// {
+	// 	data->f_arg[quotes->index][*j] = quotes->arg[*i];
+	// 	*j = *j + 1;
+	// 	return (*j);
+	// }
+	if ((quotes->arg[*i] == '$' && (quotes->arg[*i + 1] == '=' || quotes->arg[*i + 1] == ':' || quotes->arg[*i + 1] == 31)))
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i];
+		*j = *j + 1;
+		return (*j);
+	}
+	// {
+	// 	data->f_arg[quotes->index][*j] = quotes->arg[*i];
+	// 	*j = *j + 1;
+	// 	return (*j);
+	// }
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '\'')
 		return (*j);
 	var = replace_dollar(quotes, i, data);

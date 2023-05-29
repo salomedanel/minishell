@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 13:18:51 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 14:41:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	metachar_type(char c)
 		return (3);
 	if (c == '&')
 		return (4);
-	if (c >= 40 && c <= 44)
+	if (c >= 40 && c <= 41)
 		return (5);
 	return (0);
 }
@@ -66,3 +66,4 @@ int	tab_len(char **tab)
 		i++;
 	return (i);
 }
+
