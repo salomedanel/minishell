@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 10:11:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 10:53:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,28 +89,28 @@ char	*clean_prompt(char *prompt)
 
 int	split_space(t_data *data, int i)
 {
-	int	j;
+	//int	j;
 
-	j = 0;
+	//j = 0;
 	data->arg = ft_split(data->clean_prompt, 32);
-	while (data->arg[++i])
-	{
-		while (data->arg[i][j])
-		{
-			if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
-			{
-				while (data->arg[i][j])
-				{
-					if (data->arg[i][j] == 31)
-						data->arg[i][j] = 32;
-					j++;
-				}
-			}
-			if (j < ft_strlen(data->arg[i]))
-				j++;
-		}
-		j = 0;
-	}
+	// while (data->arg[++i])
+	// {
+	// 	while (data->arg[i][j])
+	// 	{
+	// 		if (data->arg[i][j] == '"' || data->arg[i][j] == '\'')
+	// 		{
+	// 			while (data->arg[i][j])
+	// 			{
+	// 				if (data->arg[i][j] == 122)
+	// 					data->arg[i][j] = 32;
+	// 				j++;
+	// 			}
+	// 		}
+	// 		if (j < ft_strlen(data->arg[i]))
+	// 			j++;
+	// 	}
+	// 	j = 0;
+	// }
 	return (0);
 }
 
@@ -132,6 +132,7 @@ void	parsing(char *prompt, t_data *data)
 		return ;
 	//printf("yo2\n");
 	final_arg(data, &quotes);
+	//check_echo(data);
 	//printf("yo3\n");
 	if (syntax_error(data) == 0)
 		return;
