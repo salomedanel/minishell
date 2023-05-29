@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils00.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:33:19 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:25:50 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@ int	count_sub_cmd(t_data *data)
 	return (count);
 }
 
-char	*ft_jointab(char **tab)
+char	*ft_jointab(char **tab, int i, int j)
 {
-	int		i;
-	int		j;
 	int		k;
 	int		len;
 	char	*str;
 
-	i = -1;
-	j = 0;
 	k = 0;
 	len = 0;
 	while (tab[++i])
@@ -83,7 +79,7 @@ void	cmd_not_found(char *cmd)
 	i = -1;
 	g_exit_code = 127;
 	while (cmd[++i])
-		if(cmd[i] == 31)
+		if (cmd[i] == 31)
 			cmd[i] = 32;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);

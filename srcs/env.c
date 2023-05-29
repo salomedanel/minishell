@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 14:24:05 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:36:47 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	mini_export(t_data *data)
 	dup_tab(data->prev_env, data->new_env);
 	j = 0;
 	while (data->cmd_tab[++j])
-		if (export_exist(data, data->cmd_tab[j]) && ft_strchr(data->cmd_tab[j], 61))
+		if (export_exist(data, data->cmd_tab[j]) && ft_strchr(data->cmd_tab[j],
+				61))
 			data->new_env[i++] = ft_strdup(data->cmd_tab[j]);
 	data->new_env[i] = NULL;
 	freetab(data->prev_env);

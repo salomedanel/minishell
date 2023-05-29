@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 11:49:26 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 19:46:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,7 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	int		len;
 
 	tmp_i = *i;
-	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
-		return (data->count);
-	if (quotes->arg[*i] == '$' && quotes->arg[*i - 1] == '?' && !quotes->arg[*i
-		+ 1])
-		return (2);
-	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
-		return (data->count + ft_strlen(ft_itoa(g_exit_code)) - 1);
+	data->count = varenv_len_utils(quotes, i, &data->count);
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
@@ -105,9 +99,7 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);
 	if (quotes->tmp == NULL)
 		return (NULL);
-	if (quotes->tmp == NULL)
-		return (NULL);
-	while (*tmp_i < *i)
+	while (*tmp_i <= *i)
 	{
 		quotes->tmp[j] = quotes->arg[*tmp_i];
 		*tmp_i = *tmp_i + 1;

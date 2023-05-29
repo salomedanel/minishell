@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 16:26:52 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:43:17 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	get_redir_tab(t_data *data)
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] == T_REDIN || data->ast[i] == T_REDOUT
-			|| data->ast[i] == T_RED_APPEND)
+			|| data->ast[i] == T_RED_APPEND || data->ast[i] == T_HERE_DOC)
 		{
 			data->redir[j] = ft_strdup(data->tmp_arg[i + 1]);
 			data->type[j++] = data->ast[i];
@@ -82,11 +82,17 @@ void	exec(t_data *data)
 		token(data);
 		get_cmd_tab(data);
 		get_redir_tab(data);
+		if (!data->cmd_tab || data->cmd_tab[0] == NULL)
+		{
+			blank_open(data);
+			return ;
+		}
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (is_builtin(data->cmd_tab[0]) && data->count_cmd == 1)
 		{
 			if (open_files(data) == 1)
 				continue ;
+			open_here_doc(data);
 			exec_builtin(data, data->cmd_tab[0]);
 			dupnclose(data->in, STDIN_FILENO);
 			dupnclose(data->out, STDOUT_FILENO);
@@ -98,6 +104,7 @@ void	exec(t_data *data)
 			if (data->pid[i] == 0)
 			{
 				close(exipipe[0]);
+				open_here_doc(data);
 				select_pipe(data, i);
 				if (open_files(data) == 1)
 					exit (1) ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 18:05:09 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:22:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		parsing(prompt, &data);
-		// if (g_exit_code > 2)
-		// {
-		// 	printf("exit_code = %d\n", g_exit_code);
-		// 	free_dobby(&data);
-		// }
 	}
 	return (0);
 }

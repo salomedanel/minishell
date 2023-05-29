@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:29:32 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/24 14:52:50 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:38:07 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_exit_code;
 
 void	set_pwd(t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (data->new_env[i])
@@ -33,7 +33,7 @@ void	set_pwd(t_data *data)
 
 void	set_old_pwd(t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (data->new_env[i])
@@ -68,23 +68,17 @@ void	exec_cd(t_data *data)
 		ft_putstr_fd("cd: ", 2);
 		ft_putstr_fd(data->tmp_arg[1], 2);
 		ft_putstr_fd(" No such file or directory\n", 2);
-	}	
+	}
 }
 
-int	mini_cd(t_data *data)
+int	mini_cd(t_data *data, int j)
 {
 	int		i;
-	int		j;
 	char	*tmp;
 
 	i = count_args(data);
-	j = -1;
 	if (i > 2)
-	{
-		ft_putstr_fd("cd: too many arguments\n", 2);
-		g_exit_code = 1;
-		return (g_exit_code);
-	}
+		return (minicd_err());
 	if (i == 1)
 	{
 		while (data->new_env[++j])

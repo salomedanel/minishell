@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 16:33:08 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 19:50:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@
 
 typedef enum e_token_type
 {
-	T_PIPE,           // 0
-	T_REDOUT,         // 1 >
-	T_REDIN,          // 2 <
-	T_HERE_DOC,       // 3 <<
-	T_RED_APPEND,     // 4 >>
-	T_OUTFILE_TRUNC,  // 5 > word + 1
-	T_INFILE,         // 6
-	T_LIMITER,        // 7 << word + 1
-	T_OUTFILE_APPEND, // 8
-	T_CMD,            // 9
+	T_PIPE,
+	T_REDOUT,
+	T_REDIN,
+	T_HERE_DOC,
+	T_RED_APPEND,
+	T_OUTFILE_TRUNC,
+	T_INFILE,
+	T_LIMITER,
+	T_OUTFILE_APPEND,
+	T_CMD,
 }			t_token_type;
 
 typedef struct s_data
@@ -109,6 +109,12 @@ int			cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j);
 void		ft_strcpy(char *dest, char *src, int start);
 void		norm_count_mc(int *count, int *i);
 
+// parsing_utils02
+int			is_specialchar(char c);
+int			is_spechar(char c);
+void		fill_farg(t_quotes *quotes, t_data *data, int *i, int *j);
+int			varenv_len_utils(t_quotes *quotes, int *i, int *count);
+
 // pars_error
 void		err_msg_char(char *err, char quote);
 void		err_msg_str(char *err, char *str);
@@ -121,6 +127,7 @@ int			metachar_type(char c);
 int			count_metac(char *str);
 int			tab_len(char **tab);
 int			syntaxerr_utils(t_data *data, int i, int count_arg, int type);
+int			minicd_err(void);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -128,15 +135,16 @@ int			varenv_len(t_quotes *quotes, t_data *data, int *i);
 char		*replace_dollar(t_quotes *quotes, int *i, t_data *data);
 char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 				t_data *data);
-char		*ft_getenv(t_data *data, char *varname);
 char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 
 // quotes_env_utils
 int			trimquotes_utils(t_quotes *quotes, int *count);
 char		*ft_getenv(t_data *data, char *varname);
-int			is_specialchar(char c);
-int			is_spechar(char c);
 int			norm_trimquotes(t_quotes *quotes, int *i);
+int			special_cases_doll00(t_quotes *quotes, t_data *data, int *i,
+				int *j);
+int			special_cases_doll01(t_quotes *quotes, t_data *data, int *i,
+				int *j);
 
 // token
 void		token(t_data *data);
@@ -153,15 +161,15 @@ void		print_arg_ast(t_data *data);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 
-// free
-void		free_arg(t_data *data);
-void		freefrom_quotes_err(t_data *data);
-void		freefrom_syntax_err(t_data *data);
-int			mini_exit(t_data *data);
+// free00
 int			freetab(char **tab);
-void		free_dobby(t_data *data);
+void		free_arg(t_data *data);
+int			mini_exit(t_data *data);
 int			mini_exit_bis(t_data *data);
 int			exit_fork(t_data *data, char *cmd);
+
+// free01
+void		free_dobby(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
@@ -176,7 +184,7 @@ void		set_pwd(t_data *data);
 void		set_old_pwd(t_data *data);
 int			count_args(t_data *data);
 void		exec_cd(t_data *data);
-int			mini_cd(t_data *data);
+int			mini_cd(t_data *data, int j);
 
 // env
 int			mini_env(t_data *data);
@@ -189,12 +197,15 @@ void		dup_tab(char **tab1, char **tab2);
 int			parse_var_to_exp(char *var);
 int			count_var_to_exp(t_data *data);
 int			export_exist(t_data *data, char *var);
+
+// env_utils01
 int			var_to_unset(t_data *data);
 int			check_unset(char **var_to_unset, char *var_to_check);
+
 //pipex_utils00
 int			count_cmd(t_data *data);
 int			count_sub_cmd(t_data *data);
-char		*ft_jointab(char **tab);
+char		*ft_jointab(char **tab, int i, int j);
 void		cmd_not_found(char *cmd);
 void		dupnclose(int fd1, int fd2);
 
@@ -202,17 +213,25 @@ void		dupnclose(int fd1, int fd2);
 void		get_cmd_tab(t_data *data);
 char		**ft_get_path(t_data *data);
 char		*get_cmd_path(char *cmd, char **path);
-void		ft_op_error(char *str);
-int			count_redir_out(t_data *data);
-int			open_files(t_data *data);
 
 // pipex_newbis
 void		select_pipe(t_data *data, int i);
 void		exec(t_data *data);
 
 // split pipe
-char		*ft_jointab(char **tab);
 void		ft_strcpy_pipe(char *dest, char *src, int count);
-char		**split_pipe(t_data *data);
+char		**split_pipe(t_data *data, int i, int j);
+
+// redirection
+void		outfile_error(t_data *data, char *str);
+void		infile_error(t_data *data, char *str);
+int			last_redir(t_data *data);
+int			open_files(t_data *data);
+int			blank_open(t_data *data);
+
+//here_doc
+int			count_here_docs(t_data *data);
+int			open_here_doc(t_data *data);
+int			here_doc(char *limiter);
 
 #endif

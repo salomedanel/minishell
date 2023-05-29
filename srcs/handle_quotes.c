@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 16:40:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 19:17:05 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 		if ((quotes->arg[i] == '"' && quotes->sq_open == 0)
 			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
-			//i = norm_trimquotes(quotes, &i);
-			if (quotes->arg[i] == '"' && quotes->dq_open == 0)
-			{
-				quotes->dq_open = 1;
-				i++;
-			}
-			else if (quotes->arg[i] == '\'' && quotes->sq_open == 0)
-			{
-				quotes->sq_open = 1;
-				i++;
-			}
+			i = norm_trimquotes(quotes, &i);
 			continue ;
 		}
 		j = cpy_varenv(data, quotes, &i, &j);

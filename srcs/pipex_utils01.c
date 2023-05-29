@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/26 12:56:11 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:28:12 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 void	get_cmd_tab(t_data *data)
 {
@@ -57,7 +57,7 @@ char	*get_cmd_path(char *cmd, char **path)
 {
 	int		i;
 	char	*cmd_path;
-	char 	*tmp;
+	char	*tmp;
 
 	i = -1;
 	while (path[++i])
@@ -71,4 +71,3 @@ char	*get_cmd_path(char *cmd, char **path)
 	}
 	return (NULL);
 }
-

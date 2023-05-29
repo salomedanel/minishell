@@ -9,6 +9,7 @@ SRC =	main \
 		parsing01 \
 		parsing_utils00 \
 		parsing_utils01 \
+		parsing_utils02 \
 		handle_quotes \
 		pars_error \
 		parserror_utils \
@@ -17,10 +18,12 @@ SRC =	main \
 		builtins \
 		token \
 		signal \
-		free \
+		free00 \
+		free01 \
 		cd \
 		env \
-		env_utils \
+		env_utils00 \
+		env_utils01 \
 		pipex_utils00 \
 		pipex_utils01 \
 		pipex_newbis \
@@ -28,6 +31,7 @@ SRC =	main \
 		temporary_utils \
 		echo \
 		redirections \
+		here_doc \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

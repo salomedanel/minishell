@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 16:37:29 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 19:14:08 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*ft_getenv(t_data *data, char *varname)
 	int	varname_len;
 
 	i = 0;
+	if (varname[0] == '\0')
+		return (NULL);
 	varname_len = ft_strlen(varname);
 	while (data->new_env[i] != NULL)
 	{
@@ -49,23 +51,6 @@ char	*ft_getenv(t_data *data, char *varname)
 		i++;
 	}
 	return (NULL);
-}
-
-int	is_specialchar(char c)
-{
-	if (c == '$' || c == '\'' || c == '"' || c == '\0' || c == '[' || c == ']'
-		|| c == '{' || c == '}' || c == '%')
-		return (1);
-	return (0);
-}
-
-int	is_spechar(char c)
-{
-	if (c == '&')
-		return (1);
-	if (c >= 40 && c <= 42)
-		return (1);
-	return (0);
 }
 
 int	norm_trimquotes(t_quotes *quotes, int *i)
@@ -81,4 +66,38 @@ int	norm_trimquotes(t_quotes *quotes, int *i)
 		*i = *i + 1;
 	}
 	return (*i);
+}
+
+int	special_cases_doll00(t_quotes *quotes, t_data *data, int *i, int *j)
+{
+	if ((quotes->arg[*i] == '$' && quotes->sq_open == 1)
+		|| (quotes->arg[*i] == '$' && quotes->dq_open == 1 && quotes->arg[*i
+				+ 1] == '"'))
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i];
+		*j = *j + 1;
+		return (0);
+	}
+	if ((quotes->arg[*i] == '$' && (quotes->arg[*i + 1] == '=' || quotes->arg[*i
+					+ 1] == ':' || quotes->arg[*i + 1] == 31)))
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i];
+		*j = *j + 1;
+		return (0);
+	}
+	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '\'')
+		return (0);
+	return (1);
+}
+
+int	special_cases_doll01(t_quotes *quotes, t_data *data, int *i, int *j)
+{
+	if (quotes->arg[*i] == '?' && quotes->arg[*i + 1] == '$' && quotes->arg[*i
+			+ 2] == '\0')
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i + 1];
+		*j = *j + 1;
+		return (0);
+	}
+	return (1);
 }

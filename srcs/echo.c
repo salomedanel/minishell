@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:35:37 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:16:36 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:41:48 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ extern int	g_exit_code;
 void	mini_echo_loop(t_data *data, int i)
 {
 	int	j;
+
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] != T_CMD)

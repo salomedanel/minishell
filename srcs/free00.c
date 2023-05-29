@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free00.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/27 19:00:03 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:47:21 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ void	free_arg(t_data *data)
 	free(data->clean_prompt);
 }
 
-// void	freefrom_quotes_err(t_data *data)
-// {
-// 	//free(data->clean_prompt);
-// 	freetab(data->new_env);
-// 	freetab(data->prev_env);
-// }
-
-// void	freefrom_syntax_err(t_data *data)
-// {
-// 	freetab(data->f_arg);
-// 	freetab(data->new_env);
-// 	freetab(data->prev_env);
-// }
-
 int	mini_exit(t_data *data)
 {
 	freetab(data->f_arg);
@@ -72,11 +58,6 @@ int	mini_exit(t_data *data)
 
 int	mini_exit_bis(t_data *data)
 {
-	// int	i;
-
-	// i = 0;
-	//freetab(data->f_arg);
-	//freetab(data->p_arg);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->path);
@@ -93,17 +74,3 @@ int	exit_fork(t_data *data, char *cmd)
 	free(data->type);
 	exit(127);
 }
-
-void	free_dobby(t_data *data)
-{
-	free(data->clean_prompt);
-	freetab(data->f_arg);
-	freetab(data->p_arg);
-	freetab(data->new_env);
-	freetab(data->prev_env);
-	freetab(data->cmd_tab);
-	freetab(data->tmp_arg);
-	freetab(data->path);
-	free(data->ast);
-}
-

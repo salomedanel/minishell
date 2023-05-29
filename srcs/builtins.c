@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/26 11:47:07 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:30:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ int	unforkable_builtins(char *str)
 int	exec_builtin(t_data *data, char *builtin)
 {
 	int	len;
+	int	i;
 
+	i = -1;
 	len = ft_strlen(builtin);
 	if (!ft_strncmp(builtin, "echo", len) && len == 4)
 		return (mini_echo(data));
 	if (!ft_strncmp(builtin, "cd", len) && len == 2)
-		return (mini_cd(data));
+		return (mini_cd(data, i));
 	if (!ft_strncmp(builtin, "pwd", len) && len == 3)
 		return (mini_pwd());
 	if (!ft_strncmp(builtin, "export", len) && len == 6)
@@ -77,5 +79,3 @@ int	exec_builtin(t_data *data, char *builtin)
 		return (mini_exit(data));
 	return (0);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:46:29 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 18:27:29 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ void	final_arg(t_data *data, t_quotes *quotes)
 						quotes) + 1));
 		if (!data->f_arg[i])
 			return ;
-	//	printf("new_len = %d\n", new_len(data->arg[i], data, quotes));
 		new_words(data->arg[i], data, i, quotes);
 		i++;
 	}
 	data->f_arg[i] = NULL;
-	//print_arg(data->f_arg);
 	free_arg(data);
 	return ;
 }
