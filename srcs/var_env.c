@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/27 12:59:34 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 11:15:17 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	tmp_i = *i;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (data->count);
-	if (quotes->arg[*i] == '$' && quotes->arg[*i - 1] == '?' && !quotes->arg[*i + 1])
-	 	return (2);
+	if (quotes->arg[*i] == '$' && quotes->arg[*i - 1] == '?' && !quotes->arg[*i
+		+ 1])
+		return (2);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
-	 	return (data->count + ft_strlen(ft_itoa(g_exit_code)) - 1);
+		return (data->count + ft_strlen(ft_itoa(g_exit_code)) - 1);
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
@@ -72,11 +73,9 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 {
 	int		tmp_i;
-	//int		j;
 	char	*ex_code;
-	
+
 	tmp_i = *i;
-	//j = 0;
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (NULL);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
@@ -88,8 +87,6 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
-		//while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
-		//	&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
 		while (is_specialchar(quotes->arg[*i]) == 0)
 		{
 			*i = *i + 1;
@@ -102,7 +99,7 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 		t_data *data)
 {
-	int		j;
+	int	j;
 
 	j = 0;
 	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);

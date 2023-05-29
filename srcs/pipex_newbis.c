@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/28 18:16:37 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:15:05 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,13 @@ void	exec(t_data *data)
 					exit (1) ;
 				if (unforkable_builtins(data->cmd_tab[0]) == 1)
 					exit(0);
-				if (cmd)
+				if (cmd && !is_builtin(data->cmd_tab[0]))
 					execve(cmd, data->cmd_tab, data->new_env);
+				else if (is_builtin(data->cmd_tab[0]))
+				{
+					exec_builtin(data, data->cmd_tab[0]);
+					exit_fork(data, cmd);
+				}
 				cmd_not_found(data->cmd_tab[0]);
 				exit_fork(data, cmd);
 			}

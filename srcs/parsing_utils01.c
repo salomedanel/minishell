@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils01.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/28 15:30:55 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 11:14:22 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 	int		k;
 
 	k = 0;
-	if ((quotes->arg[*i] == '$' && quotes->sq_open == 1) || (quotes->arg[*i] == '$' && quotes->dq_open == 1 && quotes->arg[*i + 1] == '"'))
+	if ((quotes->arg[*i] == '$' && quotes->sq_open == 1)
+		|| (quotes->arg[*i] == '$' && quotes->dq_open == 1 && quotes->arg[*i
+			+ 1] == '"'))
 	{
 		data->f_arg[quotes->index][*j] = quotes->arg[*i];
 		*j = *j + 1;
@@ -64,7 +66,7 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 		return (*j);
 	var = replace_dollar(quotes, i, data);
 	if ((var == NULL && quotes->arg[*i] != '$' && quotes->arg[*i] != '"')
-		|| (quotes->arg[*i] == '"' && quotes->sq_open == 1))
+			|| (quotes->arg[*i] == '"' && quotes->sq_open == 1))
 	{
 		data->f_arg[quotes->index][*j] = quotes->arg[*i];
 		*j = *j + 1;
@@ -78,6 +80,12 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 			k++;
 		}
 		k = 0;
+	}
+	if (quotes->arg[*i] == '?' && quotes->arg[*i + 1] == '$' && quotes->arg[*i + 2] == '\0')
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i + 1];
+		*j = *j + 1;
+		return (*j);
 	}
 	if (quotes->arg[*i] == '$')
 		*i = *i - 1;

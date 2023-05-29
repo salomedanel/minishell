@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/28 15:49:37 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 11:17:45 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_quotes
 int			count_metachar(char *prompt, int count, int i);
 int			add_space(char *prompt, char *new_prompt, int k);
 char		*clean_prompt(char *prompt);
-int			split_space(t_data *data, int i);
 void		parsing(char *prompt, t_data *data);
 
 // handle_quotes

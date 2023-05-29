@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:35:37 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/28 18:44:53 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:18:27 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ extern int	g_exit_code;
 
 void	mini_echo_loop(t_data *data, int i)
 {
+	int	j;
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] != T_CMD)
 			continue ;
+		j = -1;
+		while (data->tmp_arg[i][++j])
+			if (data->tmp_arg[i][j] == 31)
+				data->tmp_arg[i][j] = 32;
 		ft_putstr_fd(data->tmp_arg[i], 1);
 		if (!data->tmp_arg[i + 1])
 			break ;
