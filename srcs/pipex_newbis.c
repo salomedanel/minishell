@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/27 19:00:07 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:16:37 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	exec(t_data *data)
 	data->in = dup(STDIN_FILENO);
 	data->out = dup(STDOUT_FILENO);
 	data->prev_pipe = -1;
+	if (data->p_arg[0] == NULL)
+		return ;
 	while (++i < data->count_cmd)
 	{
 		pipe(data->fd);

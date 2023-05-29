@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:35:37 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/26 11:36:09 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:44:53 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,11 @@ int	mini_echo(t_data *data)
 	else
 	{
 		while (check_echo_opt(data->tmp_arg[++i]) == 1)
-		{
-			option = 0;
 			if (!data->tmp_arg[i + 1])
 				break ;
-		}
-		mini_echo_loop(data, i - 1);
+		option = 0;
+		if (data->tmp_arg[i] && !check_echo_opt(data->tmp_arg[i]))
+			mini_echo_loop(data, i - 1);
 	}
 	return (write(1, "\n", option), g_exit_code);
 }
