@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:35:37 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 11:18:27 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:16:36 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	mini_echo(t_data *data)
 		if (!ft_strcmp(data->tmp_arg[i], "echo"))
 			break ;
 	if (!data->tmp_arg[i + 1])
-		return (write(1, "\n", 1), g_exit_code);
+		return (write(1, "\n", 1), 0);
 	if (!check_echo_opt(data->tmp_arg[i + 1]))
 		mini_echo_loop(data, i);
 	else
@@ -71,5 +71,5 @@ int	mini_echo(t_data *data)
 		if (data->tmp_arg[i] && !check_echo_opt(data->tmp_arg[i]))
 			mini_echo_loop(data, i - 1);
 	}
-	return (write(1, "\n", option), g_exit_code);
+	return (write(1, "\n", option), 0);
 }

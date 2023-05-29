@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 14:10:35 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:26:52 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	exec(t_data *data)
 {
 	int		i;
 	char 	*cmd;
+	int		exipipe[2];
 
 	i = -1;
 	data->in = dup(STDIN_FILENO);
@@ -73,6 +74,7 @@ void	exec(t_data *data)
 	data->prev_pipe = -1;
 	if (data->p_arg[0] == NULL)
 		return ;
+	pipe(exipipe);
 	while (++i < data->count_cmd)
 	{
 		pipe(data->fd);
@@ -88,34 +90,43 @@ void	exec(t_data *data)
 			exec_builtin(data, data->cmd_tab[0]);
 			dupnclose(data->in, STDIN_FILENO);
 			dupnclose(data->out, STDOUT_FILENO);
+			g_exit_code = 0;
 		}
 		else
 		{
 			data->pid[i] = fork();
 			if (data->pid[i] == 0)
 			{
+				close(exipipe[0]);
 				select_pipe(data, i);
 				if (open_files(data) == 1)
 					exit (1) ;
 				if (unforkable_builtins(data->cmd_tab[0]) == 1)
 					exit(0);
 				if (cmd && !is_builtin(data->cmd_tab[0]))
+				{
+					write(exipipe[1], &g_exit_code, sizeof(int));
 					execve(cmd, data->cmd_tab, data->new_env);
+				}
 				else if (is_builtin(data->cmd_tab[0]))
 				{
 					exec_builtin(data, data->cmd_tab[0]);
+					write(exipipe[1], &g_exit_code, sizeof(int));
 					exit_fork(data, cmd);
 				}
 				cmd_not_found(data->cmd_tab[0]);
-				printf("%d\n", data->ast[0]);
+				write(exipipe[1], &g_exit_code, sizeof(int));
 				exit_fork(data, cmd);
 			}
 			else if (data->pid[i] > 0)
 			{
+				close(exipipe[1]);
 				close(data->fd[1]);
 				if (data->prev_pipe != -1)
 					close(data->prev_pipe);
 				data->prev_pipe = data->fd[0];
+				waitpid(data->pid[i], 0, 0);
+				read(exipipe[0], &g_exit_code, sizeof(int));
 			}
 		}
 		freetab(data->tmp_arg);
@@ -124,9 +135,8 @@ void	exec(t_data *data)
 		free(data->type);
 		free(cmd);
 	}
-	i = -1;
-	while (++i < data->count_cmd)
-		waitpid(data->pid[i], 0, 0);
+	close(exipipe[0]);
+	close(exipipe[1]);
 	close(data->fd[0]);
 	close(data->fd[1]);
 	close(data->in);

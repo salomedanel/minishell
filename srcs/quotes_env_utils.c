@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:55:30 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:30:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,8 @@ int	is_spechar(char c)
 		return (1);
 	return (0);
 }
+
+// int	norm_trimquotes(t_quotes *quotes, int *i)
+// {
+
+// }

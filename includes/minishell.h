@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:55:54 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:26:41 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define ERR_MSG "minishell: syntax error near unexpected token"
+# define ERR_MSG "minishell: syntax error near unexpected token "
 # define ERR_MSG_NL "minishell: syntax error near unexpected token 'newline'"
-# define ERR_MSG_DIR "Is a directory"
 # define ERR_MSG_NODIR ": No such file or directory"
 
 typedef enum e_token_type
@@ -112,17 +111,16 @@ void		norm_count_mc(int *count, int *i);
 
 // pars_error
 void		err_msg_char(char *err, char quote);
+void		err_msg_str(char *err, char *str);
 void		err_msg_newline(char *err);
-int			syntax_error(t_data *data);
-int			sing_syntax_error(t_data *data);
-int			mult_syntax_error(t_data *data);
+int			syntax_err(t_data *data);
+int			err_special(t_data *data);
 
 // parserr_utils
 int			metachar_type(char c);
 int			count_metac(char *str);
-int			str_contains_mc(char *str);
 int			tab_len(char **tab);
-int			err_onlyspace(t_data *data);
+int			syntaxerr_utils(t_data *data, int i, int count_arg, int type);
 
 // var_env
 void		dup_env(t_data *data, char **env);

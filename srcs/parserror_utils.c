@@ -6,11 +6,13 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:56:05 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:24:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 int	metachar_type(char c)
 {
@@ -20,10 +22,6 @@ int	metachar_type(char c)
 		return (2);
 	if (c == '|')
 		return (3);
-	// if (c == '&')
-	// 	return (4);
-	// if (c >= 40 && c <= 42)
-	// 	return (5);
 	return (0);
 }
 
@@ -43,20 +41,6 @@ int	count_metac(char *str)
 	return (count);
 }
 
-int	str_contains_mc(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (metachar_type(str[i]) > 0)
-			return (metachar_type(str[i]));
-		i++;
-	}
-	return (0);
-}
-
 int	tab_len(char **tab)
 {
 	int	i;
@@ -67,16 +51,23 @@ int	tab_len(char **tab)
 	return (i);
 }
 
-int	err_onlyspace(t_data *data)
+int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 {
-	int	i;
-
-	i = 0;
-	while (data->clean_prompt[i] == 32)
+	if (count_arg == 1 && count_metac(data->f_arg[i]) > 0 && type == 3)
 	{
-		if (i == (ft_strlen(data->clean_prompt) - 1))
-			return (0);
-		i++;
+		err_msg_char(ERR_MSG, '|');
+		return (0);
+	}
+	if (count_arg > 1 && count_metac(data->f_arg[i]) == 1
+		&& count_metac(data->f_arg[i + 1]) == 1)
+	{
+		err_msg_newline(ERR_MSG_NL);
+		return (0);
+	}
+	if (count_arg > 1 && count_metac(data->f_arg[i]) > 2)
+	{
+		err_msg_char(ERR_MSG, data->f_arg[i][0]);
+		return (0);
 	}
 	return (1);
 }

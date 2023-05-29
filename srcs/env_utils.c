@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 14:19:36 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:20:51 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	parse_var_to_exp(char *var)
 		if (var[i] == '=')
 			break ;
 	if (i == ft_strlen(var))
-		return (2);
+		return (1);
 	return (0);
 }
 
@@ -69,13 +69,6 @@ int	count_var_to_exp(t_data *data)
 		if (parse_var_to_exp(data->cmd_tab[i]) == 0)
 			count++;
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 1)
-		{
-			ft_putstr_fd("minishell: export: '", 2);
-			ft_putstr_fd(data->cmd_tab[i], 2);
-			ft_putendl_fd("': not a valid identifier", 2);
-			return (g_exit_code = 1);
-		}
-		else if (parse_var_to_exp(data->cmd_tab[i]) == 2)
 			continue ;
 	}
 	return (count);

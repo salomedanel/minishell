@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:54:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:27:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ char	*clean_prompt(char *prompt)
 
 void	parsing(char *prompt, t_data *data)
 {
-	int	i;
-	t_quotes quotes;
+	int			i;
+	t_quotes	quotes;
 
 	i = -1;
 	quotes.dq_open = 0;
@@ -100,12 +100,12 @@ void	parsing(char *prompt, t_data *data)
 	//printf("clean_prompt = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
-	if (err_onlyspace(data) == 0)
+	if (err_special(data) == 0)
 		return ;
 	data->arg = ft_split(data->clean_prompt, 32);
 	final_arg(data, &quotes);
-	if (syntax_error(data) == 0)
-		return;
+	if (syntax_err(data) == 0)
+		return ;
 	split_pipe(data);
 	exec(data);
 	return ;
