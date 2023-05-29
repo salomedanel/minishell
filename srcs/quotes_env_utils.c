@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 16:30:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:37:29 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char	*ft_getenv(t_data *data, char *varname)
 
 int	is_specialchar(char c)
 {
-	if (c == '$' || c == '\'' || c == '"' || c == '\0' || c == '[' || c == ']' || c == '{' || c == '}' || c == '%')
+	if (c == '$' || c == '\'' || c == '"' || c == '\0' || c == '[' || c == ']'
+		|| c == '{' || c == '}' || c == '%')
 		return (1);
 	return (0);
 }
@@ -67,7 +68,17 @@ int	is_spechar(char c)
 	return (0);
 }
 
-// int	norm_trimquotes(t_quotes *quotes, int *i)
-// {
-
-// }
+int	norm_trimquotes(t_quotes *quotes, int *i)
+{
+	if (quotes->arg[*i] == '"' && quotes->dq_open == 0)
+	{
+		quotes->dq_open = 1;
+		*i = *i + 1;
+	}
+	else if (quotes->arg[*i] == '\'' && quotes->sq_open == 0)
+	{
+		quotes->sq_open = 1;
+		*i = *i + 1;
+	}
+	return (*i);
+}

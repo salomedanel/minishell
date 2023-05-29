@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 16:23:55 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:44:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ int	syntax_err(t_data *data)
 	while (data->f_arg[++i])
 	{
 		type = metachar_type(data->f_arg[i][0]);
-		if (count_arg == 1 && count_metac(data->f_arg[i]) < 3 && type != 3)
+		if (count_arg == 1 && count_metac(data->f_arg[i]) < 3 && count_metac(data->f_arg[i]) > 0 && type != 3)
 		{
+			printf("if1\n");
 			err_msg_newline(ERR_MSG_NL);
 			return (0);
 		}

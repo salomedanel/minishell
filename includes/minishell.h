@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 16:26:41 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:33:08 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int			trimquotes_utils(t_quotes *quotes, int *count);
 char		*ft_getenv(t_data *data, char *varname);
 int			is_specialchar(char c);
 int			is_spechar(char c);
+int			norm_trimquotes(t_quotes *quotes, int *i);
 
 // token
 void		token(t_data *data);

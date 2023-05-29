@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 16:28:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:40:53 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ int	check_quotes_open(t_quotes *quotes)
 {
 	if (quotes->dq_open == 1)
 	{
+		printf("la\n");
 		err_msg_char(ERR_MSG, 34);
 		return (1);
 	}
 	if (quotes->sq_open == 1)
 	{
+		printf("ici\n");
 		err_msg_char(ERR_MSG, 39);
 		return (1);
 	}
@@ -74,6 +76,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 		if ((quotes->arg[i] == '"' && quotes->sq_open == 0)
 			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
+			//i = norm_trimquotes(quotes, &i);
 			if (quotes->arg[i] == '"' && quotes->dq_open == 0)
 			{
 				quotes->dq_open = 1;
