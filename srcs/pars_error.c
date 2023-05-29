@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:24:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 15:01:46 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ void	err_msg_char(char *err, char quote)
 	g_exit_code = 2;
 	return ;
 }
-
-// void	err_msg_str(char *err, char *str)
-// {
-// 	ft_printf("minishell: %s: %s\n", str, err);
-// 	return ;
-// }
 
 void	err_msg_newline(char *err)
 {

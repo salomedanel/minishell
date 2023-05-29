@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:46:16 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 14:54:32 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,9 @@ void	parsing(char *prompt, t_data *data)
 	if (err_onlyspace(data) == 0)
 		return ;
 	data->arg = ft_split(data->clean_prompt, 32);
-	//printf("ici\n");
 	final_arg(data, &quotes);
-	//printf("la\n");
 	if (syntax_error(data) == 0)
 		return;
-	//printf("la bis\n");
 	split_pipe(data);
 	exec(data);
 	return ;

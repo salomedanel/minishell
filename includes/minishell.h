@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 14:49:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 14:55:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void		norm_count_mc(int *count, int *i);
 
 // pars_error
 void		err_msg_char(char *err, char quote);
-void		err_msg_str(char *err, char *str);
 void		err_msg_newline(char *err);
 int			syntax_error(t_data *data);
 int			sing_syntax_error(t_data *data);
@@ -123,9 +122,6 @@ int			metachar_type(char c);
 int			count_metac(char *str);
 int			str_contains_mc(char *str);
 int			tab_len(char **tab);
-
-// special_error
-int			err_special_cases(t_data *data);
 int			err_onlyspace(t_data *data);
 
 // var_env
@@ -141,6 +137,7 @@ char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 int			trimquotes_utils(t_quotes *quotes, int *count);
 char		*ft_getenv(t_data *data, char *varname);
 int			is_specialchar(char c);
+int			is_spechar(char c);
 
 // token
 void		token(t_data *data);

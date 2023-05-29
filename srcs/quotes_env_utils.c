@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/28 14:46:29 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 14:55:30 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,15 @@ char	*ft_getenv(t_data *data, char *varname)
 int	is_specialchar(char c)
 {
 	if (c == '$' || c == '\'' || c == '"' || c == '\0' || c == '[' || c == ']' || c == '{' || c == '}' || c == '%')
+		return (1);
+	return (0);
+}
+
+int	is_spechar(char c)
+{
+	if (c == '&')
+		return (1);
+	if (c >= 40 && c <= 42)
 		return (1);
 	return (0);
 }
