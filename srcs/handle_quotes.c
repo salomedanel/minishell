@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/28 15:56:40 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 10:11:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,18 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 			|| (quotes->arg[i] == '\'' && quotes->dq_open == 0))
 		{
 			if (quotes->arg[i] == '"' && quotes->dq_open == 0)
+			{
 				quotes->dq_open = 1;
+				i++;
+			}
 			else if (quotes->arg[i] == '\'' && quotes->sq_open == 0)
+			{
 				quotes->sq_open = 1;
+				i++;
+			}
 			continue ;
 		}
 		j = cpy_varenv(data, quotes, &i, &j);
-		//printf("sq = %d | dq = %d\n", quotes->sq_open, quotes->dq_open);
-		//printf("f_arg = %s\n", data->f_arg[quotes->index]);
 		i++;
 		stop++;
 	}

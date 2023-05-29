@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing00.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danelsalome <danelsalome@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/28 15:49:23 by danelsalome      ###   ########.fr       */
+/*   Updated: 2023/05/29 10:11:25 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	parsing(char *prompt, t_data *data)
 	quotes.sq_open = 0;
 	data->clean_prompt = clean_prompt(prompt);
 	data->clean_prompt = handle_quotes(data, i, &quotes);
-	//printf("clean_prompt = %s\n", data->clean_prompt);
+	printf("clean_prompt = %s\n", data->clean_prompt);
 	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
 		return ;
 	//printf("yo1\n");
