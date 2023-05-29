@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 19:50:42 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 20:38:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int			is_specialchar(char c);
 int			is_spechar(char c);
 void		fill_farg(t_quotes *quotes, t_data *data, int *i, int *j);
 int			varenv_len_utils(t_quotes *quotes, int *i, int *count);
+int			contains_dollar(char *str);
 
 // pars_error
 void		err_msg_char(char *err, char quote);
@@ -217,6 +218,7 @@ char		*get_cmd_path(char *cmd, char **path);
 // pipex_newbis
 void		select_pipe(t_data *data, int i);
 void		exec(t_data *data);
+int			count_redir(t_data data);
 
 // split pipe
 void		ft_strcpy_pipe(char *dest, char *src, int count);

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:51:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 17:58:17 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 20:29:17 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ int	varenv_len_utils(t_quotes *quotes, int *i, int *count)
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
 		return (*count + ft_strlen(ft_itoa(g_exit_code)) - 1);
 	return (*count);
+}
+
+int	contains_dollar(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
 }

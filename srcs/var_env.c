@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 19:46:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 20:42:27 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);
 	if (quotes->tmp == NULL)
 		return (NULL);
-	while (*tmp_i <= *i)
+	// if (contains_dollar(quotes->arg) == 1)
+	// 	*i = *i - 1;
+	while (*tmp_i < *i)
 	{
 		quotes->tmp[j] = quotes->arg[*tmp_i];
 		*tmp_i = *tmp_i + 1;

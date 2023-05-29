@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 19:46:00 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 20:31:50 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	open_files(t_data *data)
 	int	fd;
 
 	i = -1;
-	while (data->redir[++i])
+	fd = 0;
+	while (++i < count_redir(*data) + 1)
 	{
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -79,7 +80,8 @@ int	blank_open(t_data *data)
 	int	fd;
 
 	i = -1;
-	while (data->redir[++i])
+	fd = 0;
+	while (++i < count_redir(*data) + 1)
 	{
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);

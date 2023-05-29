@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 19:43:17 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 20:16:20 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ void	get_redir_tab(t_data *data)
 {
 	int i = -1;
 	int j = 0;
-	data->redir = malloc(sizeof(char *) * (count_redir(*data) + 1));
-	if (!data->redir)
-		return ;
-	data->type = malloc(sizeof(int) * (count_redir(*data)));
-	if (!data->type)
-		return ;
+	data->redir = ft_calloc(count_redir(*data) + 1, sizeof(char*));
+	data->type = ft_calloc(count_redir(*data), sizeof(int));
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] == T_REDIN || data->ast[i] == T_REDOUT
@@ -83,10 +79,7 @@ void	exec(t_data *data)
 		get_cmd_tab(data);
 		get_redir_tab(data);
 		if (!data->cmd_tab || data->cmd_tab[0] == NULL)
-		{
-			blank_open(data);
-			return ;
-		}
+			return((void)blank_open(data));
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (is_builtin(data->cmd_tab[0]) && data->count_cmd == 1)
 		{
