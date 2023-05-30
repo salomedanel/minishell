@@ -20,6 +20,7 @@ SRC =	main \
 		signal \
 		free00 \
 		free01 \
+		exit \
 		cd \
 		env \
 		env_utils00 \

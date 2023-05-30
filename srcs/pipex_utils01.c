@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 23:05:55 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:55:29 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	get_cmd_tab(t_data *data)
 
 	i = -1;
 	j = 0;
+	if (count_sub_cmd(data) == 0)
+		return ;
 	data->cmd_tab = malloc(sizeof(char *) * (count_sub_cmd(data) + 1));
 	if (!data->cmd_tab)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 09:52:39 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 20:02:50 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ int	err_special(t_data *data)
 	while (data->clean_prompt[++i] == 32)
 	{
 		if (i == (ft_strlen(data->clean_prompt) - 1))
+		{
+			free(data->clean_prompt);
 			return (0);
+		}
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 14:53:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 22:47:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
 # include <termios.h>
+# include <unistd.h>
 
 # define ERR_MSG "minishell: syntax error near unexpected token "
 # define ERR_MSG_NL "minishell: syntax error near unexpected token 'newline'"
@@ -55,6 +55,7 @@ typedef struct s_data
 	char	**cmd_tab;
 	char	**path;
 	int		*ast;
+	char	*tmp;
 	int		count;
 	int		count_cmd;
 	int		cmd_id;
@@ -130,6 +131,7 @@ int			count_metac(char *str);
 int			tab_len(char **tab);
 int			syntaxerr_utils(t_data *data, int i, int count_arg, int type);
 int			minicd_err(void);
+int			contain_space(char *str);
 
 // var_env
 void		dup_env(t_data *data, char **env);
@@ -166,12 +168,16 @@ void		handle_heredoc(int sig);
 // free00
 int			freetab(char **tab);
 void		free_arg(t_data *data);
-int			mini_exit(t_data *data);
 int			mini_exit_bis(t_data *data);
 int			exit_fork(t_data *data, char *cmd);
 
 // free01
 void		free_dobby(t_data *data);
+
+// exit
+void		exit_msg(char *str, int err);
+int			check_exit(char *str);
+int			mini_exit(t_data *data);
 
 // builtins
 int			is_builtin(char *str);
@@ -235,6 +241,6 @@ int			blank_open(t_data *data);
 //here_doc
 int			count_here_docs(t_data *data);
 int			open_here_doc(t_data *data);
-int			here_doc(char *limiter);
+int			here_doc(char *limiter, char *cmd);
 
 #endif

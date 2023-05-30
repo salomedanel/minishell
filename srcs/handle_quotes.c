@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 11:28:34 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 22:27:10 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 	}
-	if (quotes->tmp == NULL)
-		free(quotes->tmp);
+	// if (quotes->tmp != NULL)
+	// {
+	// 	printf("quotes->tmp = %s\n", quotes->tmp);
+	// 	free(quotes->tmp);
+	// }
 	return (data->count);
 }
 
@@ -94,12 +97,14 @@ char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 	while (data->clean_prompt && data->clean_prompt[++i])
 	{
 		trquotes_util1(data->clean_prompt[i], quotes, &i);
+		//printf("len = %d | clean_prompt = %s\n", ft_strlen(data->clean_prompt), data->clean_prompt);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
 		if (is_spechar(data->clean_prompt[i]) > 0 && quotes->dq_open == 0
 			&& quotes->sq_open == 0)
 		{
 			err_msg_char(ERR_MSG, data->clean_prompt[i]);
+			free(data->clean_prompt);
 			return (NULL);
 		}
 		replace_space(data, quotes, i);

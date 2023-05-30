@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 15:39:40 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 22:19:20 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_redir(t_data data)
 	while (data.ast[++i])
 	{
 		if (data.ast[i] == T_REDOUT || data.ast[i] == T_RED_APPEND
-			|| data.ast[i] == T_REDIN)
+			|| data.ast[i] == T_REDIN || data.ast[i] == T_HERE_DOC)
 			count++;
 	}
 	return (count);
@@ -44,6 +44,8 @@ void	get_redir_tab(t_data *data)
 {
 	int i = -1;
 	int j = 0;
+	if (count_redir(*data) == 0)
+		return ;
 	data->redir = ft_calloc(count_redir(*data) + 1, sizeof(char*));
 	data->type = ft_calloc(count_redir(*data), sizeof(int));
 	while (data->tmp_arg && data->tmp_arg[++i])
@@ -78,9 +80,10 @@ void	exec_waitpid(t_data *data)
 void	free_data(t_data *data, char *str)
 {
 	freetab(data->tmp_arg);
-	freetab(data->cmd_tab);
-	freetab(data->redir);
-	freetab(data->f_arg);
+	if (data->cmd_tab)
+		freetab(data->cmd_tab);
+	if (data->redir)
+		freetab(data->redir);
 	free(data->ast);
 	free(data->type);
 	if (str)
@@ -106,7 +109,12 @@ void	exec(t_data *data, int j, int k)
 		get_cmd_tab(data);
 		get_redir_tab(data);
 		if (!data->cmd_tab || data->cmd_tab[0] == NULL)
-			return((void)blank_open(data));
+		{
+			open_here_doc(data);
+			blank_open(data);
+			free_data(data, NULL);
+			return	;
+		}
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (data->count_cmd == 1 && is_builtin(data->cmd_tab[0]))
 		{

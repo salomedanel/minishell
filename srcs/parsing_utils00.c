@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:04:45 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/24 18:19:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 23:58:42 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	is_metachar(char c)
 int	cpy_prompt(char *prompt, char *new_prompt, int j, int i)
 {
 	new_prompt[j] = prompt[i];
+	if (prompt[i + 1] == '\0' && i > 0 && is_metachar(prompt[i - 1]) == 0)
+		return (j + 1);
 	new_prompt[++j] = 32;
 	return (j);
 }

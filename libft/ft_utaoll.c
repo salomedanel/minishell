@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoll.c                                         :+:      :+:    :+:   */
+/*   ft_utaoll.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 18:11:08 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 19:24:49 by sdanel           ###   ########.fr       */
+/*   Created: 2023/05/30 19:25:01 by sdanel            #+#    #+#             */
+/*   Updated: 2023/05/30 19:25:43 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long long	ft_atoll(const char *nptr)
+unsigned long long	ft_uatoll(const char *nptr)
 {
 	long long	res;
-	long long	sign;
 
 	res = 0;
-	sign = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
 	if (*nptr == '-' || *nptr == '+')
-	{
-		//if (*nptr == '-')
-			//sign *= -1;
 		nptr++;
-	}
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		res = res * 10 + (*nptr - '0');
 		nptr++;
 	}
-	return (res * sign);
+	return (res);
 }

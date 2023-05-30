@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 10:09:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 21:35:16 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 		return (0);
 	}
 	if (count_arg > 1 && count_metac(data->f_arg[i]) == 1
-		&& count_metac(data->f_arg[i + 1]) == 1)
+		&& count_metac(data->f_arg[i + 1]) == 1 && type != 3)
 	{
 		printf("here4\n");
 		err_msg_char(ERR_MSG, data->f_arg[i][0]);
@@ -93,4 +93,18 @@ int	minicd_err(void)
 	ft_putstr_fd("cd: too many arguments\n", 2);
 	g_exit_code = 1;
 	return (g_exit_code);
+}
+
+int	contain_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
 }

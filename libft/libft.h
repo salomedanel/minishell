@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:25:58 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/03 11:21:56 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 19:25:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ double				ft_atof(const char *nptr);
 int					ft_atoi(const char *nptr);
 long long			ft_atoll(const char *nptr);
 char				*ft_itoa(int n);
+unsigned long long	ft_uatoll(const char *nptr);
 
 //memory functions
 void				ft_bzero(void *s, size_t n);

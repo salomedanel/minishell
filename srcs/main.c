@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 15:06:10 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 00:22:20 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ int	main(int argc, char **argv, char **env)
 		add_history(prompt);
 		if (prompt == NULL)
 		{
+			ft_putendl_fd("exit", 2);
 			mini_exit_bis(&data);
 			break ;
 		}
 		parsing(prompt, &data);
 		if (data.p_arg)
-		freetab(data.p_arg);
+			freetab(data.p_arg);
+		if (data.f_arg)
+			freetab(data.f_arg);
 	}
 	return (0);
 }

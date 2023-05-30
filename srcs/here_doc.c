@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 14:26:33 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 19:13:01 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	count_here_docs(t_data *data)
 
 	i = -1;
 	count = 0;
-	while (data->type[++i])
+	while (data->type && data->type[++i])
 		if (data->type[i] == 3)
 			count++;
 	return (count);
@@ -34,14 +34,14 @@ int	open_here_doc(t_data *data)
 
 	i = -1;
 	index = 0;
-	while (data->redir[++i])
+	while (data->redir && data->redir[++i])
 	{
 		if (data->type[i] == 3)
 		{
 			index++;
 			if (index == count_here_docs(data))
 			{
-				if (here_doc(data->redir[i]) == 0)
+				if (here_doc(data->redir[i], data->cmd_tab[0]) == 0)
 					return (0);
 			}
 		}
@@ -49,7 +49,7 @@ int	open_here_doc(t_data *data)
 	return (1);
 }
 
-int	here_doc(char *limiter)
+int	here_doc(char *limiter, char *cmd)
 {
 	int		fd;
 	char	*line;
@@ -79,10 +79,14 @@ int	here_doc(char *limiter)
 	}
 	get_next_line(1, 1);
 	close(fd);
-	fd = open(".tmp", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	dupnclose(fd, STDIN_FILENO);
+
+	if (cmd)
+	{
+		fd = open(".tmp", O_RDONLY);
+		if (fd == -1)
+			return (1);
+		dupnclose(fd, STDIN_FILENO);
+	}
 	unlink(".tmp");
 	return (0);
 }

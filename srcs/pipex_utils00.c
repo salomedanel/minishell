@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 14:08:31 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:55:14 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	count_sub_cmd(t_data *data)
 
 	count = 0;
 	i = -1;
-	while (data->tmp_arg[++i])
+	while (data->tmp_arg && data->tmp_arg[++i])
 	{
 		if (data->ast[i] == T_CMD)
 			count++;
