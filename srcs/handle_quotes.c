@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 19:17:05 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 00:30:57 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 	int	i;
 
 	i = -1;
-	while (quotes->arg[++i])
+	while (quotes->arg && quotes->arg[++i])
 	{
 		if (quotes->arg[i] == '"' && quotes->sq_open == 0
 			&& quotes->dq_open == 0)
@@ -69,7 +69,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 
 	stop = 0;
 	count = trimquotes_utils(quotes, &count);
-	while (quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
+	while (quotes->arg && quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
 		trquotes_util1(quotes->arg[i], quotes, &i);
 		trquotes_util2(quotes->arg[i], quotes, &i);
@@ -89,7 +89,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 
 char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 {
-	while (data->clean_prompt[++i])
+	while (data->clean_prompt && data->clean_prompt[++i])
 	{
 		trquotes_util1(data->clean_prompt[i], quotes, &i);
 		if (i >= ft_strlen(data->clean_prompt))

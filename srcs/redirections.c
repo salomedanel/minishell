@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 20:31:50 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:56:19 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	outfile_error(t_data *data, char *str)
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
-	close(data->fd[0]);
-	close(data->fd[1]);
 }
 
 void	infile_error(t_data *data, char *str)
@@ -30,8 +28,6 @@ void	infile_error(t_data *data, char *str)
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
-	close(data->fd[0]);
-	close(data->fd[1]);
 }
 
 int	last_redir(t_data *data)
@@ -54,8 +50,10 @@ int	open_files(t_data *data)
 
 	i = -1;
 	fd = 0;
-	while (++i < count_redir(*data) + 1)
+
+	while (++i < count_redir(*data))
 	{
+		fprintf(stderr, "%i\n", data->type[i]);
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (data->type[i] == T_RED_APPEND)
@@ -81,7 +79,7 @@ int	blank_open(t_data *data)
 
 	i = -1;
 	fd = 0;
-	while (++i < count_redir(*data) + 1)
+	while (++i < count_redir(*data))
 	{
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 18:44:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 22:57:13 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_strcpy_pipe(char *dest, char *src, int count)
 	j = 0;
 	len = ft_strlen(src);
 	(void)count;
-	while (src[i])
+	while (src && src[i])
 	{
 		if (src[i] == ' ' && (i == 0 || i == len) && src[i])
 			i++;
@@ -48,7 +48,7 @@ char	**split_pipe(t_data *data, int i, int j)
 	data->p_arg = malloc(sizeof(char *) * (count + 1));
 	if (data->p_arg == NULL)
 		return (NULL);
-	while (data->tmp_arg[++i])
+	while (data->tmp_arg && data->tmp_arg[++i])
 	{
 		data->p_arg[i] = malloc(sizeof(char) * (ft_strlen(data->tmp_arg[i])
 					+ 1));

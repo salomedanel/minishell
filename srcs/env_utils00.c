@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils00.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 18:40:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 00:01:37 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	sizetab(char **tab)
 	int	i;
 
 	i = -1;
-	if (!tab[0] || !tab)
+	if (!tab || !tab[0])
 		return (0);
-	while (tab[i])
-		i++;
+	while (tab[++i])
+		;
 	return (i);
 }
 
@@ -43,17 +43,17 @@ int	parse_var_to_exp(char *var)
 
 	i = -1;
 	j = 0;
+	if (!var)
+		return (0);
+	if (var[0] == '-')
+		return (1);
+	if (ft_isdigit(var[0]) == 1 || var[0] == '=')
+		return (2);
 	while (var[++i] && var[i] != '=')
-		if (ft_isspecialchar(var[i]) == 1 || ft_isdigit(var[i]) == 1)
+		if (ft_isspecialchar(var[i]) == 1)
 			j++;
 	if (j > 0)
-		return (1);
-	i = -1;
-	while (var[++i])
-		if (var[i] == '=')
-			break ;
-	if (i == ft_strlen(var))
-		return (1);
+		return (2);
 	return (0);
 }
 
@@ -62,14 +62,29 @@ int	count_var_to_exp(t_data *data)
 	int	i;
 	int	count;
 
-	i = -1;
-	count = 1;
+	i = 0;
+	count = 0;
 	while (data->cmd_tab[++i])
 	{
 		if (parse_var_to_exp(data->cmd_tab[i]) == 0)
 			count++;
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 1)
+		{
+			g_exit_code = 2;
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putchar_fd(data->cmd_tab[i][0], 2);
+			ft_putchar_fd(data->cmd_tab[i][1], 2);
+			ft_putstr_fd("': invalid option\n", 2);
 			continue ;
+		}
+		else if (parse_var_to_exp(data->cmd_tab[i]) == 2)
+		{
+			g_exit_code = 1;
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(data->cmd_tab[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			continue ;
+		}
 	}
 	return (count);
 }
@@ -83,14 +98,16 @@ int	export_exist(t_data *data, char *var)
 	while (data->new_env[++j])
 	{
 		i = 0;
-		while (data->new_env[j][i])
+		while (var[i])
 		{
-			i++;
-			if (data->new_env[j][i] == '=')
+			if (var[i] == '=')
 				break ;
+			i++;
 		}
 		if (var[i] && ft_strncmp(data->new_env[j], var, i + 1) == 0)
 		{
+			fprintf(stderr, "{%s} -> {%s} len = %i\n", data->new_env[j], var, i);
+		
 			free(data->new_env[j]);
 			data->new_env[j] = ft_strdup(var);
 			return (0);

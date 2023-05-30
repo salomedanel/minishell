@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free00.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 18:47:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 00:16:46 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ int	freetab(char **tab)
 	if (!tab)
 		return (0);
 	while (tab[++i])
+	{
 		free(tab[i]);
+		tab[i] = 0;
+	}
 	free(tab);
+	tab = 0;
 	return (i);
 }
 
@@ -59,18 +63,24 @@ int	mini_exit(t_data *data)
 int	mini_exit_bis(t_data *data)
 {
 	freetab(data->new_env);
+	freetab(data->p_arg);
 	freetab(data->prev_env);
 	freetab(data->path);
-	free(data->ast);
 	exit(0);
 }
 
 int	exit_fork(t_data *data, char *cmd)
 {
 	free(cmd);
+	freetab(data->f_arg);
 	freetab(data->tmp_arg);
 	freetab(data->cmd_tab);
+	freetab(data->p_arg);
 	freetab(data->redir);
+	freetab(data->path);
+	freetab(data->new_env);
+	freetab(data->prev_env);
+	free(data->ast);
 	free(data->type);
 	exit(127);
 }

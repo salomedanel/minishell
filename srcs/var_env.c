@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 20:42:27 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 23:13:35 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	int	j;
 
 	j = 0;
-	quotes->tmp = malloc(sizeof(char) * quotes->counter + 2);
+	quotes->tmp = ft_calloc(sizeof(char), quotes->counter + 2);
 	if (quotes->tmp == NULL)
 		return (NULL);
 	// if (contains_dollar(quotes->arg) == 1)

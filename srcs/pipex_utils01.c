@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 18:28:12 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/29 23:05:55 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**ft_get_path(t_data *data)
 	char	**path;
 
 	i = -1;
-	while (data->new_env[++i])
+	while (data->new_env && data->new_env[++i])
 	{
 		if (!ft_strncmp(data->new_env[i], "PATH=", 5))
 		{
@@ -60,7 +60,9 @@ char	*get_cmd_path(char *cmd, char **path)
 	char	*tmp;
 
 	i = -1;
-	while (path[++i])
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	while (path && path[++i])
 	{
 		tmp = ft_strjoin(path[i], "/");
 		cmd_path = ft_strjoin(tmp, cmd);

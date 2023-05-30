@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parserror_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 20:24:46 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 00:11:09 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	count_metac(char *str)
 
 	i = 0;
 	count = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (is_metachar(str[i]) > 0)
 			count++;
@@ -46,7 +46,7 @@ int	tab_len(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab && tab[i])
 		i++;
 	return (i);
 }

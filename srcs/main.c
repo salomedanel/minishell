@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 18:22:26 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 00:33:40 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int		g_exit_code = 0;
 
 void	init_struct(t_data *data)
 {
-	data->cmd_tab = NULL;
-	data->tmp_arg = NULL;
-	data->ast = NULL;
-	data->redir = NULL;
-	data->type = NULL;
 	data->path = ft_get_path(data);
 	data->count_cmd = 0;
 	data->fd[0] = -1;
@@ -29,8 +24,8 @@ void	init_struct(t_data *data)
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*prompt;
-	t_data	data;
+	char			*prompt;
+	static t_data	data = {0};
 
 	(void)argc;
 	(void)argv;
