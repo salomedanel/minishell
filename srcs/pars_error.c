@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 08:44:41 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 09:52:39 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ int	syntax_err(t_data *data)
 		if (count_arg == 1 && count_metac(data->f_arg[i]) < 3
 			&& count_metac(data->f_arg[i]) > 0 && type != 3)
 		{
+			printf("here\n");
 			err_msg_newline(ERR_MSG_NL);
 			return (0);
 		}
 		if (count_arg == 1 && count_metac(data->f_arg[i]) > 2 && type != 3)
 		{
+			printf("here1\n");
 			err_msg_char(ERR_MSG, data->f_arg[i][0]);
 			return (0);
 		}
 		if (syntaxerr_utils(data, i, count_arg, type) == 0)
-		{
 			return (0);
-		}
 	}
 	return (1);
 }
