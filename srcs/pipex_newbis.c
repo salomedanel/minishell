@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 08:48:05 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:11:02 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,22 @@ void	free_data(t_data *data, char *str)
 	freetab(data->tmp_arg);
 	freetab(data->cmd_tab);
 	freetab(data->redir);
+	freetab(data->f_arg);
+	free(data->ast);
 	free(data->type);
 	if (str)
 		free(str);
 }
 
-void	exec(t_data *data)
+void	exec(t_data *data, int j, int k)
 {
 	int		i;
 	char 	*cmd;
 	i = -1;
+	if (data->p_arg)
+		freetab(data->p_arg);
+	if (split_pipe(data, j, k) == NULL)
+		return ;
 	data->prev_pipe = -1;
 	if (data->p_arg[0] == NULL)
 		return ;

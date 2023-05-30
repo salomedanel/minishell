@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 09:44:24 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:51:13 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,35 +55,37 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 
 	k = -1;
 	if (special_cases_doll00(quotes, data, i, j) == 0)
-	{
-	//	if (quotes->tmp != NULL)
-		//	free(quotes->tmp);
 		return (*j);
-	}
 	var = replace_dollar(quotes, i, data);
 	if ((var == NULL && quotes->arg[*i] != '$' && quotes->arg[*i] != '"')
 		|| (quotes->arg[*i] == '"' && quotes->sq_open == 1))
 		fill_farg(quotes, data, i, j);
 	else if (var != NULL)
 	{
+		//printf ("var = %s\n", var);
 		while (var[++k] != '\0')
 		{
 			data->f_arg[quotes->index][*j] = var[k];
+			//printf("data->f_arg[%d][%d] = %c\n", quotes->index, *j, var[k]);
 			*j = *j + 1;
 		}
 		k = -1;
 	}
-	free(quotes->tmp);
-	// free(var);
-	if (special_cases_doll01(quotes, data, i, j) == 0)
+	//printf("var = %s\n", var);
+	//printf("quotes->tmp = %s\n", quotes->tmp);
+	// printf("quotes->arg = %s\n", quotes->arg);
+	// printf("quotes->arg[*i] = %c\n", quotes->arg[*i]);
+	if (var != NULL)
 	{
-	//	if (quotes->tmp != NULL)
-		//	free(quotes->tmp);
-		return (*j);
+		//printf("here\n");
+		free(quotes->tmp);
 	}
+	if (*i != 0 && quotes->arg[*i - 1] == '$' && quotes->arg[*i] == '?')
+		free(var);
+	if (special_cases_doll01(quotes, data, i, j) == 0)
+		return (*j);
 	if (quotes->arg[*i] == '$')
 		*i = *i - 1;
-	//free(quotes->tmp);
 	return (*j);
 }
 

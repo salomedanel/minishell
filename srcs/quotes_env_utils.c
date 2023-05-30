@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 22:44:05 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:47:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ char	*ft_getenv(t_data *data, char *varname)
 	varname_len = ft_strlen(varname);
 	while (data->new_env[i] != NULL)
 	{
+		if (ft_isdigit(varname[0]) == 1)
+		{
+			varname = varname + 1;
+			varname_len = varname_len - 1;
+		}
 		if (strncmp(varname, data->new_env[i], varname_len) == 0
 			&& data->new_env[i][varname_len] == '=')
 		{
@@ -70,6 +75,12 @@ int	norm_trimquotes(t_quotes *quotes, int *i)
 
 int	special_cases_doll00(t_quotes *quotes, t_data *data, int *i, int *j)
 {
+	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '\0' && ft_strlen(quotes->arg) == 1)
+	{
+		data->f_arg[quotes->index][*j] = quotes->arg[*i];
+		*j = *j + 1;
+		return (0);
+	}
 	if ((quotes->arg[*i] == '$' && quotes->sq_open == 1)
 		|| (quotes->arg[*i] == '$' && quotes->dq_open == 1 && quotes->arg[*i
 				+ 1] == '"'))

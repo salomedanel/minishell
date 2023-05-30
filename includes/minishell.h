@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 20:38:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 14:26:03 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void		print_arg_ast(t_data *data);
 
 // signal
 void		handle_sigint(int sig);
-void		handle_sigquit(int sig);
+void		handle_heredoc(int sig);
 
 // free00
 int			freetab(char **tab);
@@ -217,7 +217,7 @@ char		*get_cmd_path(char *cmd, char **path);
 
 // pipex_newbis
 void		select_pipe(t_data *data, int i);
-void		exec(t_data *data);
+void		exec(t_data *data, int j, int k);
 int			count_redir(t_data data);
 
 // split pipe

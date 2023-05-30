@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 09:54:55 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:09:44 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 		err_msg_char(ERR_MSG, '|');
 		return (0);
 	}
-	if (count_arg > 1 && count_metac(data->f_arg[i]) == 1
-		&& count_metac(data->f_arg[i + 1]) == 1 && metachar_type(data->f_arg[i + 1][0]) == 3)
+	if (metachar_type(data->f_arg[i][0]) == 3 && (i == count_arg - 1 || i == 0))
 	{
 		printf("here3\n");
 		err_msg_char(ERR_MSG, '|');
@@ -70,7 +69,7 @@ int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 		&& count_metac(data->f_arg[i + 1]) == 1)
 	{
 		printf("here4\n");
-		err_msg_newline(ERR_MSG_NL);
+		err_msg_char(ERR_MSG, data->f_arg[i][0]);
 		return (0);
 	}
 	if (count_arg > 1 && count_metac(data->f_arg[i]) > 2)
@@ -83,7 +82,7 @@ int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 		&& i == count_arg - 1 && metachar_type(data->f_arg[i][0]) != 3)
 	{
 		printf("here6\n");
-		err_msg_newline(ERR_MSG_NL);
+		err_msg_char(ERR_MSG, data->f_arg[i][0]);
 		return (0);
 	}
 	return (1);

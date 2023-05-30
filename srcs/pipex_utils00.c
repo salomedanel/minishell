@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 08:35:00 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:08:31 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	count_cmd(t_data *data)
 
 	count = 1;
 	i = -1;
-	while (data->f_arg[++i])
+	while (data->f_arg && data->f_arg[++i])
 	{
 		if (!ft_strcmp(data->f_arg[i], "|"))
 			count++;
@@ -52,7 +52,7 @@ char	*ft_jointab(char **tab, int i, int j)
 
 	k = 0;
 	len = 0;
-	while (tab[++i])
+	while (tab && tab[++i])
 	{
 		len += ft_strlen(tab[i]);
 		k++;
@@ -60,7 +60,7 @@ char	*ft_jointab(char **tab, int i, int j)
 	str = (char *)malloc(sizeof(char) * (len + k + 1));
 	i = -1;
 	k = 0;
-	while (tab[++i])
+	while (tab && tab[++i])
 	{
 		j = -1;
 		while (tab[i][++j])

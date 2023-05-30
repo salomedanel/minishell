@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 19:21:35 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:26:33 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int	here_doc(char *limiter)
 	while (1)
 	{
 		ft_putstr_fd("> ", 1);
+		signal(SIGINT, handle_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+		if (g_exit_code == 130)
+			return (0);
 		line = get_next_line(0, 0);
 		if (!line)
 			break ;

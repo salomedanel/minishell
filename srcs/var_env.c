@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 09:39:34 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 12:11:52 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	if (quotes->arg[*i] == '$')
 	{
 		*i = *i + 1;
-		while (quotes->arg[*i] != '\0' && quotes->arg[*i] != '"'
-			&& quotes->arg[*i] != '\'' && quotes->arg[*i] != '$')
+		while (is_specialchar(quotes->arg[*i]) == 0)
 		{
 			*i = *i + 1;
 			quotes->counter++;
@@ -56,11 +55,16 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	}
 	var = get_dollvalue(quotes, &tmp_i, i);
 	quotes->tmp = replace_dollar_utils(quotes, &tmp_i, i, data);
+	// printf("quotes->tmp = %s\n", quotes->tmp);
+	// printf("quotes->arg[i] = %c | var = %s\n", quotes->arg[*i], var);
+	// printf("quotes->tmp = %s\n", quotes->tmp);
 	len = (ft_strlen(var) * -1) + ft_strlen(quotes->tmp);
 	free(var);
 	if (quotes->tmp == NULL)
 	{
-		//free(quotes->tmp);
+		if (quotes->arg[*i] == '$')
+			*i = *i - 1;
+		//printf("RET - quotes->arg[*i] = %c\n", quotes->arg[*i]);
 		return (data->count);
 	}
 	else
@@ -79,6 +83,7 @@ char	*replace_dollar(t_quotes *quotes, int *i, t_data *data)
 	{
 		ex_code = ft_itoa(g_exit_code);
 		*i = *i + 1;
+		//free(ft_itoa(g_exit_code));
 		return (ex_code);
 	}
 	if (quotes->arg[*i] == '$')
@@ -99,8 +104,6 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	int	j;
 
 	j = 0;
-	// if (quotes->tmp != NULL)
-	// 	free(quotes->tmp);
 	quotes->tmp = ft_calloc(sizeof(char), quotes->counter + 2);
 	if (quotes->tmp == NULL)
 		return (NULL);

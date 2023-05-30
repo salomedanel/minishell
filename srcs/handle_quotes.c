@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 09:42:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:28:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 	int	i;
 
 	i = -1;
-	while (quotes->arg && quotes->arg[++i])
+	while (quotes->arg && i <= ft_strlen(quotes->arg) - 1 && quotes->arg[++i])
 	{
 		if (quotes->arg[i] == '"' && quotes->sq_open == 0
 			&& quotes->dq_open == 0)
@@ -58,7 +58,6 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
-		//free(quotes->tmp);
 	}
 	if (quotes->tmp == NULL)
 		free(quotes->tmp);
@@ -72,7 +71,7 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 
 	stop = 0;
 	count = trimquotes_utils(quotes, &count);
-	while (quotes->arg && quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
+	while (quotes->arg && i < ft_strlen(quotes->arg) && quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
 	{
 		trquotes_util1(quotes->arg[i], quotes, &i);
 		trquotes_util2(quotes->arg[i], quotes, &i);
@@ -85,7 +84,6 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 		j = cpy_varenv(data, quotes, &i, &j);
 		i++;
 		stop++;
-		//free(quotes->tmp);
 	}
 	data->f_arg[quotes->index][j] = '\0';
 	return ;
