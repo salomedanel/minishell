@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 00:16:46 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:11:11 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	mini_exit(t_data *data)
 int	mini_exit_bis(t_data *data)
 {
 	freetab(data->new_env);
-	freetab(data->p_arg);
 	freetab(data->prev_env);
 	freetab(data->path);
 	exit(0);

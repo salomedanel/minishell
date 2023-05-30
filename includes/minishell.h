@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 14:26:03 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 14:53:21 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <termios.h>
 
 # define ERR_MSG "minishell: syntax error near unexpected token "
 # define ERR_MSG_NL "minishell: syntax error near unexpected token 'newline'"

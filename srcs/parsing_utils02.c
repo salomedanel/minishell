@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:51:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 12:43:36 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 15:14:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	varenv_len_utils(t_quotes *quotes, int *i, int *count)
 		return (*count);
 	if (quotes->arg[*i] == '$' && *i != 0 && quotes->arg[*i - 1] == '?' && !quotes->arg[*i
 			+ 1])
-		return (3);
+		return (len + 2);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
 		return (*count + len);
 	return (*count);

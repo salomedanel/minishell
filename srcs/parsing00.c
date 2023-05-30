@@ -6,11 +6,13 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 14:25:37 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 15:16:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 int	count_metachar(char *prompt, int count, int i)
 {
@@ -108,6 +110,8 @@ void	parsing(char *prompt, t_data *data)
 	final_arg(data, &quotes);
 	if (syntax_err(data) == 0)
 		return ;
+	if (g_exit_code > 0)
+		g_exit_code = 0;
 	split_pipe(data, i, j);
 	exec(data, i, j);
 	return ;
