@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parserror_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 00:11:09 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:43:59 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ int	syntaxerr_utils(t_data *data, int i, int count_arg, int type)
 			|| metachar_type(data->f_arg[i + 1][0] != 2)))
 	{
 		err_msg_char(ERR_MSG, data->f_arg[i][0]);
+		return (0);
+	}
+	if (count_arg > 1 && count_metac(data->f_arg[i]) > 0
+		&& i == count_arg - 1 && metachar_type(data->f_arg[i][0]) != 3)
+	{
+		err_msg_newline(ERR_MSG_NL);
 		return (0);
 	}
 	return (1);

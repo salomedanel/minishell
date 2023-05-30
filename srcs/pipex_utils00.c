@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 23:11:02 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:35:00 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ void	cmd_not_found(char *cmd)
 	while (cmd[++i])
 		if (cmd[i] == 31)
 			cmd[i] = 32;
-	// ft_putstr_fd("minishell: ", 2);
-	// ft_putstr_fd(cmd, 2);
-	perror(cmd);
-	// ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
 }
 
 void	dupnclose(int fd1, int fd2)

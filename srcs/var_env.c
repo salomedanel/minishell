@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 23:13:35 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 09:39:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	len = (ft_strlen(var) * -1) + ft_strlen(quotes->tmp);
 	free(var);
 	if (quotes->tmp == NULL)
+	{
+		//free(quotes->tmp);
 		return (data->count);
+	}
 	else
 		return (data->count + len);
 }
@@ -96,11 +99,11 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	int	j;
 
 	j = 0;
+	// if (quotes->tmp != NULL)
+	// 	free(quotes->tmp);
 	quotes->tmp = ft_calloc(sizeof(char), quotes->counter + 2);
 	if (quotes->tmp == NULL)
 		return (NULL);
-	// if (contains_dollar(quotes->arg) == 1)
-	// 	*i = *i - 1;
 	while (*tmp_i < *i)
 	{
 		quotes->tmp[j] = quotes->arg[*tmp_i];
@@ -111,6 +114,7 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 	*i = *i - 1;
 	if (ft_getenv(data, quotes->tmp + 1) == NULL)
 	{
+		free(quotes->tmp);
 		*i = *i + 1;
 		return (NULL);
 	}

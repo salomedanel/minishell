@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/29 17:47:50 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/30 09:44:24 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 
 	k = -1;
 	if (special_cases_doll00(quotes, data, i, j) == 0)
+	{
+	//	if (quotes->tmp != NULL)
+		//	free(quotes->tmp);
 		return (*j);
+	}
 	var = replace_dollar(quotes, i, data);
 	if ((var == NULL && quotes->arg[*i] != '$' && quotes->arg[*i] != '"')
 		|| (quotes->arg[*i] == '"' && quotes->sq_open == 1))
@@ -69,10 +73,17 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 		}
 		k = -1;
 	}
+	free(quotes->tmp);
+	// free(var);
 	if (special_cases_doll01(quotes, data, i, j) == 0)
+	{
+	//	if (quotes->tmp != NULL)
+		//	free(quotes->tmp);
 		return (*j);
+	}
 	if (quotes->arg[*i] == '$')
 		*i = *i - 1;
+	//free(quotes->tmp);
 	return (*j);
 }
 

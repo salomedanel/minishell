@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 22:56:19 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:55:25 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	open_files(t_data *data)
 
 	while (++i < count_redir(*data))
 	{
-		fprintf(stderr, "%i\n", data->type[i]);
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (data->type[i] == T_RED_APPEND)

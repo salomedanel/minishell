@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 00:01:37 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:55:14 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int	export_exist(t_data *data, char *var)
 		}
 		if (var[i] && ft_strncmp(data->new_env[j], var, i + 1) == 0)
 		{
-			fprintf(stderr, "{%s} -> {%s} len = %i\n", data->new_env[j], var, i);
-		
 			free(data->new_env[j]);
 			data->new_env[j] = ft_strdup(var);
 			return (0);

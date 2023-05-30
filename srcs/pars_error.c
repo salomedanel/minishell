@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:54:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 00:09:57 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:44:41 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	syntax_err(t_data *data)
 		}
 		if (count_arg == 1 && count_metac(data->f_arg[i]) > 2 && type != 3)
 		{
-			printf("here\n");
 			err_msg_char(ERR_MSG, data->f_arg[i][0]);
 			return (0);
 		}
@@ -81,15 +80,5 @@ int	err_special(t_data *data)
 		if (i == (ft_strlen(data->clean_prompt) - 1))
 			return (0);
 	}
-	i = -1;
-	// while (data->clean_prompt[++i])
-	// {
-	// 	if (data->clean_prompt[i] == '/')
-	// 	{
-	// 		err_msg_str(ERR_MSG_NODIR, data->clean_prompt);
-	// 		g_exit_code = 126;
-	// 		return (0);
-	// 	}
-	// }
 	return (1);
 }

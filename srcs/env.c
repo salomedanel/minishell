@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 00:01:18 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 08:55:57 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ int	mini_env(t_data *data)
 	while (data->new_env[++i])
 		ft_putendl_fd(data->new_env[i], 1);
 	return (g_exit_code);
-}
-
-void	ft_printtab(char **tab)
-{
-	for (int i = 0; tab[i]; i++)
-		fprintf(stderr, "{%i}[%s]\n", i, tab[i]);
 }
 
 int	mini_export(t_data *data)
