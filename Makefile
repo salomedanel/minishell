@@ -21,6 +21,7 @@ SRC =	main \
 		signal \
 		free00 \
 		free01 \
+		free_fork \
 		exit \
 		cd \
 		env \
@@ -28,6 +29,7 @@ SRC =	main \
 		env_utils01 \
 		pipex_utils00 \
 		pipex_utils01 \
+		pipex_utils02 \
 		pipex \
 		split_pipe \
 		temporary_utils \

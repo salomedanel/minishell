@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 16:47:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:38:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,12 @@ void		free_dobby(t_data *data);
 void		free_child_heredoc(t_data *data);
 void		ft_free(void *ptr);
 
+// free_fork
+void		free_data(t_data *data, char *str);
+void		free_data_fork(t_data *data);
+void		free_in_fork(t_data *data, char *str);
+void		free_isdir(t_data *data, char *cmd);
+
 // exit
 void		exit_msg(char *str, int err);
 int			check_exit(char *str);
@@ -239,10 +245,16 @@ char		**ft_get_path(t_data *data);
 char		*get_cmd_path(char *cmd, char **path);
 void		get_space(char **tab);
 
-// pipex_newbis
+// pipex_utils02
 void		select_pipe(t_data *data, int i);
-void		exec(t_data *data);
 int			count_redir(t_data data);
+void		get_redir_tab(t_data *data);
+void		exec_waitpid(t_data *data);
+
+// pipex
+void		child_process(t_data *data, int i, char *cmd);
+void		parent_process(t_data *data);
+void		exec(t_data *data);
 
 // split pipe
 void		ft_strcpy_pipe(char *dest, char *src, int count);
