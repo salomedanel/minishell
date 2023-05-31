@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 17:38:54 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:49:41 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,9 +251,13 @@ int			count_redir(t_data data);
 void		get_redir_tab(t_data *data);
 void		exec_waitpid(t_data *data);
 
+// pipex_utils03
+
+
 // pipex
 void		child_process(t_data *data, int i, char *cmd);
 void		parent_process(t_data *data);
+void		end_exec(t_data *data);
 void		exec(t_data *data);
 
 // split pipe

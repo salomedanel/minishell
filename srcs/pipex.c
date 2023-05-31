@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 17:39:56 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:50:08 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,30 @@ void	child_process(t_data *data, int i, char *cmd)
 		exit_fork(data, cmd);
 	}
 	return ;
+}
+
+void	end_exec(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	exec_waitpid(data);
+	if (data->nb_here > 0)
+	{
+		i = -1;
+		while (++i < data->nb_here)
+			ft_free(data->here[i].limiter);
+		free(data->here);
+	}
+	freetab(data->f_arg);
+	freetab(data->p_arg);
+	close(data->fd[0]);
+	close(data->fd[1]);
+}
+
+void	init_cmd()
+{
+	
 }
 
 void	exec(t_data *data)
@@ -107,16 +131,5 @@ void	exec(t_data *data)
 		freetab(data->cmd_tab);
 		j = -1;
 	}
-	exec_waitpid(data);
-	if (data->nb_here > 0)
-	{
-		i = -1;
-		while (++i < data->nb_here)
-			ft_free(data->here[i].limiter);
-		free(data->here);
-	}
-	freetab(data->f_arg);
-	freetab(data->p_arg);
-	close(data->fd[0]);
-	close(data->fd[1]);
+	end_exec(data);
 }
