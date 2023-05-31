@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:21:43 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 16:53:05 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void	exec(t_data *data)
 					exit(0);
 				if (cmd && !is_builtin(data->cmd_tab[0]))
 				{
+					printf("cc\n");
 					free_data_fork(data);
 					execve(cmd, data->cmd_tab, data->new_env);
 				}
@@ -195,9 +196,13 @@ void	exec(t_data *data)
 				if (data->prev_pipe != -1)
 					close(data->prev_pipe);
 				data->prev_pipe = data->fd[0];
+				freetab(data->tmp_arg);
 				if (data->ast)
 					ft_free(data->ast);
-				freetab(data->tmp_arg);
+				if (data->redir)
+					freetab(data->redir);
+				if (data->type)
+					ft_free(data->type);
 			}
 		}
 		ft_free(cmd);

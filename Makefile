@@ -28,12 +28,14 @@ SRC =	main \
 		env_utils01 \
 		pipex_utils00 \
 		pipex_utils01 \
-		pipex_newbis \
+		pipex \
 		split_pipe \
 		temporary_utils \
 		echo \
 		redirections \
+		redirections_utils \
 		here_doc \
+		here_doc_utils \
 		err_msg \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))

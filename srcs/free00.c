@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free00.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 15:52:41 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:27:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	mini_exit_bis(t_data *data)
 int	exit_fork(t_data *data, char *cmd)
 {
 	int	i;
-	
+
 	ft_free(cmd);
 	freetab(data->f_arg);
 	freetab(data->tmp_arg);
@@ -60,7 +60,7 @@ int	exit_fork(t_data *data, char *cmd)
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	ft_free(data->ast);
-	ft_free(data->type);	
+	ft_free(data->type);
 	if (data->nb_here > 0)
 	{
 		i = -1;

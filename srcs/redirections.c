@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 14:51:20 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:43:55 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,15 @@
 
 extern int	g_exit_code;
 
-int	outfile_error(t_data *data, char *str)
+void	open_files_utils(t_data *data, int i, int fd)
 {
-	ft_putstr_fd("minishell: An error has occurred while opening: ", 2);
-	ft_putendl_fd(str, 2);
-	if (data->prev_pipe != -1)
-		close(data->prev_pipe);
-	g_exit_code = 1;
-	return (1);
-}
-
-int	infile_error(t_data *data, char *str)
-{
-	ft_putstr_fd("minishell: no such file or directory: ", 2);
-	ft_putendl_fd(str, 2);
-	if (data->prev_pipe != -1)
-		close(data->prev_pipe);
-	g_exit_code = 1;
-	return (1);
-}
-
-int	last_redir(t_data *data)
-{
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (data->type[++i])
-		if (data->type[i] == 1 || data->type[i] == 4)
-			count++;
-	return (count);
-}
-
-int get_pipe(char *str, t_data *data)
-{
-	int i = -1;
-
-	while (++i < data->nb_here)
-	{
-		if (!ft_strcmp(str, data->here[i].limiter))
-			return (data->here[i].fd[0]);
-	}
-	return (-1);
-}
-
-int	*create_matrix(t_data *data)
-{
-	int	i;
-	int	j;
-	int	*matrix;
-	
-	i = -1;
-	j = -1;
-	matrix = malloc(sizeof(int) * (data->nb_here));
-	while (++i < count_redir(*data))
-	{
-		if (data->type[i] == T_HERE_DOC)
-			matrix[++j] = i;
-	}
-	return (matrix);
+	if ((data->type[i] == T_REDOUT || data->type[i] == T_RED_APPEND))
+		dupnclose(fd, STDOUT_FILENO);
+	if (data->type[i] == T_REDIN)
+		dupnclose(fd, STDIN_FILENO);
+	if (data->type[i] == T_HERE_DOC)
+		dupnclose(fd, STDIN_FILENO);
+	return ;
 }
 
 int	open_files(t_data *data)
@@ -97,17 +46,26 @@ int	open_files(t_data *data)
 			fd = get_pipe(data->redir[i], data);
 		if (fd == -1)
 			return (infile_error(data, data->redir[i]));
-		if ((data->type[i] == T_REDOUT || data->type[i] == T_RED_APPEND))
-			dupnclose(fd, STDOUT_FILENO);
-		if (data->type[i] == T_REDIN)
-			dupnclose(fd, STDIN_FILENO);
-		if (data->type[i] == T_HERE_DOC)
-			dupnclose(fd, STDIN_FILENO);
-		}
-		i = -1;
-		while (++i < data->nb_here)
-			close(data->here[i].fd[1]);
+		open_files_utils(data, i, fd);
+	}
+	i = -1;
+	while (++i < data->nb_here)
+		close(data->here[i].fd[1]);
 	return (0);
+}
+
+void	closefree_delimiter(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nb_here)
+	{
+		close(data->here[i].fd[0]);
+		free(data->here[i].limiter);
+	}
+	free(data->here);
+	return ;
 }
 
 int	blank_open(t_data *data)
@@ -133,12 +91,6 @@ int	blank_open(t_data *data)
 			return (infile_error(data, data->redir[i]), g_exit_code = 1);
 		close(fd);
 	}
-	i = -1;
-	while (++i < data->nb_here)
-	{
-		close(data->here[i].fd[0]);
-		free(data->here[i].limiter);
-	}
-	free(data->here);
+	closefree_delimiter(data);
 	return (0);
 }

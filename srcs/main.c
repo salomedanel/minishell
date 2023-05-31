@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 15:46:20 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:32:01 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, handle_heredoc);
 	dup_env(&data, env);
 	init_struct(&data);
 	while (1)

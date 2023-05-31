@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free01.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:45:26 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 09:34:59 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:26:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,13 @@
 
 void	free_dobby(t_data *data)
 {
-	// free(data->clean_prompt);
-		freetab(data->f_arg);
-	// 	freetab(data->p_arg);
-	// freetab(data->new_env);
-	// freetab(data->prev_env);
-	// freetab(data->cmd_tab);
-	// freetab(data->tmp_arg);
-	// freetab(data->path);
-	// free(data->ast);
+	freetab(data->f_arg);
 }
 
 void	free_child_heredoc(t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	freetab(data->f_arg);
 	freetab(data->p_arg);
@@ -37,10 +29,10 @@ void	free_child_heredoc(t_data *data)
 	while (++i < data->nb_here)
 		free(data->here[i].limiter);
 	freetab(data->path);
-	free (data->here);
+	free(data->here);
 }
 
-void ft_free(void *ptr)
+void	ft_free(void *ptr)
 {
 	if (ptr)
 	{

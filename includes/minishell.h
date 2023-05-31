@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 14:56:11 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 16:47:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ int			contains_dollar(char *str);
 int			syntax_err(t_data *data, t_quotes *quotes);
 int			err_special(t_data *data);
 int			syntaxerr_utils00(t_data *data, int i, int count_arg, int type);
-int			syntaxerr_utils01(t_data *data, int i, int count_arg, t_quotes *quotes);
+int			syntaxerr_utils01(t_data *data, int i, int count_arg,
+				t_quotes *quotes);
 
 // parserr_utils
 int			metachar_type(char c);
@@ -248,16 +249,29 @@ void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data, int i, int j);
 
 // redirection
+void		open_files_utils(t_data *data, int i, int fd);
+int			open_files(t_data *data);
+void		closefree_delimiter(t_data *data);
+int			blank_open(t_data *data);
+
+// redirection_utils
 int			outfile_error(t_data *data, char *str);
 int			infile_error(t_data *data, char *str);
 int			last_redir(t_data *data);
-int			open_files(t_data *data);
-int			blank_open(t_data *data);
+int			get_pipe(char *str, t_data *data);
+int			*create_matrix(t_data *data);
 
 //here_doc
 int			count_here_docs(t_data *data);
 int			open_here_doc(t_data *data);
+char		*openfileshd(t_here *here);
+void		child_hd(t_data *data);
 int			here_doc(t_data *data);
+
+// here_doc_utils
+int			ft_isspace(char c);
+int			get_len_word(char *str);
+char		*get_word(char *str);
 
 // err_msg
 void		err_export_opt(t_data *data, int i);
