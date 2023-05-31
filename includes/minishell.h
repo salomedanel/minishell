@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 09:42:59 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:55:32 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,17 +128,15 @@ int			varenv_len_utils(t_quotes *quotes, int *i, int *count);
 int			contains_dollar(char *str);
 
 // pars_error
-void		err_msg_char(char *err, char quote);
-void		err_msg_str(char *err, char *str);
-void		err_msg_newline(char *err);
 int			syntax_err(t_data *data);
 int			err_special(t_data *data);
+int			syntaxerr_utils00(t_data *data, int i, int count_arg, int type);
+int			syntaxerr_utils01(t_data *data, int i, int count_arg);
 
 // parserr_utils
 int			metachar_type(char c);
 int			count_metac(char *str);
 int			tab_len(char **tab);
-int			syntaxerr_utils(t_data *data, int i, int count_arg, int type);
 int			minicd_err(void);
 int			contain_space(char *str);
 
@@ -158,6 +156,7 @@ int			special_cases_doll00(t_quotes *quotes, t_data *data, int *i,
 				int *j);
 int			special_cases_doll01(t_quotes *quotes, t_data *data, int *i,
 				int *j);
+void		special_cases_doll02(t_quotes *quotes, int *i, char *var);
 
 // token
 void		token(t_data *data);
@@ -243,8 +242,8 @@ void		ft_strcpy_pipe(char *dest, char *src, int count);
 char		**split_pipe(t_data *data, int i, int j);
 
 // redirection
-void		outfile_error(t_data *data, char *str);
-void		infile_error(t_data *data, char *str);
+int			outfile_error(t_data *data, char *str);
+int			infile_error(t_data *data, char *str);
 int			last_redir(t_data *data);
 int			open_files(t_data *data);
 int			blank_open(t_data *data);
@@ -253,5 +252,11 @@ int			blank_open(t_data *data);
 int			count_here_docs(t_data *data);
 int			open_here_doc(t_data *data);
 int			here_doc(t_data *data);
+
+// err_msg
+void		err_export_opt(t_data *data, int i);
+void		err_msg_char(char *err, char quote);
+void		err_msg_str(char *err, char *str);
+void		err_msg_newline(char *err);
 
 #endif

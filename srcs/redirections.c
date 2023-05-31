@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 08:46:10 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:16:15 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 extern int	g_exit_code;
 
-void	outfile_error(t_data *data, char *str)
+int	outfile_error(t_data *data, char *str)
 {
 	ft_putstr_fd("minishell: An error has occurred while opening: ", 2);
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
+	g_exit_code = 1;
+	return (1);
 }
 
-void	infile_error(t_data *data, char *str)
+int	infile_error(t_data *data, char *str)
 {
 	ft_putstr_fd("minishell: no such file or directory: ", 2);
 	ft_putendl_fd(str, 2);
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
+	g_exit_code = 1;
+	return (1);
 }
 
 int	last_redir(t_data *data)
@@ -62,7 +66,6 @@ int	open_files(t_data *data)
 
 	i = -1;
 	fd = 0;
-
 	while (++i < count_redir(*data))
 	{
 		if (data->type[i] == T_REDOUT)
@@ -70,13 +73,13 @@ int	open_files(t_data *data)
 		else if (data->type[i] == T_RED_APPEND)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			return (outfile_error(data, data->redir[i]), g_exit_code = 1);
+			return (outfile_error(data, data->redir[i]));
 		if (data->type[i] == T_REDIN)
 			fd = open(data->redir[i], O_RDONLY);
 		else if (data->type[i] == T_HERE_DOC)
 			fd = get_pipe(data->redir[i], data);
 		if (fd == -1)
-			return (infile_error(data, data->redir[i]), g_exit_code = 1);
+			return (infile_error(data, data->redir[i]));
 		if ((data->type[i] == T_REDOUT || data->type[i] == T_RED_APPEND))
 			dupnclose(fd, STDOUT_FILENO);
 		if (data->type[i] == T_REDIN)

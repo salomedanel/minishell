@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 22:27:10 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:27:06 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ int	count_newlen(t_data *data, t_quotes *quotes)
 		if (quotes->arg[i] == '\'' && quotes->sq_open == 1)
 			data->count = close_quotes(quotes->arg[i], quotes, &data->count);
 	}
-	// if (quotes->tmp != NULL)
-	// {
-	// 	printf("quotes->tmp = %s\n", quotes->tmp);
-	// 	free(quotes->tmp);
-	// }
 	return (data->count);
 }
 
@@ -74,7 +69,8 @@ void	trimquotes(t_data *data, t_quotes *quotes, int i, int j)
 
 	stop = 0;
 	count = trimquotes_utils(quotes, &count);
-	while (quotes->arg && i < ft_strlen(quotes->arg) && quotes->arg[i] && stop < ft_strlen(quotes->arg) - count)
+	while (quotes->arg && i < ft_strlen(quotes->arg) && quotes->arg[i]
+		&& stop < ft_strlen(quotes->arg) - count)
 	{
 		trquotes_util1(quotes->arg[i], quotes, &i);
 		trquotes_util2(quotes->arg[i], quotes, &i);
@@ -97,7 +93,6 @@ char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 	while (data->clean_prompt && data->clean_prompt[++i])
 	{
 		trquotes_util1(data->clean_prompt[i], quotes, &i);
-		//printf("len = %d | clean_prompt = %s\n", ft_strlen(data->clean_prompt), data->clean_prompt);
 		if (i >= ft_strlen(data->clean_prompt))
 			break ;
 		if (is_spechar(data->clean_prompt[i]) > 0 && quotes->dq_open == 0

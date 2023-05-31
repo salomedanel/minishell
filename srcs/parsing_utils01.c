@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 23:42:44 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:56:29 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,7 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 		}
 		k = -1;
 	}
-	if (var != NULL)
-	{
-		if (ft_strlen(quotes->arg) > 1 && quotes->arg[*i] != '?')
-			free(quotes->tmp);
-	}
-	if (*i != 0 && quotes->arg[*i - 1] == '$' && quotes->arg[*i] == '?')
-		free(var);
+	special_cases_doll02(quotes, i, var);
 	if (special_cases_doll01(quotes, data, i, j) == 0)
 		return (*j);
 	if (quotes->arg[*i] == '$')

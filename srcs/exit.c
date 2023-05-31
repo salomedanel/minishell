@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:54:12 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 19:31:09 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:26:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	check_exit(char *str)
 	{
 		if (ft_isdigit(str[i]) == 0 && str[i] != '-' && str[i] != '+')
 			return (1);
-        if ((str[i] == '-' || str[i] == '+') && i != 0)
-            return (1);
+		if ((str[i] == '-' || str[i] == '+') && i != 0)
+			return (1);
 		i++;
 	}
 	return (0);
@@ -53,49 +53,51 @@ int	check_multiarg(char **tab)
 
 	i = 0;
 	while (tab && tab[i])
-    {
-        if (tab[i][0] != '-' && ft_uatoll(tab[i]) > (unsigned long long)9223372036854775807)
-           return (1);
-        if (tab[i][0] == '-' && ft_uatoll(tab[i]) > (unsigned long long)9223372036854775807 + 1)
-           return (1);
+	{
+		if (tab[i][0] != '-'
+			&& ft_uatoll(tab[i]) > (unsigned long long)9223372036854775807)
+			return (1);
+		if (tab[i][0] == '-'
+			&& ft_uatoll(tab[i]) > (unsigned long long)9223372036854775807 + 1)
+			return (1);
 		i++;
-    }
+	}
 	if (i > 2)
 		return (2);
 	return (0);
 }
 
-int handle_exitcode(int nb, int err, t_data *data)
+int	handle_exitcode(int nb, int err, t_data *data)
 {
-    err = check_exit(data->cmd_tab[1]);
+	err = check_exit(data->cmd_tab[1]);
 	if (err != 1)
 		err = check_multiarg(data->cmd_tab);
 	exit_msg(data->cmd_tab[1], err);
 	if (err == 2)
-    {
-        g_exit_code = 1;
-        return (0);
-    }
-    if (err == 1)
-        nb = 2;
-    else if (data->cmd_tab[1] != NULL)
-    {
-        nb = ft_uatoll(data->cmd_tab[1]);
-        if (data->cmd_tab[1][0] == '-')
-            nb = nb * -1;
-        nb = nb % 256;
-    }
-    return (nb);
+	{
+		g_exit_code = 1;
+		return (0);
+	}
+	if (err == 1)
+		nb = 2;
+	else if (data->cmd_tab[1] != NULL)
+	{
+		nb = ft_uatoll(data->cmd_tab[1]);
+		if (data->cmd_tab[1][0] == '-')
+			nb = nb * -1;
+		nb = nb % 256;
+	}
+	return (nb);
 }
 
 int	mini_exit(t_data *data)
 {
-	int err;
-    unsigned long long nb;
+	int					err;
+	unsigned long long	nb;
 
-    nb = 0;
-    err = 0;
-    nb = handle_exitcode(nb, err, data);
+	nb = 0;
+	err = 0;
+	nb = handle_exitcode(nb, err, data);
 	freetab(data->f_arg);
 	freetab(data->p_arg);
 	freetab(data->new_env);

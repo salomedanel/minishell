@@ -33,6 +33,7 @@ SRC =	main \
 		echo \
 		redirections \
 		here_doc \
+		err_msg \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

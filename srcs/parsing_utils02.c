@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:51:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 15:14:56 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:52:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,22 @@ int	is_spechar(char c)
 void	fill_farg(t_quotes *quotes, t_data *data, int *i, int *j)
 {
 	data->f_arg[quotes->index][*j] = quotes->arg[*i];
-	//printf("data->f_arg[%d][%d] = %c\n", quotes->index, *j, quotes->arg[*i]);
 	*j = *j + 1;
 	return ;
 }
 
 int	varenv_len_utils(t_quotes *quotes, int *i, int *count)
 {
-	int	len;
-	char *tmp;
+	int		len;
+	char	*tmp;
 
 	tmp = ft_itoa(g_exit_code);
 	len = ft_strlen(tmp);
 	free(tmp);
 	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
 		return (*count);
-	if (quotes->arg[*i] == '$' && *i != 0 && quotes->arg[*i - 1] == '?' && !quotes->arg[*i
-			+ 1])
+	if (quotes->arg[*i] == '$' && *i != 0 && quotes->arg[*i - 1] == '?'
+		&& !quotes->arg[*i + 1])
 		return (len + 2);
 	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
 		return (*count + len);
@@ -62,7 +61,7 @@ int	contains_dollar(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == '$')
 			return (1);

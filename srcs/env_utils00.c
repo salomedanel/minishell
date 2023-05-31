@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils00.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 08:55:14 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:25:36 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ int	count_var_to_exp(t_data *data)
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 1)
 		{
 			g_exit_code = 2;
-			ft_putstr_fd("minishell: export: '", 2);
-			ft_putchar_fd(data->cmd_tab[i][0], 2);
-			ft_putchar_fd(data->cmd_tab[i][1], 2);
-			ft_putstr_fd("': invalid option\n", 2);
+			err_export_opt(data, i);
 			continue ;
 		}
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 2)
