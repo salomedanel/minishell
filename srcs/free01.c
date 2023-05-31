@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:45:26 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 00:17:24 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 09:34:59 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ void	free_child_heredoc(t_data *data)
 		free(data->here[i].limiter);
 	freetab(data->path);
 	free (data->here);
+}
+
+void ft_free(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }

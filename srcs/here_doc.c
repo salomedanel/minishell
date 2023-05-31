@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 01:11:15 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 08:42:03 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ int	here_doc(t_data *data)
 	while (++i < data->nb_here)
 	{
 		close(here[i].fd[0]);
-		free(here[i].limiter);
+		// free(here[i].limiter);
 	}
-	free(here);
+	// free(here);
 	return (1);
 }

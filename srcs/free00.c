@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 23:40:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 09:43:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,16 @@ int	freetab(char **tab)
 	if (!tab)
 		return (0);
 	while (tab[++i])
-	{
-		free(tab[i]);
-		tab[i] = 0;
-	}
+		ft_free(tab[i]);
 	free(tab);
-	tab = 0;
+	tab = NULL;
 	return (i);
 }
 
 void	free_arg(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (data->arg[i])
-	{
-		free(data->arg[i]);
-		i++;
-	}
-	free(data->arg);
-	free(data->clean_prompt);
+	freetab(data->arg);
+	ft_free(data->clean_prompt);
 }
 
 int	mini_exit_bis(t_data *data)
@@ -50,8 +39,6 @@ int	mini_exit_bis(t_data *data)
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->path);
-	// if (data->tmp != NULL)
-	// 	free(data->tmp);
 	exit(0);
 }
 

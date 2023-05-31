@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 00:46:23 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 08:46:10 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ int	open_files(t_data *data)
 	}
 	i = -1;
 	while (++i < data->nb_here)
+	{
 		close(data->here[i].fd[0]);
+		free(data->here[i].limiter);
+	}
+	free(data->here);
 	return (0);
 }
 

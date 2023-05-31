@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 09:35:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 09:42:59 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int			exit_fork(t_data *data, char *cmd);
 // free01
 void		free_dobby(t_data *data);
 void		free_child_heredoc(t_data *data);
+void		ft_free(void *ptr);
 
 // exit
 void		exit_msg(char *str, int err);
