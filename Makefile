@@ -14,7 +14,8 @@ SRC =	main \
 		pars_error \
 		parserror_utils \
 		var_env \
-		quotes_env_utils \
+		quotes_env_utils00 \
+		quotes_env_utils01 \
 		builtins \
 		token \
 		signal \

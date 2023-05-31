@@ -6,24 +6,22 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:35:37 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/31 11:27:06 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 12:32:54 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quotes_open(t_quotes *quotes)
+int	check_quotes_open(t_quotes *quotes, t_data *data)
 {
 	if (quotes->dq_open == 1)
 	{
-		printf("la\n");
-		err_msg_char(ERR_MSG, 34);
+		err_msg_char(ERR_MSG, 34, data);
 		return (1);
 	}
 	if (quotes->sq_open == 1)
 	{
-		printf("ici\n");
-		err_msg_char(ERR_MSG, 39);
+		err_msg_char(ERR_MSG, 39, data);
 		return (1);
 	}
 	return (0);
@@ -98,13 +96,13 @@ char	*handle_quotes(t_data *data, int i, t_quotes *quotes)
 		if (is_spechar(data->clean_prompt[i]) > 0 && quotes->dq_open == 0
 			&& quotes->sq_open == 0)
 		{
-			err_msg_char(ERR_MSG, data->clean_prompt[i]);
+			err_msg_char(ERR_MSG, data->clean_prompt[i], data);
 			free(data->clean_prompt);
 			return (NULL);
 		}
 		replace_space(data, quotes, i);
 	}
-	if (check_quotes_open(quotes) == 1)
+	if (check_quotes_open(quotes, data) == 1)
 		return (NULL);
 	return (data->clean_prompt);
 }

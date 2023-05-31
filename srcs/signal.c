@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:41:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 14:53:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 14:30:16 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,16 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+void    ft_ignore_signal(void)
+{
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+}
+
 void	handle_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
 		g_exit_code = 130;
-		printf("exit = %d\n", g_exit_code);
 	}
 }

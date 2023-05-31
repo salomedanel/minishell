@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:33:41 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/05/30 23:24:00 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 12:36:55 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,8 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	int		len;
 
 	tmp_i = *i;
-	data->count = varenv_len_utils(quotes, i, &data->count);
-	if (quotes->arg[*i] == '$')
-	{
-		*i = *i + 1;
-		while (is_specialchar(quotes->arg[*i]) == 0)
-		{
-			*i = *i + 1;
-			quotes->counter++;
-		}
-	}
+	data->count = varenv_len_utils00(quotes, i, &data->count);
+	varenv_len_utils01(quotes, i);
 	var = get_dollvalue(quotes, &tmp_i, i);
 	data->tmp = replace_dollar_utils(quotes, &tmp_i, i, data);
 	len = (ft_strlen(var) * -1) + ft_strlen(data->tmp);
@@ -61,16 +53,12 @@ int	varenv_len(t_quotes *quotes, t_data *data, int *i)
 	{
 		if (quotes->arg[*i] == '$')
 			*i = *i - 1;
-		//printf("RET - quotes->arg[*i] = %c\n", quotes->arg[*i]);
 		return (data->count);
 	}
 	else
 	{
 		if (quotes->tmp != NULL)
-		{
-			printf("varenv len\n");
 			free(quotes->tmp);
-		}
 		return (data->count + len);
 	}
 }
@@ -125,10 +113,7 @@ char	*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 		return (NULL);
 	}
 	else
-	{
-		printf("quotes->tmp = %s\n", quotes->tmp);
 		return (ft_getenv(data, quotes->tmp + 1));
-	}
 }
 
 char	*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i)

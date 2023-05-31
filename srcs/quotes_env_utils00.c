@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_env_utils.c                                 :+:      :+:    :+:   */
+/*   quotes_env_utils00.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:32:15 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:55:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 12:32:09 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 int	trimquotes_utils(t_quotes *quotes, int *count)
 {
@@ -73,54 +75,34 @@ int	norm_trimquotes(t_quotes *quotes, int *i)
 	return (*i);
 }
 
-int	special_cases_doll00(t_quotes *quotes, t_data *data, int *i, int *j)
+int	varenv_len_utils00(t_quotes *quotes, int *i, int *count)
 {
-	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '\0'
-		&& ft_strlen(quotes->arg) == 1)
-	{
-		data->f_arg[quotes->index][*j] = quotes->arg[*i];
-		*j = *j + 1;
-		return (0);
-	}
-	if ((quotes->arg[*i] == '$' && quotes->sq_open == 1)
-		|| (quotes->arg[*i] == '$' && quotes->dq_open == 1 && quotes->arg[*i
-			+ 1] == '"'))
-	{
-		data->f_arg[quotes->index][*j] = quotes->arg[*i];
-		*j = *j + 1;
-		return (0);
-	}
-	if ((quotes->arg[*i] == '$' && (quotes->arg[*i + 1] == '=' || quotes->arg[*i
-				+ 1] == ':' || quotes->arg[*i + 1] == 31)))
-	{
-		data->f_arg[quotes->index][*j] = quotes->arg[*i];
-		*j = *j + 1;
-		return (0);
-	}
-	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '\'')
-		return (0);
-	return (1);
+	int		len;
+	char	*tmp;
+
+	tmp = ft_itoa(g_exit_code);
+	len = ft_strlen(tmp);
+	free(tmp);
+	if (quotes->arg[*i] != '$' || quotes->sq_open != 0)
+		return (*count);
+	if (quotes->arg[*i] == '$' && *i != 0 && quotes->arg[*i - 1] == '?'
+		&& !quotes->arg[*i + 1])
+		return (len + 2);
+	if (quotes->arg[*i] == '$' && quotes->arg[*i + 1] == '?')
+		return (*count + len);
+	return (*count);
 }
 
-int	special_cases_doll01(t_quotes *quotes, t_data *data, int *i, int *j)
+void	varenv_len_utils01(t_quotes *quotes, int *i)
 {
-	if (quotes->arg[*i] == '?' && quotes->arg[*i + 1] == '$' && quotes->arg[*i
-		+ 2] == '\0')
+	if (quotes->arg[*i] == '$')
 	{
-		data->f_arg[quotes->index][*j] = quotes->arg[*i + 1];
-		*j = *j + 1;
-		return (0);
+		*i = *i + 1;
+		while (is_specialchar(quotes->arg[*i]) == 0)
+		{
+			*i = *i + 1;
+			quotes->counter++;
+		}
 	}
-	return (1);
-}
-
-void	special_cases_doll02(t_quotes *quotes, int *i, char *var)
-{
-	if (var != NULL)
-	{
-		if (ft_strlen(quotes->arg) > 1 && quotes->arg[*i] != '?')
-			free(quotes->tmp);
-	}
-	if (*i != 0 && quotes->arg[*i - 1] == '$' && quotes->arg[*i] == '?')
-		free(var);
+	return ;
 }

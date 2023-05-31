@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:15:39 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:28:21 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 13:05:03 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	err_export_opt(t_data *data, int i)
 	ft_putstr_fd("': invalid option\n", 2);
 }
 
-void	err_msg_char(char *err, char quote)
+void	err_msg_char(char *err, char quote, t_data *data)
 {
 	ft_putstr_fd(err, 2);
 	ft_putchar_fd('\'', 2);
@@ -30,6 +30,7 @@ void	err_msg_char(char *err, char quote)
 	ft_putchar_fd('\'', 2);
 	ft_putchar_fd('\n', 2);
 	g_exit_code = 2;
+	freetab(data->f_arg);
 	return ;
 }
 
@@ -41,9 +42,10 @@ void	err_msg_str(char *err, char *str)
 	return ;
 }
 
-void	err_msg_newline(char *err)
+void	err_msg_newline(char *err, t_data *data)
 {
 	ft_putendl_fd(err, 2);
 	g_exit_code = 2;
+	freetab(data->f_arg);
 	return ;
 }

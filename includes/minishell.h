@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:55:32 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 14:56:11 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ typedef struct s_quotes
 int			count_metachar(char *prompt, int count, int i);
 int			add_space(char *prompt, char *new_prompt, int k);
 char		*clean_prompt(char *prompt);
+int			handle_prompt(char *prompt, t_data *data, t_quotes *quotes, int i);
 void		parsing(char *prompt, t_data *data);
 
 // handle_quotes
-int			check_quotes_open(t_quotes *quotes);
+int			check_quotes_open(t_quotes *quotes, t_data *data);
 void		replace_space(t_data *data, t_quotes *quotes, int i);
 char		*handle_quotes(t_data *data, int i, t_quotes *quotes);
 int			count_newlen(t_data *data, t_quotes *quotes);
@@ -124,14 +125,13 @@ void		norm_count_mc(int *count, int *i);
 int			is_specialchar(char c);
 int			is_spechar(char c);
 void		fill_farg(t_quotes *quotes, t_data *data, int *i, int *j);
-int			varenv_len_utils(t_quotes *quotes, int *i, int *count);
 int			contains_dollar(char *str);
 
 // pars_error
-int			syntax_err(t_data *data);
+int			syntax_err(t_data *data, t_quotes *quotes);
 int			err_special(t_data *data);
 int			syntaxerr_utils00(t_data *data, int i, int count_arg, int type);
-int			syntaxerr_utils01(t_data *data, int i, int count_arg);
+int			syntaxerr_utils01(t_data *data, int i, int count_arg, t_quotes *quotes);
 
 // parserr_utils
 int			metachar_type(char c);
@@ -148,10 +148,14 @@ char		*replace_dollar_utils(t_quotes *quotes, int *tmp_i, int *i,
 				t_data *data);
 char		*get_dollvalue(t_quotes *quotes, int *tmp_i, int *i);
 
-// quotes_env_utils
+// quotes_env_utils00
 int			trimquotes_utils(t_quotes *quotes, int *count);
 char		*ft_getenv(t_data *data, char *varname);
 int			norm_trimquotes(t_quotes *quotes, int *i);
+int			varenv_len_utils00(t_quotes *quotes, int *i, int *count);
+void		varenv_len_utils01(t_quotes *quotes, int *i);
+
+// quotes_env_utils01
 int			special_cases_doll00(t_quotes *quotes, t_data *data, int *i,
 				int *j);
 int			special_cases_doll01(t_quotes *quotes, t_data *data, int *i,
@@ -171,6 +175,7 @@ void		print_arg_ast(t_data *data);
 
 // signal
 void		handle_sigint(int sig);
+void		ft_ignore_signal(void);
 void		handle_heredoc(int sig);
 
 // free00
@@ -231,6 +236,7 @@ void		dupnclose(int fd1, int fd2);
 void		get_cmd_tab(t_data *data);
 char		**ft_get_path(t_data *data);
 char		*get_cmd_path(char *cmd, char **path);
+void		get_space(char **tab);
 
 // pipex_newbis
 void		select_pipe(t_data *data, int i);
@@ -255,8 +261,8 @@ int			here_doc(t_data *data);
 
 // err_msg
 void		err_export_opt(t_data *data, int i);
-void		err_msg_char(char *err, char quote);
+void		err_msg_char(char *err, char quote, t_data *data);
 void		err_msg_str(char *err, char *str);
-void		err_msg_newline(char *err);
+void		err_msg_newline(char *err, t_data *data);
 
 #endif

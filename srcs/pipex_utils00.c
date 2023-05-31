@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils00.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 18:55:14 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:01:49 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	cmd_not_found(char *cmd)
 
 	i = -1;
 	g_exit_code = 127;
+	printf("cmd = %s\n", cmd);
 	while (cmd[++i])
 		if (cmd[i] == 31)
 			cmd[i] = 32;

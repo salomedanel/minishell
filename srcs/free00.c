@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:32:39 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:52:41 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ int	mini_exit_bis(t_data *data)
 		freetab(data->redir);
 	if (data->type != NULL)
 		ft_free(data->type);
-	// print_arg(data->p_arg);
-	// freetab(data->p_arg);
-	// freetab(data->f_arg);
 	exit(0);
 }
 
 int	exit_fork(t_data *data, char *cmd)
 {
+	int	i;
+	
 	ft_free(cmd);
 	freetab(data->f_arg);
 	freetab(data->tmp_arg);
@@ -60,9 +59,14 @@ int	exit_fork(t_data *data, char *cmd)
 	freetab(data->path);
 	freetab(data->new_env);
 	freetab(data->prev_env);
-	// free(data->ast);
-	// free(data->type);
 	ft_free(data->ast);
-	ft_free(data->type);
+	ft_free(data->type);	
+	if (data->nb_here > 0)
+	{
+		i = -1;
+		while (++i < data->nb_here)
+			ft_free(data->here[i].limiter);
+		free(data->here);
+	}
 	exit(127);
 }

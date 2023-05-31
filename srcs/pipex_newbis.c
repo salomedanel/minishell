@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 11:33:53 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:21:43 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	count_redir(t_data data)
 
 	i = -1;
 	count = 0;
+	if (data.ast == NULL)
+		return (0);
 	while (data.ast[++i])
 	{
 		if (data.ast[i] == T_REDOUT || data.ast[i] == T_RED_APPEND
@@ -79,25 +81,30 @@ void	exec_waitpid(t_data *data)
 
 void	free_data(t_data *data, char *str)
 {
+	int	i;
 	freetab(data->tmp_arg);
 	if (data->cmd_tab)
 		freetab(data->cmd_tab);
 	ft_free(data->ast);
 	freetab(data->p_arg);
 	freetab(data->f_arg);
+	if (data->nb_here > 0)
+	{
+		i = -1;
+		while (++i < data->nb_here)
+			ft_free(data->here[i].limiter);
+		free(data->here);
+	}
 	if (str)
 		free(str);
 }
 
-void	free_data_fork(t_data *data, char *str)
+void	free_data_fork(t_data *data)
 {
 	freetab(data->tmp_arg);
-	freetab(data->cmd_tab);
-	// freetab(data->redir);
+	freetab(data->redir);
 	ft_free(data->ast);
-	// ft_free(data->type);
-	if (str)
-		free(str);
+	ft_free(data->type);
 }
 
 void	free_in_fork(t_data *data, char *str)
@@ -119,10 +126,12 @@ void	free_in_fork(t_data *data, char *str)
 void	exec(t_data *data)
 {
 	int		i;
+	int		j;
 	char 	*cmd;
 	
 	i = -1;
 	data->prev_pipe = -1;
+	j =0;
 	while (++i < data->count_cmd)
 	{
 		data->tmp_arg = ft_split(data->p_arg[i], ' ');
@@ -138,7 +147,6 @@ void	exec(t_data *data)
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		if (data->count_cmd == 1 && is_builtin(data->cmd_tab[0]))
 		{
-			
 			data->in = dup(STDIN_FILENO);
 			data->out = dup(STDOUT_FILENO);
 			if (open_files(data) == 1)
@@ -151,11 +159,14 @@ void	exec(t_data *data)
 		}
 		else
 		{
-			printf("%s\n", cmd);
 			pipe(data->fd);
 			data->pid[i] = fork();
+			if (data->pid[i] < 0)
+				return ;
 			if (data->pid[i] == 0)
 			{
+				if (ft_strncmp(data->cmd_tab[0], "./", 2))
+					ft_ignore_signal();
 				select_pipe(data, i);
 				if (open_files(data) == 1)
 				{
@@ -165,7 +176,10 @@ void	exec(t_data *data)
 				if (unforkable_builtins(data->cmd_tab[0]) == 1)
 					exit(0);
 				if (cmd && !is_builtin(data->cmd_tab[0]))
+				{
+					free_data_fork(data);
 					execve(cmd, data->cmd_tab, data->new_env);
+				}
 				else if (is_builtin(data->cmd_tab[0]))
 				{
 					// g_exit_code = 0;
@@ -181,11 +195,23 @@ void	exec(t_data *data)
 				if (data->prev_pipe != -1)
 					close(data->prev_pipe);
 				data->prev_pipe = data->fd[0];
+				if (data->ast)
+					ft_free(data->ast);
+				freetab(data->tmp_arg);
 			}
 		}
-		free_data_fork(data, cmd);
+		ft_free(cmd);
+		freetab(data->cmd_tab);
+		j = -1;
 	}
 	exec_waitpid(data);
+	if (data->nb_here > 0)
+	{
+		i = -1;
+		while (++i < data->nb_here)
+			ft_free(data->here[i].limiter);
+		free(data->here);
+	}
 	freetab(data->f_arg);
 	freetab(data->p_arg);
 	close(data->fd[0]);

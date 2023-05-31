@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:39:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:31:59 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 14:56:14 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_metac(char *str)
 	count = 0;
 	while (str && str[i])
 	{
-		if (is_metachar(str[i]) > 0)
+		if (is_metachar(str[i]) == 1)
 			count++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 08:42:03 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:27:35 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ int	here_doc(t_data *data)
 	if (data->nb_here == 0)
 		return (free(data->str), 0);
 	here = ft_calloc(sizeof(t_here), (data->nb_here));
-	// protection
 	openhere_doc(data, here);
 	data->here = here;
 	pid = fork();
@@ -145,15 +144,11 @@ int	here_doc(t_data *data)
 	else if (pid > 0)
 	{
 		while (++i < data->nb_here)
-			close(here[i].fd[1]);
+		{
+			close(data->here[i].fd[1]);
+			close(data->here[i].fd[0]);
+		}
 	}
 	waitpid(pid, 0, 0);
-	i = -1;
-	while (++i < data->nb_here)
-	{
-		close(here[i].fd[0]);
-		// free(here[i].limiter);
-	}
-	// free(here);
 	return (1);
 }

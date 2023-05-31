@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 11:54:35 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 16:04:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,21 @@ char	*clean_prompt(char *prompt)
 	return (new_prompt);
 }
 
+int	handle_prompt(char *prompt, t_data *data, t_quotes *quotes, int i)
+{
+	data->clean_prompt = clean_prompt(prompt);
+	if (ft_strlen(data->clean_prompt) == 0)
+	{
+		g_exit_code = 0;
+		free(data->clean_prompt);
+		return (0);
+	}
+	data->clean_prompt = handle_quotes(data, i, quotes);
+	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
+		return (0);
+	return (1);
+}
+
 void	parsing(char *prompt, t_data *data)
 {
 	int			i;
@@ -101,20 +116,13 @@ void	parsing(char *prompt, t_data *data)
 	j = 0;
 	quotes.dq_open = 0;
 	quotes.sq_open = 0;
-	data->clean_prompt = clean_prompt(prompt);
-	if (ft_strlen(data->clean_prompt) == 0)
-	{
-		free(data->clean_prompt);
-		return ;
-	}
-	data->clean_prompt = handle_quotes(data, i, &quotes);
-	if (data->clean_prompt == NULL || ft_strlen(data->clean_prompt) == 0)
+	if (handle_prompt(prompt, data, &quotes, i) == 0)
 		return ;
 	if (err_special(data) == 0)
 		return ;
 	data->arg = ft_split(data->clean_prompt, 32);
 	final_arg(data, &quotes);
-	if (syntax_err(data) == 0)
+	if (syntax_err(data, &quotes) == 0)
 		return ;
 	if (g_exit_code > 0)
 		g_exit_code = 0;

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 11:16:15 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:51:20 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,23 @@ int get_pipe(char *str, t_data *data)
 	return (-1);
 }
 
+int	*create_matrix(t_data *data)
+{
+	int	i;
+	int	j;
+	int	*matrix;
+	
+	i = -1;
+	j = -1;
+	matrix = malloc(sizeof(int) * (data->nb_here));
+	while (++i < count_redir(*data))
+	{
+		if (data->type[i] == T_HERE_DOC)
+			matrix[++j] = i;
+	}
+	return (matrix);
+}
+
 int	open_files(t_data *data)
 {
 	int	i;
@@ -85,15 +102,11 @@ int	open_files(t_data *data)
 		if (data->type[i] == T_REDIN)
 			dupnclose(fd, STDIN_FILENO);
 		if (data->type[i] == T_HERE_DOC)
-			dup2(fd, STDIN_FILENO);
-	}
-	i = -1;
-	while (++i < data->nb_here)
-	{
-		close(data->here[i].fd[0]);
-		free(data->here[i].limiter);
-	}
-	free(data->here);
+			dupnclose(fd, STDIN_FILENO);
+		}
+		i = -1;
+		while (++i < data->nb_here)
+			close(data->here[i].fd[1]);
 	return (0);
 }
 
@@ -120,5 +133,12 @@ int	blank_open(t_data *data)
 			return (infile_error(data, data->redir[i]), g_exit_code = 1);
 		close(fd);
 	}
+	i = -1;
+	while (++i < data->nb_here)
+	{
+		close(data->here[i].fd[0]);
+		free(data->here[i].limiter);
+	}
+	free(data->here);
 	return (0);
 }

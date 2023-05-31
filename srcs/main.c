@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 09:50:43 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:46:20 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		parsing(prompt, &data);
-	// 	if (data.p_arg && data.p_arg[0])
-	// 		freetab(data.p_arg);
-	// 	if (data.f_arg && data.f_arg[0])
-	// 		freetab(data.f_arg);
 	}
 	return (0);
 }

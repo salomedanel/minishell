@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 23:06:37 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:37:33 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,6 @@ char	**split_pipe(t_data *data, int i, int j)
 	data->p_arg = malloc(sizeof(char *) * (count + 1));
 	if (data->p_arg == NULL)
 		return (NULL);
-	// while (data->tmp_arg && data->tmp_arg[++i])
-	// {
-	// 	data->p_arg[i] = malloc(sizeof(char) * (ft_strlen(data->tmp_arg[i])
-	// 				+ 1));
-	// 	if (data->p_arg[i] == NULL)
-	// 		return (NULL);
-	// 	ft_strcpy_pipe(data->p_arg[i], data->tmp_arg[i], count);
-	// }
-	// data->p_arg[i] = NULL;
 	dup_tab(data->tmp_arg, data->p_arg);
 	freetab(data->tmp_arg);
 	return (data->p_arg);
