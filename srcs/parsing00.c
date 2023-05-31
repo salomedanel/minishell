@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 23:57:59 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 09:35:53 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	parsing(char *prompt, t_data *data)
 	if (g_exit_code > 0)
 		g_exit_code = 0;
 	split_pipe(data, i, j);
-	exec(data, i, j);
+	here_doc(data);
+	exec(data);
 	return ;
 }

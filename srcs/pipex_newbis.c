@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_newbis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 22:19:20 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 00:52:23 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,16 @@ void	free_data(t_data *data, char *str)
 		free(str);
 }
 
-void	exec(t_data *data, int j, int k)
+void	exec(t_data *data)
 {
 	int		i;
 	char 	*cmd;
 	i = -1;
-	if (data->p_arg)
-		freetab(data->p_arg);
-	if (split_pipe(data, j, k) == NULL)
-		return ;
+	// if (data->p_arg)
+	// 	freetab(data->p_arg);
+	// if (split_pipe(data, j, k) == NULL)
+	// 	return((void)free_data(data, NULL));
 	data->prev_pipe = -1;
-	if (data->p_arg[0] == NULL)
-		return ;
 	while (++i < data->count_cmd)
 	{
 		data->tmp_arg = ft_split(data->p_arg[i], ' ');
@@ -110,7 +108,6 @@ void	exec(t_data *data, int j, int k)
 		get_redir_tab(data);
 		if (!data->cmd_tab || data->cmd_tab[0] == NULL)
 		{
-			open_here_doc(data);
 			blank_open(data);
 			free_data(data, NULL);
 			return	;
@@ -123,7 +120,6 @@ void	exec(t_data *data, int j, int k)
 			data->out = dup(STDOUT_FILENO);
 			if (open_files(data) == 1)
 				return ;
-			open_here_doc(data);
 			exec_builtin(data, data->cmd_tab[0]);
 			dupnclose(data->in, STDIN_FILENO);
 			dupnclose(data->out, STDOUT_FILENO);
@@ -136,7 +132,6 @@ void	exec(t_data *data, int j, int k)
 			data->pid[i] = fork();
 			if (data->pid[i] == 0)
 			{
-				open_here_doc(data);
 				select_pipe(data, i);
 				if (open_files(data) == 1)
 					exit (1) ;
@@ -146,7 +141,6 @@ void	exec(t_data *data, int j, int k)
 					execve(cmd, data->cmd_tab, data->new_env);
 				else if (is_builtin(data->cmd_tab[0]))
 				{
-					ft_printf("cc\n");
 					// g_exit_code = 0;
 					exec_builtin(data, data->cmd_tab[0]);
 					exit_fork(data, cmd);

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 08:55:25 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 00:46:23 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ int	last_redir(t_data *data)
 	return (count);
 }
 
+int get_pipe(char *str, t_data *data)
+{
+	int i = -1;
+
+	while (++i < data->nb_here)
+	{
+		if (!ft_strcmp(str, data->here[i].limiter))
+			return (data->here[i].fd[0]);
+	}
+	return (-1);
+}
+
 int	open_files(t_data *data)
 {
 	int	i;
@@ -61,13 +73,20 @@ int	open_files(t_data *data)
 			return (outfile_error(data, data->redir[i]), g_exit_code = 1);
 		if (data->type[i] == T_REDIN)
 			fd = open(data->redir[i], O_RDONLY);
+		else if (data->type[i] == T_HERE_DOC)
+			fd = get_pipe(data->redir[i], data);
 		if (fd == -1)
 			return (infile_error(data, data->redir[i]), g_exit_code = 1);
 		if ((data->type[i] == T_REDOUT || data->type[i] == T_RED_APPEND))
 			dupnclose(fd, STDOUT_FILENO);
-		else if (data->type[i] == T_REDIN)
+		if (data->type[i] == T_REDIN)
 			dupnclose(fd, STDIN_FILENO);
+		if (data->type[i] == T_HERE_DOC)
+			dup2(fd, STDIN_FILENO);
 	}
+	i = -1;
+	while (++i < data->nb_here)
+		close(data->here[i].fd[0]);
 	return (0);
 }
 
@@ -88,6 +107,8 @@ int	blank_open(t_data *data)
 			return (outfile_error(data, data->redir[i]), g_exit_code = 1);
 		if (data->type[i] == T_REDIN)
 			fd = open(data->redir[i], O_RDONLY);
+		if (data->type[i] == T_HERE_DOC)
+			continue ;
 		if (fd == -1)
 			return (infile_error(data, data->redir[i]), g_exit_code = 1);
 		close(fd);

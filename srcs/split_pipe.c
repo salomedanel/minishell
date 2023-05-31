@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 14:59:10 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/30 23:06:37 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@ void	ft_strcpy_pipe(char *dest, char *src, int count)
 
 char	**split_pipe(t_data *data, int i, int j)
 {
-	char	*str;
 	int		count;
 
 	count = 0;
 	data->count_cmd = count_cmd(data);
-	str = ft_jointab(data->f_arg, i, j);
-	data->tmp_arg = ft_split(str, '|');
+	data->str = ft_jointab(data->f_arg, i, j);
+	data->tmp_arg = ft_split(data->str, '|');
 	while (data->tmp_arg[count])
 		count++;
 	data->p_arg = malloc(sizeof(char *) * (count + 1));
@@ -58,7 +57,6 @@ char	**split_pipe(t_data *data, int i, int j)
 	// }
 	// data->p_arg[i] = NULL;
 	dup_tab(data->tmp_arg, data->p_arg);
-	free(str);
 	freetab(data->tmp_arg);
 	return (data->p_arg);
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 22:47:18 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 09:35:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ typedef enum e_token_type
 	T_CMD,
 }			t_token_type;
 
+typedef struct t_here
+{
+	int		fd[2];
+	char	*limiter;
+}			t_here;
+
 typedef struct s_data
 {
 	char	*clean_prompt;
@@ -67,6 +73,9 @@ typedef struct s_data
 	int		out;
 	char	**redir;
 	int		*type;
+	t_here	*here;
+	int		nb_here;
+	char	*str;
 }			t_data;
 
 typedef struct s_quotes
@@ -173,6 +182,7 @@ int			exit_fork(t_data *data, char *cmd);
 
 // free01
 void		free_dobby(t_data *data);
+void		free_child_heredoc(t_data *data);
 
 // exit
 void		exit_msg(char *str, int err);
@@ -224,7 +234,7 @@ char		*get_cmd_path(char *cmd, char **path);
 
 // pipex_newbis
 void		select_pipe(t_data *data, int i);
-void		exec(t_data *data, int j, int k);
+void		exec(t_data *data);
 int			count_redir(t_data data);
 
 // split pipe
@@ -241,6 +251,6 @@ int			blank_open(t_data *data);
 //here_doc
 int			count_here_docs(t_data *data);
 int			open_here_doc(t_data *data);
-int			here_doc(char *limiter, char *cmd);
+int			here_doc(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 19:13:01 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/05/31 01:11:15 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,146 @@
 
 extern int	g_exit_code;
 
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t');
+}
+
+int	get_len_word(char *str)
+{
+	int	i;
+	int	r;
+
+	i = 0;
+	r = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	while (str[i] && !ft_isspace(str[i]) && !ft_strchr("><|", str[i]))
+	{
+		i++;
+		r++;
+	}
+	return (r);
+}
+
+char	*get_word(char *str)
+{
+	int		i;
+	int		r;
+	char	*new;
+
+	new = malloc(get_len_word(str) + 1);
+	i = 0;
+	r = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	while (str[i] && !ft_isspace(str[i]) && !ft_strchr("><|", str[i]))
+		new[r++] = str[i++];
+	new[r] = '\0';
+	return (new);
+}
+
 int	count_here_docs(t_data *data)
 {
 	int	i;
 	int	count;
+	char	*str;
 
+	str = data->str;
 	i = -1;
 	count = 0;
-	while (data->type && data->type[++i])
-		if (data->type[i] == 3)
+	while (1)
+	{
+		str = ft_strnstr(str, "<<", ft_strlen(str));
+		if (str)
 			count++;
+		else
+			break ;
+		str += 2;
+
+	}
 	return (count);
 }
 
-int	open_here_doc(t_data *data)
+void	openhere_doc(t_data *data, t_here *here)
 {
-	int	i;
-	int	index;
-
-	i = -1;
-	index = 0;
-	while (data->redir && data->redir[++i])
-	{
-		if (data->type[i] == 3)
-		{
-			index++;
-			if (index == count_here_docs(data))
-			{
-				if (here_doc(data->redir[i], data->cmd_tab[0]) == 0)
-					return (0);
-			}
-		}
-	}
-	return (1);
-}
-
-int	here_doc(char *limiter, char *cmd)
-{
-	int		fd;
-	char	*line;
-	int		len;
-
-	fd = open(".tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fd == -1)
-		return (1);
-	len = ft_strlen(limiter);
+	int 	nb;
+	char	*str;
+	
+	nb = 0;
+	str = data->str;
 	while (1)
 	{
-		ft_putstr_fd("> ", 1);
-		signal(SIGINT, handle_heredoc);
-		signal(SIGQUIT, SIG_IGN);
-		if (g_exit_code == 130)
-			return (0);
-		line = get_next_line(0, 0);
-		if (!line)
-			break ;
-		if (!ft_strncmp(line, limiter, len) && len == ft_strlen(line) - 1)
+		str = ft_strnstr(str, "<<", ft_strlen(str));
+		if (str)
 		{
-			free(line);
-			break ;
+			here[nb].limiter = get_word(str + 2);
+			pipe(here[nb++].fd);
 		}
-		ft_putendl_fd(line, fd);
-		free(line);
+		else
+			break ;
+		str += 2;
 	}
-	get_next_line(1, 1);
-	close(fd);
+	free(data->str);
+}
 
-	if (cmd)
+char	*openfileshd(t_here *here)
+{
+	char	*s;
+
+	while (1)
 	{
-		fd = open(".tmp", O_RDONLY);
-		if (fd == -1)
-			return (1);
-		dupnclose(fd, STDIN_FILENO);
+		s = readline("here_doc>");
+		if (!s || !ft_strcmp(s, here->limiter))
+			break ;
+		ft_putendl_fd(s, here->fd[1]);
+		free(s);
 	}
-	unlink(".tmp");
-	return (0);
+	close(here->fd[1]);
+	close(here->fd[0]);
+	return (NULL);
+}
+
+void	child_hd(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nb_here)
+		openfileshd(&data->here[i]);
+	free_child_heredoc(data);
+	exit(1);
+}
+
+int	here_doc(t_data *data)
+{
+	int i;
+	int pid;
+	t_here	*here;
+
+	i = -1;;
+	data->nb_here = count_here_docs(data);
+	if (data->nb_here == 0)
+		return (free(data->str), 0);
+	here = ft_calloc(sizeof(t_here), (data->nb_here));
+	// protection
+	openhere_doc(data, here);
+	data->here = here;
+	pid = fork();
+	if (pid == 0)
+		child_hd(data);
+	else if (pid > 0)
+	{
+		while (++i < data->nb_here)
+			close(here[i].fd[1]);
+	}
+	waitpid(pid, 0, 0);
+	i = -1;
+	while (++i < data->nb_here)
+	{
+		close(here[i].fd[0]);
+		free(here[i].limiter);
+	}
+	free(here);
+	return (1);
 }
