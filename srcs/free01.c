@@ -3,26 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   free01.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:45:26 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 16:26:34 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 22:53:32 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_dobby(t_data *data)
-{
-	freetab(data->f_arg);
-}
 
 void	free_child_heredoc(t_data *data)
 {
 	int	i;
 
 	i = -1;
-	freetab(data->f_arg);
+	// freetab(data->f_arg);
 	freetab(data->p_arg);
 	freetab(data->new_env);
 	freetab(data->prev_env);

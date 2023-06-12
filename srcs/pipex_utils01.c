@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:28:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/08 13:48:17 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,13 @@ char	*get_cmd_path(char *cmd, char **path)
 	return (NULL);
 }
 
-void	get_space(char **tab)
+char	*get_space(char *str)
 {
 	int	i;
-	int	j;
 
 	i = -1;
-	while (tab[++i])
-	{
-		j = 0;
-		while (tab[i][j])
-		{
-			if (tab[i][j] == 31)
-				tab[i][j] = 32;
-			j++;
-		}
-	}
+	while (str[++i])
+		if (str[i] == 31)
+			str[i] = 32;
+	return (str);
 }

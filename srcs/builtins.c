@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:23:04 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/30 17:04:25 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 21:35:35 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,23 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int	unforkable_builtins(char *str)
-{
-	int	len;
+// int	unforkable_builtins(char *str)
+// {
+// 	int	len;
 
-	if (!str)
-		return (0);
-	len = ft_strlen(str);
-	if (!ft_strncmp(str, "cd", len) && len == 2)
-		return (1);
-	if (!ft_strncmp(str, "export", len) && len == 6)
-		return (1);
-	if (!ft_strncmp(str, "unset", len) && len == 5)
-		return (1);
-	if (!ft_strncmp(str, "exit", len) && len == 4)
-		return (1);
-	return (0);
-}
+// 	if (!str)
+// 		return (0);
+// 	len = ft_strlen(str);
+// 	if (!ft_strncmp(str, "cd", len) && len == 2)
+// 		return (1);
+// 	if (!ft_strncmp(str, "export", len) && len == 6)
+// 		return (1);
+// 	if (!ft_strncmp(str, "unset", len) && len == 5)
+// 		return (1);
+// 	if (!ft_strncmp(str, "exit", len) && len == 4)
+// 		return (1);
+// 	return (0);
+// }
 
 int	exec_builtin(t_data *data, char *builtin)
 {

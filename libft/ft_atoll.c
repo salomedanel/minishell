@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 18:11:08 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/30 19:24:49 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 18:46:03 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ long long	ft_atoll(const char *nptr)
 		nptr++;
 	if (*nptr == '-' || *nptr == '+')
 	{
-		//if (*nptr == '-')
-			//sign *= -1;
+		if (*nptr == '-')
+			sign *= -1;
 		nptr++;
 	}
 	while (*nptr >= '0' && *nptr <= '9')

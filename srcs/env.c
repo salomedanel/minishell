@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 11:14:39 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/08 16:33:00 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	mini_export(t_data *data)
 
 	j = count_var_to_exp(data);
 	if (j == 0)
-		return (g_exit_code = 1);
+		return (0);
 	i = freetab(data->new_env);
 	if (i == 0)
 		return (g_exit_code = 1);
-	data->new_env = ft_calloc(i + j + 100, sizeof(char *));
+	data->new_env = ft_calloc(i + j + 2, sizeof(char *));
 	if (!data->new_env)
 		return (g_exit_code = 1);
 	dup_tab(data->prev_env, data->new_env);
@@ -45,7 +45,7 @@ int	mini_export(t_data *data)
 	while (data->cmd_tab[++j])
 		if (export_exist(data, data->cmd_tab[j]) && ft_strchr(data->cmd_tab[j],
 				61) && !parse_var_to_exp(data->cmd_tab[j]))
-			data->new_env[i++] = ft_strdup(data->cmd_tab[j]);
+			data->new_env[i++] = ft_strdup(get_space(data->cmd_tab[j]));
 	data->new_env[i] = NULL;
 	freetab(data->prev_env);
 	i = sizetab(data->new_env);

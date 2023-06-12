@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:43:55 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 21:57:18 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	open_files_utils(t_data *data, int i, int fd)
 	if (data->type[i] == T_REDIN)
 		dupnclose(fd, STDIN_FILENO);
 	if (data->type[i] == T_HERE_DOC)
-		dupnclose(fd, STDIN_FILENO);
-	return ;
+		dup2(fd, STDIN_FILENO);
 }
 
 int	open_files(t_data *data)
@@ -32,7 +31,7 @@ int	open_files(t_data *data)
 
 	i = -1;
 	fd = 0;
-	while (++i < count_redir(*data))
+	while (++i < count_redir(data))
 	{
 		if (data->type[i] == T_REDOUT)
 			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -50,7 +49,7 @@ int	open_files(t_data *data)
 	}
 	i = -1;
 	while (++i < data->nb_here)
-		close(data->here[i].fd[1]);
+		close(data->here[i].fd[0]);
 	return (0);
 }
 
@@ -65,32 +64,5 @@ void	closefree_delimiter(t_data *data)
 		free(data->here[i].limiter);
 	}
 	free(data->here);
-	return ;
 }
 
-int	blank_open(t_data *data)
-{
-	int	i;
-	int	fd;
-
-	i = -1;
-	fd = 0;
-	while (++i < count_redir(*data))
-	{
-		if (data->type[i] == T_REDOUT)
-			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (data->type[i] == T_RED_APPEND)
-			fd = open(data->redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd == -1)
-			return (outfile_error(data, data->redir[i]), g_exit_code = 1);
-		if (data->type[i] == T_REDIN)
-			fd = open(data->redir[i], O_RDONLY);
-		if (data->type[i] == T_HERE_DOC)
-			continue ;
-		if (fd == -1)
-			return (infile_error(data, data->redir[i]), g_exit_code = 1);
-		close(fd);
-	}
-	closefree_delimiter(data);
-	return (0);
-}

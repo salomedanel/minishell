@@ -3,22 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils01.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:40:11 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/29 18:40:49 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/10 12:39:30 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern int	g_exit_code;
+
+int	parse_var_to_unset(char *var)
+{
+	int	i;
+
+	i = -1;
+	if (!var)
+		return (2);
+	if (var[0] == '-')
+		return (1);
+	if (ft_isdigit(var[0]) == 1)
+		return (2);
+	while (var[++i])
+	{
+		if (ft_isspecialchar(var[i]) == 1)
+			return (2);
+		else if (var[i] == '=')
+			return (2);
+	}
+	return (0);
+}
+
+int	unset_loop(t_data *data, int i, int j)
+{
+	int		k;
+	int		len;
+	char	*var;
+
+	var = ft_strjoin(data->tmp_arg[j], "=");
+	len = ft_strlen(var);
+	k = -1;
+	while (data->new_env[++k])
+		if (!ft_strncmp(data->new_env[k], var, len))
+			i--;
+	free(var);
+	return (i);
+}
+
 int	var_to_unset(t_data *data)
 {
 	int		i;
 	int		j;
-	int		k;
-	int		len;
-	char	*var;
 
 	i = 0;
 	j = 0;
@@ -26,12 +62,18 @@ int	var_to_unset(t_data *data)
 		i++;
 	while (data->tmp_arg[++j])
 	{
-		var = ft_strjoin(data->tmp_arg[j], "=");
-		len = ft_strlen(var);
-		k = -1;
-		while (data->new_env[++k])
-			if (!ft_strncmp(data->new_env[k], var, len))
-				i--;
+		if (parse_var_to_unset(data->tmp_arg[j]) == 1)
+		{
+			err_unset_opt(data->tmp_arg[j]);
+			continue ;
+		}
+		else if (parse_var_to_unset(data->tmp_arg[j]) == 2)
+		{
+			err_unset_id(data->tmp_arg[j]);
+			continue ;
+		}
+		else if (parse_var_to_unset(data->tmp_arg[j]) == 0)
+			i = unset_loop(data, i, j);
 	}
 	return (i);
 }
@@ -51,6 +93,7 @@ int	check_unset(char **var_to_unset, char *var_to_check)
 		len = ft_strlen(var);
 		if (!ft_strncmp(var_to_check, var, len))
 			j++;
+		free(var);
 	}
 	if (j > 0)
 		return (1);

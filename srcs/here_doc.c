@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:48:53 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 12:30:06 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
-
-int	count_here_docs(t_data *data)
-{
-	int		i;
-	int		count;
-	char	*str;
-
-	str = data->str;
-	i = -1;
-	count = 0;
-	while (1)
-	{
-		str = ft_strnstr(str, "<<", ft_strlen(str));
-		if (str)
-			count++;
-		else
-			break ;
-		str += 2;
-	}
-	return (count);
-}
 
 void	openhere_doc(t_data *data, t_here *here)
 {
@@ -57,13 +36,35 @@ void	openhere_doc(t_data *data, t_here *here)
 	free(data->str);
 }
 
+static void	exit_hd(int sig)
+{
+	t_data	*data;
+	int		i;
+
+	data = starton();
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 2);
+		i = -1;
+		while (++i < data->nb_here)
+		{
+			close(data->here[i].fd[1]);
+			close(data->here[i].fd[0]);
+			if (data->here[i].limiter != NULL)
+				ft_free((void **)&data->here[i].limiter);
+		}
+		// free_all(2, 2, &data->str, &data->here, data->path, data->env);
+		exit(130);
+	}
+}
+
 char	*openfileshd(t_here *here)
 {
 	char	*s;
 
 	while (1)
 	{
-		s = readline("here_doc>");
+		s = readline("heredoc>");
 		if (!s || !ft_strcmp(s, here->limiter))
 			break ;
 		ft_putendl_fd(s, here->fd[1]);
@@ -79,6 +80,7 @@ void	child_hd(t_data *data)
 	int	i;
 
 	i = -1;
+	signal(SIGINT, &exit_hd);
 	while (++i < data->nb_here)
 		openfileshd(&data->here[i]);
 	free_child_heredoc(data);
@@ -97,6 +99,7 @@ int	here_doc(t_data *data)
 		return (free(data->str), 0);
 	here = ft_calloc(sizeof(t_here), (data->nb_here));
 	openhere_doc(data, here);
+	signal(SIGINT, SIG_IGN);
 	data->here = here;
 	pid = fork();
 	if (pid == 0)
@@ -104,11 +107,9 @@ int	here_doc(t_data *data)
 	else if (pid > 0)
 	{
 		while (++i < data->nb_here)
-		{
 			close(data->here[i].fd[1]);
-			close(data->here[i].fd[0]);
-		}
 	}
+	signal(SIGINT, &ctrlc);
 	waitpid(pid, 0, 0);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils00.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:10:50 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:01:49 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/10 13:29:24 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,16 @@ void	cmd_not_found(char *cmd)
 	int	i;
 
 	i = -1;
-	g_exit_code = 127;
-	printf("cmd = %s\n", cmd);
+	if (!cmd)
+		return ;
 	while (cmd[++i])
 		if (cmd[i] == 31)
 			cmd[i] = 32;
+	if (err_isdir(cmd) == 1)
+		return ;
+	else if (err_perm(cmd) == 1)
+		return ;
+	g_exit_code = 127;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);

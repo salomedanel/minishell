@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 17:49:41 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 12:29:52 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ typedef struct s_data
 	int		prev_pipe;
 	int		fd[2];
 	int		pid[1024];
-	int		act_fd;
 	int		in;
 	int		out;
+	int		count_prompts;
 	char	**redir;
 	int		*type;
 	t_here	*here;
 	int		nb_here;
 	char	*str;
+	int		nbredir;
 }			t_data;
 
 typedef struct s_quotes
@@ -87,6 +88,10 @@ typedef struct s_quotes
 	int		counter;
 	char	*tmp;
 }			t_quotes;
+
+//main
+void		init_struct(t_data *data);
+t_data		*starton(void);
 
 // parsing00
 int			count_metachar(char *prompt, int count, int i);
@@ -178,6 +183,8 @@ void		print_arg_ast(t_data *data);
 void		handle_sigint(int sig);
 void		ft_ignore_signal(void);
 void		handle_heredoc(int sig);
+void		antislash(int sig);
+void		ctrlc(int sig);
 
 // free00
 int			freetab(char **tab);
@@ -243,22 +250,26 @@ void		dupnclose(int fd1, int fd2);
 void		get_cmd_tab(t_data *data);
 char		**ft_get_path(t_data *data);
 char		*get_cmd_path(char *cmd, char **path);
-void		get_space(char **tab);
+char		*get_space(char *tab);
 
 // pipex_utils02
 void		select_pipe(t_data *data, int i);
-int			count_redir(t_data data);
+int			count_redir(t_data *data);
+
 void		get_redir_tab(t_data *data);
 void		exec_waitpid(t_data *data);
 
-// pipex_utils03
-
-
-// pipex
-void		child_process(t_data *data, int i, char *cmd);
-void		parent_process(t_data *data);
-void		end_exec(t_data *data);
+//pipex
+int			init_exec(t_data *data, int i);
+void		exec_one_builtin(t_data *data, char *cmd);
+void		free_close_exec(t_data *data);
 void		exec(t_data *data);
+
+//child_utils
+void		exec_builtin_in_fork(t_data *data, char *cmd);
+void		exec_cmd(t_data *data, char *cmd);
+void		parent_process(t_data *data);
+void		child_process(t_data *data, int i, char *cmd);
 
 // split pipe
 void		ft_strcpy_pipe(char *dest, char *src, int count);
@@ -285,14 +296,23 @@ void		child_hd(t_data *data);
 int			here_doc(t_data *data);
 
 // here_doc_utils
+int			count_here_docs(t_data *data);
 int			ft_isspace(char c);
 int			get_len_word(char *str);
 char		*get_word(char *str);
+void		close_fd(t_data *data);
 
-// err_msg
+// err_msg00
 void		err_export_opt(t_data *data, int i);
-void		err_msg_char(char *err, char quote, t_data *data);
+void		err_export_id(t_data *data, int i);
+void		err_msg_char(char *err, char quote, t_data *data, int i);
 void		err_msg_str(char *err, char *str);
 void		err_msg_newline(char *err, t_data *data);
+
+//err_msg01
+void		err_unset_opt(char *var);
+void		err_unset_id(char *var);
+int			err_perm(char *cmd);
+int			err_isdir(char *cmd);
 
 #endif

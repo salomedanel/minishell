@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:29:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 16:32:42 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 21:57:30 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	*create_matrix(t_data *data)
 	i = -1;
 	j = -1;
 	matrix = malloc(sizeof(int) * (data->nb_here));
-	while (++i < count_redir(*data))
+	while (++i < count_redir(data))
 	{
 		if (data->type[i] == T_HERE_DOC)
 			matrix[++j] = i;

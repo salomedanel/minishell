@@ -38,7 +38,9 @@ SRC =	main \
 		redirections_utils \
 		here_doc \
 		here_doc_utils \
-		err_msg \
+		err_msg00 \
+		err_msg01 \
+		child_utils \
 
 SRCS = $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 

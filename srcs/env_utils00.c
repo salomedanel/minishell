@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils00.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:01:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 11:25:36 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/10 12:39:44 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	parse_var_to_exp(char *var)
 	i = -1;
 	j = 0;
 	if (!var)
-		return (0);
+		return (2);
 	if (var[0] == '-')
 		return (1);
 	if (ft_isdigit(var[0]) == 1 || var[0] == '=')
@@ -70,16 +70,12 @@ int	count_var_to_exp(t_data *data)
 			count++;
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 1)
 		{
-			g_exit_code = 2;
 			err_export_opt(data, i);
 			continue ;
 		}
 		else if (parse_var_to_exp(data->cmd_tab[i]) == 2)
 		{
-			g_exit_code = 1;
-			ft_putstr_fd("minishell: export: '", 2);
-			ft_putstr_fd(data->cmd_tab[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			err_export_id(data, i);
 			continue ;
 		}
 	}
@@ -104,7 +100,7 @@ int	export_exist(t_data *data, char *var)
 		if (var[i] && ft_strncmp(data->new_env[j], var, i + 1) == 0)
 		{
 			free(data->new_env[j]);
-			data->new_env[j] = ft_strdup(var);
+			data->new_env[j] = ft_strdup(get_space(var));
 			return (0);
 		}
 	}

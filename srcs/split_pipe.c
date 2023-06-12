@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:11:47 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 15:37:33 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/05/31 23:27:44 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ char	**split_pipe(t_data *data, int i, int j)
 		return (NULL);
 	dup_tab(data->tmp_arg, data->p_arg);
 	freetab(data->tmp_arg);
+	freetab(data->f_arg);
 	return (data->p_arg);
 }

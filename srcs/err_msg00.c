@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err_msg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:15:39 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 13:05:03 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/09 11:11:16 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,18 @@ void	err_export_opt(t_data *data, int i)
 	ft_putchar_fd(data->cmd_tab[i][0], 2);
 	ft_putchar_fd(data->cmd_tab[i][1], 2);
 	ft_putstr_fd("': invalid option\n", 2);
+	g_exit_code = 2;
 }
 
-void	err_msg_char(char *err, char quote, t_data *data)
+void	err_export_id(t_data *data, int i)
+{
+	ft_putstr_fd("minishell: export: '", 2);
+	ft_putstr_fd(data->cmd_tab[i], 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	g_exit_code = 1;
+}
+
+void	err_msg_char(char *err, char quote, t_data *data, int i)
 {
 	ft_putstr_fd(err, 2);
 	ft_putchar_fd('\'', 2);
@@ -30,7 +39,8 @@ void	err_msg_char(char *err, char quote, t_data *data)
 	ft_putchar_fd('\'', 2);
 	ft_putchar_fd('\n', 2);
 	g_exit_code = 2;
-	freetab(data->f_arg);
+	if (i != 0)
+		freetab(data->f_arg);
 	return ;
 }
 
