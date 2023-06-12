@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:49:26 by danelsalome       #+#    #+#             */
-/*   Updated: 2023/06/12 14:34:09 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:45:38 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	cpy_varenv(t_data *data, t_quotes *quotes, int *i, int *j)
 	{
 		while (var[++k] != '\0')
 		{
-			printf("var = %s\n", var);
 			data->f_arg[quotes->index][*j] = var[k];
 			*j = *j + 1;
 		}

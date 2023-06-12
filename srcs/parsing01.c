@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:14:50 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 14:35:17 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:45:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	final_arg(t_data *data, t_quotes *quotes)
 	{
 		data->f_arg[i] = malloc(sizeof(char) * (new_len(data->arg[i], data,
 						quotes) + 1));
-		printf("new_len = %d\n", new_len(data->arg[i], data, quotes));
 		if (!data->f_arg[i])
 			return ;
 		new_words(data->arg[i], data, i, quotes);

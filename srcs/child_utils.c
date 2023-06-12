@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 18:13:00 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 12:28:22 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:52:31 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ void	child_process(t_data *data, int i, char *cmd)
 		return ;
 	if (data->pid[i] == 0)
 	{
-		signal(SIGINT, &ctrlc);
-		signal(SIGQUIT, &antislash);
+		// signal(SIGINT, &ctrlc);
+		// signal(SIGQUIT, &antislash);
+		signal(SIGINT, handle_heredoc);
+		//signal(SIGQUIT, handle_heredoc);
 		g_exit_code = 0;
 		if (init_exec(data, i))
 			exit(127);

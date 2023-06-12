@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:29:32 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/29 18:38:07 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:54:07 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ extern int	g_exit_code;
 
 void	set_pwd(t_data *data)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (data->new_env[i])
@@ -24,7 +25,9 @@ void	set_pwd(t_data *data)
 		if (!ft_strncmp(data->new_env[i], "PWD=", 4))
 		{
 			free(data->new_env[i]);
-			data->new_env[i] = ft_strjoin("PWD=", getcwd(NULL, 0));
+			tmp = getcwd(NULL, 0);
+			data->new_env[i] = ft_strjoin("PWD=", tmp);
+			free(tmp);
 			break ;
 		}
 		i++;
@@ -33,7 +36,8 @@ void	set_pwd(t_data *data)
 
 void	set_old_pwd(t_data *data)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (data->new_env[i])
@@ -41,7 +45,9 @@ void	set_old_pwd(t_data *data)
 		if (!ft_strncmp(data->new_env[i], "OLDPWD=", 7))
 		{
 			free(data->new_env[i]);
-			data->new_env[i] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+			tmp = getcwd(NULL, 0);
+			data->new_env[i] = ft_strjoin("OLDPWD=", tmp);
+			free(tmp);
 			break ;
 		}
 		i++;
