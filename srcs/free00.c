@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/08 12:40:59 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:49:52 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,28 @@ void	free_arg(t_data *data)
 
 int	mini_exit_bis(t_data *data)
 {
+	int i;
+	
+	i = -1;
 	freetab(data->new_env);
 	freetab(data->prev_env);
-	exit(0);
+	if (data->nb_here)
+	{
+		while (++i < data->nb_here)
+			free(data->here[i].limiter);
+		free(data->here);
+	}
+	exit(130);
 }
 
 int	exit_fork(t_data *data, char *cmd)
 {
 	int	i;
 
+	if (count_sub_cmd(data))
+		freetab(data->cmd_tab);
 	ft_free(cmd);
 	freetab(data->tmp_arg);
-	freetab(data->cmd_tab);
 	freetab(data->p_arg);
 	freetab(data->path);
 	freetab(data->new_env);
@@ -58,7 +68,7 @@ int	exit_fork(t_data *data, char *cmd)
 		freetab(data->redir);
 		ft_free(data->type);
 	}
-	if (data->nb_here > 0)
+	if (data->nb_here)
 	{
 		i = -1;
 		while (++i < data->nb_here)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 12:29:52 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:04:09 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void		ft_ignore_signal(void);
 void		handle_heredoc(int sig);
 void		antislash(int sig);
 void		ctrlc(int sig);
+void		handle_sig_cmd(int sig);
 
 // free00
 int			freetab(char **tab);
@@ -193,7 +194,7 @@ int			mini_exit_bis(t_data *data);
 int			exit_fork(t_data *data, char *cmd);
 
 // free01
-void		free_dobby(t_data *data);
+void		pre_free_hd(t_data *data);
 void		free_child_heredoc(t_data *data);
 void		ft_free(void *ptr);
 
@@ -219,7 +220,7 @@ int			mini_pwd(void);
 // cd
 void		set_pwd(t_data *data);
 void		set_old_pwd(t_data *data);
-int			count_args(t_data *data);
+int			count_line(char **tab);
 void		exec_cd(t_data *data);
 int			mini_cd(t_data *data, int j);
 
@@ -247,7 +248,7 @@ void		cmd_not_found(char *cmd);
 void		dupnclose(int fd1, int fd2);
 
 // pipex_utils01
-void		get_cmd_tab(t_data *data);
+int			get_cmd_tab(t_data *data);
 char		**ft_get_path(t_data *data);
 char		*get_cmd_path(char *cmd, char **path);
 char		*get_space(char *tab);
@@ -278,15 +279,12 @@ char		**split_pipe(t_data *data, int i, int j);
 // redirection
 void		open_files_utils(t_data *data, int i, int fd);
 int			open_files(t_data *data);
-void		closefree_delimiter(t_data *data);
-int			blank_open(t_data *data);
 
 // redirection_utils
 int			outfile_error(t_data *data, char *str);
 int			infile_error(t_data *data, char *str);
 int			last_redir(t_data *data);
 int			get_pipe(char *str, t_data *data);
-int			*create_matrix(t_data *data);
 
 //here_doc
 int			count_here_docs(t_data *data);
@@ -314,5 +312,6 @@ void		err_unset_opt(char *var);
 void		err_unset_id(char *var);
 int			err_perm(char *cmd);
 int			err_isdir(char *cmd);
+void		err_cd(char *cmd, int i);
 
 #endif

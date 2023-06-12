@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/05/31 21:57:18 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:46:22 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,4 @@ int	open_files(t_data *data)
 	return (0);
 }
 
-void	closefree_delimiter(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->nb_here)
-	{
-		close(data->here[i].fd[0]);
-		free(data->here[i].limiter);
-	}
-	free(data->here);
-}
 

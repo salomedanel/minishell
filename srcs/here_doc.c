@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 12:30:06 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:59:27 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-void	openhere_doc(t_data *data, t_here *here)
+t_here	*openhere_doc(t_data *data, t_here *here)
 {
 	int		nb;
 	char	*str;
@@ -34,6 +34,7 @@ void	openhere_doc(t_data *data, t_here *here)
 		str += 2;
 	}
 	free(data->str);
+	return (here);
 }
 
 static void	exit_hd(int sig)
@@ -94,11 +95,12 @@ int	here_doc(t_data *data)
 	t_here	*here;
 
 	i = -1;
+	pre_free_hd(data);
 	data->nb_here = count_here_docs(data);
 	if (data->nb_here == 0)
 		return (free(data->str), 0);
 	here = ft_calloc(sizeof(t_here), (data->nb_here));
-	openhere_doc(data, here);
+	here = openhere_doc(data, here);
 	signal(SIGINT, SIG_IGN);
 	data->here = here;
 	pid = fork();

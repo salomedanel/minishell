@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils02.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:12:28 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 22:48:42 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:52:52 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void	exec_waitpid(t_data *data)
 		waitpid(data->pid[i], &g_exit_code, 0);
 		if (WIFEXITED(g_exit_code))
 			g_exit_code = WEXITSTATUS(g_exit_code);
-		if (g_exit_code == 131 && !var++)
-			ft_printf("Quit (core dumped)\n");
+		if (WIFSIGNALED(g_exit_code))
+		{
+			g_exit_code = WTERMSIG(g_exit_code);
+			if (g_exit_code == 131 && !var++)
+				ft_printf("Quit (core dumped)\n");
+		}
 	}
 }

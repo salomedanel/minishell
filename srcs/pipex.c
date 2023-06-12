@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/08 16:43:23 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:03:18 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ void	exec_one_builtin(t_data *data, char *cmd)
 	exec_builtin(data, cmd);
 	dupnclose(data->in, STDIN_FILENO);
 	dupnclose(data->out, STDOUT_FILENO);
-	return ;
+	freetab(data->cmd_tab);
+	free(data->ast);
+	if (data->nbredir)
+	{
+		freetab(data->redir);
+		free(data->type);
+	}
+	freetab(data->p_arg);
+	freetab(data->tmp_arg);
+	freetab(data->path);
 }
 
 void	free_close_exec(t_data *data)
 {
-	int	i;
-
-	i = -1;
-	if (data->nb_here > 0)
-	{
-		while (++i < data->nb_here)
-			ft_free(data->here[i].limiter);
-		free(data->here);
-	}
 	freetab(data->p_arg);
 	freetab(data->path);
 	close(data->fd[0]);
@@ -87,21 +87,8 @@ void	exec(t_data *data)
 			token(data);
 			get_cmd_tab(data);
 			get_redir_tab(data);
-			if (data->cmd_tab && is_builtin(data->cmd_tab[0]))
-			{
-				exec_one_builtin(data, data->cmd_tab[0]);
-				freetab(data->cmd_tab);
-				free(data->ast);
-				if (data->nbredir)
-				{
-					freetab(data->redir);
-					free(data->type);
-				}
-				freetab(data->p_arg);
-				freetab(data->tmp_arg);
-				freetab(data->path);
-				return ;
-			}
+			if (count_sub_cmd(data) && is_builtin(data->cmd_tab[0]))
+				return (exec_one_builtin(data, data->cmd_tab[0]));
 			free(data->ast);
 			freetab(data->tmp_arg);
 			freetab(data->cmd_tab);
@@ -110,7 +97,7 @@ void	exec(t_data *data)
 				freetab(data->redir);
 				free(data->type);
 			}
-			signal(SIGINT, SIG_IGN);
+			//signal(SIGQUIT, SIG_IGN);
 		}
 		child_process(data, i, NULL);
 	}

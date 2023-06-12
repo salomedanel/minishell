@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:35:39 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/08 13:48:17 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:20:47 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-void	get_cmd_tab(t_data *data)
+int	get_cmd_tab(t_data *data)
 {
 	int		i;
 	int		j;
@@ -22,10 +22,10 @@ void	get_cmd_tab(t_data *data)
 	i = -1;
 	j = 0;
 	if (count_sub_cmd(data) == 0)
-		return ;
+		return (1);
 	data->cmd_tab = malloc(sizeof(char *) * (count_sub_cmd(data) + 1));
 	if (!data->cmd_tab)
-		return ;
+		return (1);
 	while (data->tmp_arg[++i])
 	{
 		if (data->ast[i] == T_CMD)
@@ -35,7 +35,7 @@ void	get_cmd_tab(t_data *data)
 		}
 	}
 	data->cmd_tab[j] = NULL;
-	return ;
+	return (0);
 }
 
 char	**ft_get_path(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:29:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 21:57:30 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:45:54 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,4 @@ int	get_pipe(char *str, t_data *data)
 			return (data->here[i].fd[0]);
 	}
 	return (-1);
-}
-
-int	*create_matrix(t_data *data)
-{
-	int	i;
-	int	j;
-	int	*matrix;
-
-	i = -1;
-	j = -1;
-	matrix = malloc(sizeof(int) * (data->nb_here));
-	while (++i < count_redir(data))
-	{
-		if (data->type[i] == T_HERE_DOC)
-			matrix[++j] = i;
-	}
-	return (matrix);
 }

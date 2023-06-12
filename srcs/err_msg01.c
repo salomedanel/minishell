@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:58:53 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 12:19:50 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:34:52 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,24 @@ int	err_perm(char *cmd)
 		}
 	}
 	return (0);
+}
+
+void	err_cd(char *cmd, int i)
+{
+	if (!i)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": error retrieving current directory:", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
+		g_exit_code = 1;
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": HOME not set\n", 2);
+		g_exit_code = 1;
+	}
 }

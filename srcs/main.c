@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 23:34:56 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:49:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	main(int argc, char **argv, char **env)
 	{
 		prompt = readline("minishell> ");
 		add_history(prompt);
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, &ctrlc);
 		if (prompt == NULL)
 		{
 			ft_putendl_fd("exit", 2);

@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:54:12 by sdanel            #+#    #+#             */
-/*   Updated: 2023/05/31 22:53:06 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:39:29 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,24 @@ int	handle_exitcode(int nb, int err, t_data *data)
 
 int	mini_exit(t_data *data)
 {
+	// int					i;
 	int					err;
 	unsigned long long	nb;
 
 	nb = 0;
 	err = 0;
+	// i = -1;
 	nb = handle_exitcode(nb, err, data);
-	// freetab(data->f_arg);
 	freetab(data->p_arg);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->cmd_tab);
 	freetab(data->path);
 	freetab(data->tmp_arg);
-	freetab(data->redir);
-	free(data->type);
 	free(data->ast);
+	// while (data->here[++i]. limiter)
+	// 	free(data->here[i].limiter);
+	// free(data->here);
 	close(data->in);
 	close(data->out);
 	exit(nb);

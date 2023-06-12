@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 18:13:00 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 14:52:31 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/12 21:02:45 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	parent_process(t_data *data)
 	if (data->prev_pipe != -1)
 		close(data->prev_pipe);
 	data->prev_pipe = data->fd[0];
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, SIG_IGN);
 }
 
 void	child_loop(t_data *data, char *cmd)
@@ -54,28 +54,29 @@ void	child_process(t_data *data, int i, char *cmd)
 {
 	pipe(data->fd);
 	data->pid[i] = fork();
+	signal(SIGINT, handle_sig_cmd);
+	signal(SIGQUIT, handle_sig_cmd);
 	if (data->pid[i] < 0)
 		return ;
 	if (data->pid[i] == 0)
 	{
-		// signal(SIGINT, &ctrlc);
-		// signal(SIGQUIT, &antislash);
-		signal(SIGINT, handle_heredoc);
-		//signal(SIGQUIT, handle_heredoc);
 		g_exit_code = 0;
 		if (init_exec(data, i))
 			exit(127);
-		if (ft_strncmp(data->cmd_tab[0], "./", 2))
-			ft_ignore_signal();
 		select_pipe(data, i);
 		if (open_files(data) == 1)
 			free_in_fork(data, cmd);
-		if (!data->cmd_tab || !data->cmd_tab[0])
+		if (!count_sub_cmd(data))
 			exit_fork(data, cmd);
+		// if (ft_strncmp(data->cmd_tab[0], "./", 2))
+		// 	ft_ignore_signal();
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		child_loop(data, cmd);
 	}
 	else if (data->pid[i] > 0)
+	{
+		signal(SIGQUIT, SIG_IGN);
 		parent_process(data);
+	}
 	close_fd(data);
 }

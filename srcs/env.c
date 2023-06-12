@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:38:04 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/08 16:33:00 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:35:20 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ int	mini_pwd(void)
 	char	*buf;
 
 	buf = getcwd(NULL, 0);
+	if (!buf)
+	{
+		err_cd("pwd", 0);
+		return (g_exit_code);
+	}
 	ft_putendl_fd(buf, 1);
 	free(buf);
 	return (g_exit_code);
