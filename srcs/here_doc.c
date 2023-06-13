@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 09:42:08 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 09:55:39 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_here	*openhere_doc(t_data *data, t_here *here)
 	str = data->str;
 	while (1)
 	{
+		printf("str = %s\n", str);
 		str = ft_strnstr(str, "<<", ft_strlen(str));
 		if (str)
 		{
