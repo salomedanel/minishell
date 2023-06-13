@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 18:13:00 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 09:21:23 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 09:37:09 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,18 @@ void	child_loop(t_data *data, char *cmd)
 
 void	child_process(t_data *data, int i, char *cmd)
 {
+	int	j;
+
+	j = -1;
 	pipe(data->fd);
 	data->pid[i] = fork();
 	signal(SIGINT, handle_sig_cmd);
 	signal(SIGQUIT, handle_sig_cmd);
+	while (data->p_arg[++j])
+	{
+		if (ft_strncmp(data->p_arg[j], "./", 2) == 0)
+			ft_ignore_signal();
+	}
 	if (data->pid[i] < 0)
 		return ;
 	if (data->pid[i] == 0)
@@ -67,8 +75,6 @@ void	child_process(t_data *data, int i, char *cmd)
 			free_in_fork(data, cmd);
 		if (!count_sub_cmd(data))
 			exit_fork(data, cmd);
-		if (!ft_strncmp(data->cmd_tab[0], "./", 2))
-			ft_ignore_signal();
 		cmd = get_cmd_path(data->cmd_tab[0], data->path);
 		child_loop(data, cmd);
 	}
