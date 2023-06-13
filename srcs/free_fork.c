@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:20:10 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 20:51:29 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:27:06 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	free_in_fork(t_data *data, char *str)
 		freetab(data->cmd_tab);
 		freetab(data->path);
 	}
-	freetab(data->path);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->tmp_arg);
@@ -91,7 +90,6 @@ void	free_in_fork(t_data *data, char *str)
 
 void	free_isdir(t_data *data, char *cmd)
 {
-	// freetab(data->path);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->cmd_tab);
