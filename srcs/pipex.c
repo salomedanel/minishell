@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 09:45:13 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 10:40:40 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_one_builtin(t_data *data, char *cmd)
 	data->out = dup(STDOUT_FILENO);
 	if (open_files(data) == 1)
 	{
-		free_data(data, cmd);
+		free_data(data);
 		close(data->in);
 		close(data->out);
 		return ;
@@ -89,20 +89,19 @@ void	exec(t_data *data)
 			get_redir_tab(data);
 			if (count_sub_cmd(data) && is_builtin(data->cmd_tab[0]))
 				return (exec_one_builtin(data, data->cmd_tab[0]));
+			if (count_sub_cmd(data))
+				freetab(data->cmd_tab);
 			free(data->ast);
 			freetab(data->tmp_arg);
-			freetab(data->cmd_tab);
 			if (data->nbredir)
 			{
 				freetab(data->redir);
 				free(data->type);
 			}
-			//signal(SIGQUIT, SIG_IGN);
 		}
 		child_process(data, i, NULL);
 	}
 	exec_waitpid(data);
 	signal(SIGINT, &ctrlc);
-	//signal(SIGQUIT, SIG_IGN);
 	free_close_exec(data);
 }

@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 11:36:03 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 20:49:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 10:41:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_data	*starton(void)
 int	main(int argc, char **argv, char **env)
 {
 	char			*prompt;
-	t_data	*data;
+	t_data			*data;
 
 	(void)argc;
 	(void)argv;
@@ -45,8 +45,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		prompt = readline("minishell> ");
 		add_history(prompt);
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, &ctrlc);
 		if (prompt == NULL)
 		{
 			ft_putendl_fd("exit", 2);

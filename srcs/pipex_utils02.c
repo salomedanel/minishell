@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:12:28 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 19:52:52 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 10:41:26 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ int	count_redir(t_data *data)
 	while (data->ast && data->ast[++i])
 	{
 		if ((data->ast[i] == T_REDIN || data->ast[i] == T_REDOUT
-			|| data->ast[i] == T_RED_APPEND || data->ast[i] == T_HERE_DOC))
+				|| data->ast[i] == T_RED_APPEND || data->ast[i] == T_HERE_DOC))
+		{
+			if (data->tmp_arg[i + 1])
+				data->nbredir++;
+			else
 			{
-				if (data->tmp_arg[i + 1])
-					data->nbredir++;
-				else
-				{
-					if (data->prev_pipe != -1)
-						close(data->prev_pipe);
-					close(data->fd[0]);
-					close(data->fd[1]);
-					return (ft_printf("minishell: ambiguous redirect\n"), exit_fork(data, NULL));
-				}
+				if (data->prev_pipe != -1)
+					close(data->prev_pipe);
+				close(data->fd[0]);
+				close(data->fd[1]);
+				return (ft_printf("minishell: ambiguous redirect\n"),
+					exit_fork(data, NULL));
 			}
+		}
 	}
 	return (data->nbredir);
 }
@@ -66,7 +67,8 @@ void	get_redir_tab(t_data *data)
 	while (data->tmp_arg && data->tmp_arg[++i])
 	{
 		if ((data->ast[i] == T_REDIN || data->ast[i] == T_REDOUT
-			|| data->ast[i] == T_RED_APPEND || data->ast[i] == T_HERE_DOC) && data->tmp_arg[i + 1])
+				|| data->ast[i] == T_RED_APPEND || data->ast[i] == T_HERE_DOC)
+			&& data->tmp_arg[i + 1])
 		{
 			data->redir[j] = ft_strdup(data->tmp_arg[i + 1]);
 			data->type[j++] = data->ast[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:55:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 22:28:06 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:35:56 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,3 @@ int	open_files(t_data *data)
 		close(data->here[i].fd[0]);
 	return (0);
 }
-
-

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:20:10 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 22:27:06 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:42:34 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_data(t_data *data, char *str)
+void	free_data(t_data *data)
 {
 	int	i;
 
@@ -34,14 +34,12 @@ void	free_data(t_data *data, char *str)
 			ft_free(data->here[i].limiter);
 		free(data->here);
 	}
-	if (str)
-		free(str);
 }
 
 void	free_data_fork(t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	freetab(data->tmp_arg);
 	freetab(data->path);
@@ -85,7 +83,7 @@ void	free_in_fork(t_data *data, char *str)
 			ft_free(data->here[i].limiter);
 		free(data->here);
 	}
-	exit (1);
+	exit(1);
 }
 
 void	free_isdir(t_data *data, char *cmd)

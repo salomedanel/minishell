@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:54:12 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 20:39:29 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:36:45 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,11 @@ int	handle_exitcode(int nb, int err, t_data *data)
 
 int	mini_exit(t_data *data)
 {
-	// int					i;
 	int					err;
 	unsigned long long	nb;
 
 	nb = 0;
 	err = 0;
-	// i = -1;
 	nb = handle_exitcode(nb, err, data);
 	freetab(data->p_arg);
 	freetab(data->new_env);
@@ -107,9 +105,6 @@ int	mini_exit(t_data *data)
 	freetab(data->path);
 	freetab(data->tmp_arg);
 	free(data->ast);
-	// while (data->here[++i]. limiter)
-	// 	free(data->here[i].limiter);
-	// free(data->here);
 	close(data->in);
 	close(data->out);
 	exit(nb);

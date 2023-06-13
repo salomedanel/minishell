@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 21:04:09 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 10:14:46 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void		free_child_heredoc(t_data *data);
 void		ft_free(void *ptr);
 
 // free_fork
-void		free_data(t_data *data, char *str);
+void		free_data(t_data *data);
 void		free_data_fork(t_data *data);
 void		free_in_fork(t_data *data, char *str);
 void		free_isdir(t_data *data, char *cmd);

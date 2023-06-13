@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free01.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:45:26 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 20:59:15 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:41:23 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_free(void *ptr)
 	}
 }
 
-void pre_free_hd(t_data *data)
+void	pre_free_hd(t_data *data)
 {
 	int	i;
 
