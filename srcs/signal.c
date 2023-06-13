@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:41:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/12 22:06:17 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 09:19:28 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_sig_cmd(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putendl_fd("Quit (core dumped)\n", 2);
+		ft_printf("Quit (core dumped)\n");
 		g_exit_code = 131;
 	}
 }

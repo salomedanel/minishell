@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/12 21:03:18 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 09:14:20 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ void	exec(t_data *data)
 	}
 	exec_waitpid(data);
 	signal(SIGINT, &ctrlc);
+	//signal(SIGQUIT, SIG_IGN);
 	free_close_exec(data);
 }
