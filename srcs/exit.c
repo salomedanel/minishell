@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:54:12 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 10:36:45 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:03:04 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,10 @@ int	mini_exit(t_data *data)
 	free(data->ast);
 	close(data->in);
 	close(data->out);
-	exit(nb);
+	printf("g_exit_code = %d\n", g_exit_code);
+	if (g_exit_code == 0)
+		exit(nb);
+	else if (g_exit_code != 0)
+		exit(g_exit_code);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:20:10 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 10:42:34 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 10:54:09 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ void	free_in_fork(t_data *data, char *str)
 
 	i = -1;
 	if (count_sub_cmd(data))
-	{
 		freetab(data->cmd_tab);
-		freetab(data->path);
-	}
+	freetab(data->path);
 	freetab(data->new_env);
 	freetab(data->prev_env);
 	freetab(data->tmp_arg);

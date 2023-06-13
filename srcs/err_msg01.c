@@ -6,7 +6,7 @@
 /*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:58:53 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 10:35:40 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:46:08 by sdanel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	err_isdir(char *cmd)
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 			g_exit_code = 126;
+			//printf("g_exit_code = %d\n", g_exit_code);
 			return (1);
 		}
 	}

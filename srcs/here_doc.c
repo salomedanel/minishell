@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 17:23:19 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 09:55:39 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:38:36 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_here	*openhere_doc(t_data *data, t_here *here)
 	str = data->str;
 	while (1)
 	{
-		printf("str = %s\n", str);
 		str = ft_strnstr(str, "<<", ft_strlen(str));
 		if (str)
 		{
@@ -52,10 +51,8 @@ static void	exit_hd(int sig)
 		{
 			close(data->here[i].fd[1]);
 			close(data->here[i].fd[0]);
-			if (data->here[i].limiter != NULL)
-				ft_free((void **)&data->here[i].limiter);
 		}
-		// free_all(2, 2, &data->str, &data->here, data->path, data->env);
+		free_child_heredoc(data);
 		exit(130);
 	}
 }
@@ -66,7 +63,7 @@ char	*openfileshd(t_here *here)
 
 	while (1)
 	{
-		s = readline("heredoc>");
+		s = readline("heredoc> ");
 		if (!s || !ft_strcmp(s, here->limiter))
 			break ;
 		ft_putendl_fd(s, here->fd[1]);
