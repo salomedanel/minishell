@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing00.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 14:14:05 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 11:41:14 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 12:20:35 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	parsing(char *prompt, t_data *data)
 		g_exit_code = 0;
 	split_pipe(data, i, j);
 	here_doc(data);
-	exec(data);
+	exec(data, i);
+	signal(SIGQUIT, SIG_IGN);
 	return ;
 }

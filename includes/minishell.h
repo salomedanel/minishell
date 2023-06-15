@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:15:25 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 10:14:46 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:23:39 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,12 +180,11 @@ void		print_arg(char **arg);
 void		print_arg_ast(t_data *data);
 
 // signal
-void		handle_sigint(int sig);
 void		ft_ignore_signal(void);
 void		handle_heredoc(int sig);
-void		antislash(int sig);
 void		ctrlc(int sig);
 void		handle_sig_cmd(int sig);
+void		sub_signal(t_data *data);
 
 // free00
 int			freetab(char **tab);
@@ -264,7 +263,7 @@ void		exec_waitpid(t_data *data);
 int			init_exec(t_data *data, int i);
 void		exec_one_builtin(t_data *data, char *cmd);
 void		free_close_exec(t_data *data);
-void		exec(t_data *data);
+void		exec(t_data *data, int i);
 
 //child_utils
 void		exec_builtin_in_fork(t_data *data, char *cmd);
@@ -288,7 +287,6 @@ int			get_pipe(char *str, t_data *data);
 
 //here_doc
 int			count_here_docs(t_data *data);
-int			open_here_doc(t_data *data);
 char		*openfileshd(t_here *here);
 void		child_hd(t_data *data);
 int			here_doc(t_data *data);

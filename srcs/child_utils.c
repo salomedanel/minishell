@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 18:13:00 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:20:16 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 12:14:44 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,16 @@ void	child_loop(t_data *data, char *cmd)
 
 void	child_process(t_data *data, int i, char *cmd)
 {
-	int	j;
-
-	j = -1;
 	pipe(data->fd);
 	data->pid[i] = fork();
-	signal(SIGINT, handle_sig_cmd);
-	signal(SIGQUIT, handle_sig_cmd);
-	while (data->p_arg[++j])
-	{
-		if (ft_strncmp(data->p_arg[j], "./", 2) == 0)
-			ft_ignore_signal();
-	}
+	sub_signal(data);
 	if (data->pid[i] < 0)
 		return ;
 	if (data->pid[i] == 0)
 	{
 		g_exit_code = 0;
 		if (init_exec(data, i))
-			exit(127);
+			exit(1);
 		select_pipe(data, i);
 		if (open_files(data) == 1)
 			free_in_fork(data, cmd);

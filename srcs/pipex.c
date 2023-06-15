@@ -6,7 +6,7 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:28:49 by tmichel-          #+#    #+#             */
-/*   Updated: 2023/06/13 10:52:16 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:09:36 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,29 @@ void	free_close_exec(t_data *data)
 	close(data->fd[1]);
 }
 
-void	exec(t_data *data)
+void	one_direction(t_data *data, int i)
 {
-	int		i;
+	data->tmp_arg = ft_split(data->p_arg[i], ' ');
+	if (!data->tmp_arg)
+	{
+		free(data->p_arg);
+		freetab(data->path);
+		return ;
+	}
+	token(data);
+	get_cmd_tab(data);
+	get_redir_tab(data);
+}
 
-	i = -1;
+void	exec(t_data *data, int i)
+{
 	data->path = ft_get_path(data);
 	data->prev_pipe = -1;
 	while (++i < data->count_cmd)
 	{
 		if (data->count_cmd == 1)
 		{
-			data->tmp_arg = ft_split(data->p_arg[i], ' ');
-			if (!data->tmp_arg)
-			{
-				free(data->p_arg);
-				freetab(data->path);
-				return ;
-			}
-			token(data);
-			get_cmd_tab(data);
-			get_redir_tab(data);
+			one_direction(data, i);
 			if (count_sub_cmd(data) && is_builtin(data->cmd_tab[0]))
 				return (exec_one_builtin(data, data->cmd_tab[0]));
 			if (count_sub_cmd(data))

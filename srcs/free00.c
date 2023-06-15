@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free00.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:46:24 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 10:43:51 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:54:02 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int	exit_fork(t_data *data, char *cmd)
 			ft_free(data->here[i].limiter);
 		free(data->here);
 	}
-	exit(127);
+	exit(g_exit_code);
 }

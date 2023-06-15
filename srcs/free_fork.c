@@ -6,11 +6,13 @@
 /*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:20:10 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 10:54:09 by tmichel-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:00:00 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	free_data(t_data *data)
 {
@@ -91,5 +93,5 @@ void	free_isdir(t_data *data, char *cmd)
 	freetab(data->cmd_tab);
 	freetab(data->p_arg);
 	ft_free(cmd);
-	exit(0);
+	exit(g_exit_code);
 }

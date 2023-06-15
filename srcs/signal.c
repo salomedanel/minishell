@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:41:14 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 09:19:28 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 12:13:58 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
-
-// void	handle_sigint(int sig)
-// {
-// 	(void)sig;
-// 	g_exit_code = 130;
-// 	ft_putstr_fd("\n", 2);
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
 
 void	ft_ignore_signal(void)
 {
@@ -37,17 +27,6 @@ void	handle_heredoc(int sig)
 		g_exit_code = 130;
 	}
 }
-
-// void	antislash(int sig)
-// {
-// 	if (sig == SIGQUIT)
-// 	{
-// 		//ft_putendl_fd("Quit (core dumped)", 2);
-// 		exit(131);
-// 	}
-// 	if (sig == SIGINT)
-// 		exit(130);
-// }
 
 void	handle_sig_cmd(int sig)
 {
@@ -73,4 +52,16 @@ void	ctrlc(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+void	sub_signal(t_data *data)
+{
+	int	j;
+
+	j = -1;
+	signal(SIGINT, handle_sig_cmd);
+	signal(SIGQUIT, handle_sig_cmd);
+	while (data->p_arg[++j])
+		if (ft_strncmp(data->p_arg[j], "./", 2) == 0)
+			ft_ignore_signal();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdanel <sdanel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmichel- <tmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:54:12 by sdanel            #+#    #+#             */
-/*   Updated: 2023/06/13 11:03:04 by sdanel           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:59:28 by tmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int	mini_exit(t_data *data)
 	free(data->ast);
 	close(data->in);
 	close(data->out);
-	printf("g_exit_code = %d\n", g_exit_code);
 	if (g_exit_code == 0)
 		exit(nb);
 	else if (g_exit_code != 0)
